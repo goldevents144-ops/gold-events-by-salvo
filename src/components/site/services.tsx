@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 
 import { SectionHeading } from "@/components/site/section-heading";
-import { StaggerGroup, itemVariants } from "@/components/site/reveal";
+import { StaggerGroup, itemVariants, Reveal } from "@/components/site/reveal";
 import { Icon } from "@/components/site/icon";
 import {
   Dialog,
@@ -34,6 +34,33 @@ export function Services() {
           title="Nove Modi Di Rendere Indimenticabile Il Tuo Evento"
           intro="Dal battesimo alla festa aziendale, dalla laurea al Dj Set: ogni servizio è cucito su misura sulla tua occasione."
         />
+
+        {/* Explicit list of all event types offered by Gold Events by Salvo */}
+        <Reveal y={14} delay={0.05} className="mt-10">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]/80">
+              Eventi che seguiamo:
+            </span>
+            {[
+              "Battesimi",
+              "Comunioni",
+              "Cresime",
+              "Compleanni",
+              "Matrimoni",
+              "Lauree",
+              "Feste Private",
+              "Feste a Tema",
+              "Eventi Aziendali",
+            ].map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center rounded-full border border-[#D4AF37]/30 bg-[#1C1C1C]/60 px-3 py-1.5 text-xs font-medium text-white/90 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/10"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        </Reveal>
 
         <StaggerGroup
           as="ul"

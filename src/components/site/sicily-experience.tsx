@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, X, Handshake } from "lucide-react";
 
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal, StaggerGroup, itemVariants } from "@/components/site/reveal";
@@ -96,6 +96,61 @@ export function SicilyExperience() {
             />
           ))}
         </StaggerGroup>
+
+        {/* Partnership clarification — Salvo acts as bridge, not direct provider */}
+        <Reveal y={20} delay={0.1} className="mt-10">
+          <div className="relative overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-br from-[#1C1C1C]/80 to-[#0F0F0F]/80 p-6 sm:p-8">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -top-16 -right-16 size-40 rounded-full bg-[#D4AF37]/10 blur-3xl"
+            />
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+              <div className="flex shrink-0 items-start gap-4">
+                <span className="inline-flex size-12 items-center justify-center rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-[#D4AF37]">
+                  <Handshake className="size-6" strokeWidth={1.75} />
+                </span>
+              </div>
+              <div className="flex-1">
+                <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]">
+                  {copy.partnerNote.label}
+                </span>
+                <h3 className="mt-2 font-serif text-xl font-semibold leading-tight text-white sm:text-2xl">
+                  {copy.partnerNote.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-white/85 sm:text-base">
+                  {copy.partnerNote.body}
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document
+                        .querySelector("#contatti")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-[#D4AF37] px-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A]"
+                  >
+                    {lang === "it"
+                      ? "Richiedi questa esperienza"
+                      : "Request this experience"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      document
+                        .querySelector("#partner")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/50 px-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+                  >
+                    {copy.partnerNote.cta}
+                    <ArrowRight className="size-3.5" strokeWidth={2} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
 
       {/* Inline detail modal */}

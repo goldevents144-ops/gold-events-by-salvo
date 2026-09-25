@@ -89,3 +89,20 @@ Stage Summary:
 - Bug fixed: nested-button hydration crash in contact-form.tsx service checkboxes (replaced shadcn Checkbox with div+role=checkbox+Lucide icons).
 - All 8 sections verified working: render, interactivity, IT/EN translation, bundle preselection, form submission, mobile menu, responsive layout.
 - Site is fully functional and ready for delivery.
+
+---
+Task ID: 4
+Agent: main (Super Z)
+Task: Update Sicily Experience (Salvo = tramite, not direct provider) + list all 9 events explicitly in Services section
+
+Work Log:
+- Edited `src/lib/site-content.ts`: extended `sicilyExperienceCopy` with a bilingual `partnerNote` object containing label/title/body/cta in IT and EN. The body clarifies that experiences (cantine, Etna aperitifs, agriturismo, beach) are managed by selected local partners, while Salvo curates direction, partner selection, bilingual communication and entertainment — acting as a bridge between client and venues.
+- Edited `src/components/site/sicily-experience.tsx`: added `Handshake` icon import, rendered a new gold-bordered "Come funziona / How it works" block under the 4 experience cards. Contains the partnership clarification text + two CTAs: "Richiedi questa esperienza" (scrolls to #contatti) and "Diventa Partner" (scrolls to #partner). All bilingual via the existing `lang` state.
+- Edited `src/components/site/services.tsx`: added a centered chip row directly under the section heading listing all 9 event types offered by Gold Events by Salvo (Battesimi, Comunioni, Cresime, Compleanni, Matrimoni, Lauree, Feste Private, Feste a Tema, Eventi Aziendali) with gold-outlined pill styling and hover state. Imported `Reveal` for staggered entrance animation.
+- Ran `bun run lint` → 0 errors (1 pre-existing informational warning).
+- Verified via Agent Browser: IT chip row renders all 9 events in order. IT partnership block shows "Salvo non eroga direttamente questi servizi: fa da tramite." with full body text. Toggle to EN translates the entire block to English including "How it works" / "Salvo does not deliver these services directly: he acts as a bridge." / "Become a Partner". Both CTAs (Richiedi / Diventa Partner) function.
+
+Stage Summary:
+- Sicily Experience section now explicitly clarifies Salvo's role as curator/bridge, not direct service provider — bilingual.
+- Services section now lists all 9 event types offered by Gold Events by Salvo as visible, scannable chips above the service grid.
+- Lint clean, dev server running, both updates visually verified.

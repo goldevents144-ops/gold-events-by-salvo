@@ -323,6 +323,13 @@ export const sicilyExperienceCopy = {
       "Destination Sicily: Non Solo Feste, Ma Esperienze Indimenticabili.",
     subtitle:
       "Stai pianificando il tuo matrimonio o un evento aziendale in Sicilia? Gold Events by Salvo unisce la magia del territorio all'intrattenimento di lusso. Organizziamo il tuo evento privato nei luoghi più iconici della Sicilia Orientale, gestendo le migliori collaborazioni con i partner locali.",
+    partnerNote: {
+      label: "Come funziona",
+      title: "Salvo non eroga direttamente questi servizi: fa da tramite.",
+      body:
+        "Le esperienze del circuito Sicily Experience — degustazioni nelle cantine, aperitivi sull'Etna, pranzi in agriturismo, welcome party sulle coste — sono gestite e realizzate dai nostri partner territoriali selezionati (cantine, agriturismi, ristoranti, beach club, guide vulcanologiche). Gold Events by Salvo cura la regia, la selezione dei partner più adatti al tuo evento, la comunicazione bilingue con i tuoi ospiti internazionali e l'intrattenimento firmato Salvo, facendo da tramite tra te e le strutture. Tu vivi l'esperienza: noi coordiniamo tutto il dietro-le-quinte.",
+      cta: "Diventa Partner",
+    },
     discover: "Scopri di più",
   },
   en: {
@@ -330,6 +337,13 @@ export const sicilyExperienceCopy = {
     title: "Destination Sicily: Not Just Parties, But Unforgettable Experiences.",
     subtitle:
       "Planning your wedding or corporate event in Sicily? Gold Events by Salvo combines the magic of the territory with luxury entertainment. We organize your private event in the most iconic locations of Eastern Sicily, managing the best partnerships with local partners.",
+    partnerNote: {
+      label: "How it works",
+      title: "Salvo does not deliver these services directly: he acts as a bridge.",
+      body:
+        "The experiences in the Sicily Experience circuit — winery tastings, Mt. Etna aperitifs, agriturismo lunches, coastal welcome parties — are managed and delivered by our selected local partners (wineries, agriturismos, restaurants, beach clubs, volcanic guides). Gold Events by Salvo curates the direction, selects the partners best suited to your event, handles bilingual communication with your international guests, and provides Salvo-branded entertainment, acting as the bridge between you and the venues. You live the experience: we coordinate everything behind the scenes.",
+      cta: "Become a Partner",
+    },
     discover: "Discover more",
   },
 };
