@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import { LangProvider } from "@/lib/i18n/lang-provider";
+import { RegisterSW } from "@/components/site/register-sw";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -34,8 +36,14 @@ export const metadata: Metadata = {
     "Video Booth 360",
   ],
   authors: [{ name: "Gold Events by Salvo" }],
+  manifest: "/manifest.json",
   icons: {
-    icon: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-192.png", sizes: "192x192" }],
   },
   openGraph: {
     title: "Gold Events by Salvo",
@@ -53,6 +61,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0F0F0F",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -63,7 +78,10 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${inter.variable} antialiased bg-background text-foreground`}
       >
-        {children}
+        <LangProvider>
+          {children}
+          <RegisterSW />
+        </LangProvider>
         <SonnerToaster
           position="top-center"
           toastOptions={{

@@ -6,6 +6,7 @@ import { Clapperboard, Users, Mic2 } from "lucide-react";
 
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
+import { useDict } from "@/lib/i18n/use-lang";
 
 const philosophyParagraphs = [
   "Ogni evento ha un suo ritmo, un'emozione unica e un pubblico diverso. Che si tratti del tuo matrimonio, di un diciottesimo spettacolare, di una laurea o di una festa privata, il mio obiettivo è uno solo: prendermi cura del divertimento dei tuoi ospiti e coordinare la serata dall'inizio alla fine.",
@@ -33,6 +34,7 @@ const pillars = [
 ];
 
 export function Philosophy() {
+  const t = useDict();
   return (
     <section
       id="chi-sono"
@@ -41,12 +43,12 @@ export function Philosophy() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="CHI SONO & FILOSOFIA"
+          eyebrow={t.eyebrow.philosophy}
           title={
             <>
-              La Conduzione Perfetta
+              {t.philosophyTitle1}
               <span className="block text-gold-gradient">
-                Per Il Tuo Giorno Più Bello
+                {t.philosophyTitle2}
               </span>
             </>
           }

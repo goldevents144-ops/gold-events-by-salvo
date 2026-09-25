@@ -6,6 +6,7 @@ import { ArrowRight, ChevronDown, Sparkles, MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useDict } from "@/lib/i18n/use-lang";
 
 function scrollTo(href: string) {
   if (typeof document === "undefined") return;
@@ -24,30 +25,31 @@ interface BrandCardData {
   cta: string;
 }
 
-const brandCards: BrandCardData[] = [
-  {
-    variant: "local",
-    icon: <Sparkles className="size-6" strokeWidth={1.5} />,
-    title: "Gold Events by Salvo",
-    subtitle: "Cerimonie, feste private, matrimoni locali.",
-    tag: "IT · Nazionale",
-    href: "#servizi",
-    cta: "Scopri i servizi",
-  },
-  {
-    variant: "international",
-    icon: <MapPin className="size-6" strokeWidth={1.5} />,
-    title: "Gold Events Sicily Experience",
-    subtitle:
-      "Destination Weddings, tour sull'Etna, degustazioni di vini, aperitivi al tramonto.",
-    tag: "IT / EN",
-    badge: "Bilingue",
-    href: "#sicily-experience",
-    cta: "Esplora le esperienze",
-  },
-];
-
 export function HeroSplit() {
+  const t = useDict();
+
+  const brandCards: BrandCardData[] = [
+    {
+      variant: "local",
+      icon: <Sparkles className="size-6" strokeWidth={1.5} />,
+      title: t.hero.cardLocalTitle,
+      subtitle: t.hero.cardLocalSubtitle,
+      tag: t.hero.cardLocalTag,
+      href: "#servizi",
+      cta: t.hero.cardLocalCta,
+    },
+    {
+      variant: "international",
+      icon: <MapPin className="size-6" strokeWidth={1.5} />,
+      title: t.hero.cardIntlTitle,
+      subtitle: t.hero.cardIntlSubtitle,
+      tag: t.hero.cardIntlTag,
+      badge: t.hero.cardIntlBadge,
+      href: "#sicily-experience",
+      cta: t.hero.cardIntlCta,
+    },
+  ];
+
   return (
     <section
       id="top"
@@ -101,7 +103,7 @@ export function HeroSplit() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.34em] text-[#D4AF37] sm:text-[11px]">
             <MapPin className="size-3" />
-            Adrano (Catania) · Sicilia Orientale
+            {t.hero.locationBadge}
           </span>
         </motion.div>
 
@@ -113,9 +115,9 @@ export function HeroSplit() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
           className="mx-auto mt-6 max-w-5xl text-balance text-center font-serif text-[2.6rem] leading-[1.04] font-semibold text-white sm:text-6xl lg:text-7xl"
         >
-          Il Tuo Evento Unico,
+          {t.hero.titleLine1}
           <span className="block text-gold-gradient">
-            Dall'Animazione Alla Tecnologia
+            {t.hero.titleLine2}
           </span>
         </motion.h1>
 
@@ -126,8 +128,7 @@ export function HeroSplit() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
           className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-[#A1A1A1] sm:text-lg"
         >
-          Showman, Presentatore e Servizi Esclusivi per Matrimoni e Feste
-          Private a Catania e Provincia.
+          {t.hero.subtitle}
         </motion.p>
 
         {/* CTAs */}
@@ -148,7 +149,7 @@ export function HeroSplit() {
                 scrollTo("#contatti");
               }}
             >
-              Richiedi la disponibilità per la tua data
+              {t.hero.primaryCta}
             </a>
           </Button>
           <Button
@@ -163,7 +164,7 @@ export function HeroSplit() {
                 scrollTo("#servizi");
               }}
             >
-              Scopri i servizi
+              {t.hero.secondaryCta}
             </a>
           </Button>
         </motion.div>
@@ -178,7 +179,7 @@ export function HeroSplit() {
           >
             <span className="h-px w-10 bg-[#D4AF37]/40" />
             <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]/90">
-              Salvo: unico regista organizzativo
+              {t.hero.brandSplitLabel}
             </span>
             <span className="h-px w-10 bg-[#D4AF37]/40" />
           </motion.div>
@@ -206,13 +207,13 @@ export function HeroSplit() {
       <motion.button
         type="button"
         onClick={() => scrollTo("#chi-sono")}
-        aria-label="Scorri alla sezione successiva"
+        aria-label={t.hero.scrollHint}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-[#D4AF37]/70 transition-colors hover:text-[#D4AF37] sm:flex"
       >
-        <span className="text-[10px] uppercase tracking-[0.3em]">Scopri</span>
+        <span className="text-[10px] uppercase tracking-[0.3em]">{t.hero.scrollHint}</span>
         <motion.span
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}

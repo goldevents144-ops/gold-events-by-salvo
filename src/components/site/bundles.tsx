@@ -7,11 +7,13 @@ import { toast } from "sonner";
 
 import { SectionHeading } from "@/components/site/section-heading";
 import { StaggerGroup, itemVariants } from "@/components/site/reveal";
-import { bundles } from "@/lib/site-content";
+import { bundles, type Bundle } from "@/lib/site-content";
 import { usePreferredBundle } from "@/lib/use-preferred-bundle";
+import { useDict } from "@/lib/i18n/use-lang";
 import { cn } from "@/lib/utils";
 
 export function Bundles() {
+  const t = useDict();
   return (
     <section
       id="bundles"
@@ -20,9 +22,9 @@ export function Bundles() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="TARIFFE & BUNDLE"
-          title="Scegli La Conduzione Base. Aggiungi Le Tecnologie Extra A Prezzo Scontato."
-          intro="La base è sempre la conduzione di Salvo. A quella aggiungi i servizi tecnologici extra in abbinamento conveniente."
+          eyebrow={t.eyebrow.bundles}
+          title={t.bundlesTitle}
+          intro={t.bundlesIntro}
         />
 
         <StaggerGroup
@@ -30,13 +32,24 @@ export function Bundles() {
           stagger={0.1}
         >
           {bundles.map((bundle) => (
-            <BundleCard key={bundle.id} bundle={bundle} />
+            <BundleCard
+              key={bundle.id}
+              bundle={bundle}
+              badgeLabel={
+                bundle.id === "family-joy"
+                  ? t.bundleBadgeFamilyJoy
+                  : bundle.id === "luxury-wedding"
+                    ? t.bundleBadgeLuxury
+                    : bundle.badge
+              }
+              ctaLabel={t.bundlesCta}
+              priceFromLabel={t.bundlesPriceFrom}
+            />
           ))}
         </StaggerGroup>
 
         <p className="mt-8 text-center text-xs text-[#A1A1A1]">
-          Tutti i prezzi si intendono a partire da · IVA esclusa · Trasferta
-          inclusa ad Adrano e comuni entro 30km
+          {t.bundlesFooterNote}
         </p>
       </div>
     </section>
@@ -45,8 +58,14 @@ export function Bundles() {
 
 function BundleCard({
   bundle,
+  badgeLabel,
+  ctaLabel,
+  priceFromLabel,
 }: {
-  bundle: (typeof bundles)[number];
+  bundle: Bundle;
+  badgeLabel?: string;
+  ctaLabel: string;
+  priceFromLabel: string;
 }) {
   const setPreferredBundle = usePreferredBundle((s) => s.setPreferredBundle);
 
@@ -80,7 +99,7 @@ function BundleCard({
       )}
 
       {/* Badge */}
-      {bundle.badge && (
+      {badgeLabel && (
         <span
           className={cn(
             "absolute right-5 top-5 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
@@ -90,7 +109,7 @@ function BundleCard({
           )}
         >
           {highlighted && <Star className="size-3 fill-current" />}
-          {bundle.badge}
+          {badgeLabel}
         </span>
       )}
 
@@ -129,7 +148,7 @@ function BundleCard({
 
         <div className="mt-7 flex items-baseline gap-2">
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#A1A1A1]">
-            {bundle.priceLabel}
+            {priceFromLabel}
           </span>
           <span className="font-serif text-4xl font-bold text-gold-gradient sm:text-5xl">
             {bundle.price}€
@@ -147,7 +166,7 @@ function BundleCard({
             : "border border-[#D4AF37]/60 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0F0F0F]",
         )}
       >
-        Richiedi questa conduzione
+        {ctaLabel}
         <ArrowRight className="size-3.5" strokeWidth={2} />
       </button>
     </motion.article>

@@ -1,0 +1,57 @@
+{
+  "name": "Gold Events by Salvo",
+  "short_name": "Gold Events",
+  "description": "Showman, presentatore e servizi esclusivi per matrimoni, feste private ed eventi aziendali in Sicilia Orientale. Conduzione, animazione e tecnologie esclusive: Air Mirror, Video Booth 360, Dj Set.",
+  "lang": "it",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F0F0F",
+  "theme_color": "#0F0F0F",
+  "categories": ["business", "lifestyle", "events"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Servizi",
+      "short_name": "Servizi",
+      "url": "/#servizi"
+    },
+    {
+      "name": "Preventivo",
+      "short_name": "Preventivo",
+      "url": "/#contatti"
+    },
+    {
+      "name": "Sicily Experience",
+      "short_name": "Sicily",
+      "url": "/#sicily-experience"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import { SicilyExperience } from "@/components/site/sicily-experience";
 import { ContactForm } from "@/components/site/contact-form";
 import { PartnerForm } from "@/components/site/partner-form";
 import { Footer } from "@/components/site/footer";
+import { ChatbotWidget } from "@/components/site/chatbot-widget";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <PartnerForm />
       </main>
       <Footer />
+      <ChatbotWidget />
     </div>
   );
 }

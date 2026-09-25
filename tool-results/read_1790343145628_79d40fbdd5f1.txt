@@ -1,0 +1,619 @@
+     1→/**
+     2→ * Centralized content for Gold Events by Salvo.
+     3→ * All long-form text lives here so sections can stay lean.
+     4→ */
+     5→
+     6→export type IconName =
+     7→  | "Baby"
+     8→  | "Cake"
+     9→  | "Heart"
+    10→  | "GraduationCap"
+    11→  | "Lock"
+    12→  | "Drama"
+    13→  | "Building2"
+    14→  | "Disc3"
+    15→  | "Dices"
+    16→  | "Camera"
+    17→  | "Video"
+    18→  | "Phone"
+    19→  | "Sparkles"
+    20→  | "Clock"
+    21→  | "Car"
+    22→  | "Wine"
+    23→  | "Sun"
+    24→  | "Tractor"
+    25→  | "Waves"
+    26→  | "Star";
+    27→
+    28→export interface ServiceDetail {
+    29→  id: string;
+    30→  icon: IconName;
+    31→  title: string;
+    32→  card: string;
+    33→  focus: string;
+    34→  offers: string;
+    35→  pairing?: string;
+    36→  /** Optional detailed options list (itemized inclusions) shown in the dialog */
+    37→  options?: { label: string; value: string }[];
+    38→  /** Optional image path under /images */
+    39→  image?: string;
+    40→}
+    41→
+    42→export const services: ServiceDetail[] = [
+    43→  {
+    44→    id: "battesimi",
+    45→    icon: "Baby",
+    46→    title: "Battesimi, Comunioni e Cresime",
+    47→    card: "Cerimonie familiari calde ed eleganti, pensate per unire tutte le generazioni.",
+    48→    focus:
+    49→      "Un'atmosfera calda, accogliente ed elegante, pensata per unire tutte le generazioni della famiglia (dai nonni ai bambini).",
+    50→    offers:
+    51→      "Conduzione misurata della giornata, accoglienza dei parenti, coordinamento dei tempi della sala, gestione dei brindisi e del momento della torta.",
+    52→    pairing:
+    53→      "L'Air Mirror con grafiche e animazioni colorate dedicate ai più piccoli, per stampare ricordi istantanei e illimitati per zii e nonni.",
+    54→    options: [
+    55→      { label: "Durata conduzione", value: "4 ore (dall'aperitivo al taglio della torta)" },
+    56→      { label: "Accoglienza parenti", value: "Inclusa — coordinamento ingresso e saluti" },
+    57→      { label: "Gestione brindisi", value: "Inclusa con microfonaggio curato" },
+    58→      { label: "Momento della torta", value: "Regia musicale + annuncio dedicato" },
+    59→      { label: "Giochi per bambini", value: "Inclusi — schede, quiz a premi, animazione leggera" },
+    60→      { label: "Musica di sottofondo", value: "DJ Set soft incluso (Lounge, Italian classic)" },
+    61→      { label: "Stampe foto Air Mirror", value: "Illimitate, doppia copia per parenti stretti" },
+    62→      { label: "Trasferta", value: "Gratuita entro 30 km da Adrano" },
+    63→    ],
+    64→  },
+    65→  {
+    66→    id: "compleanni",
+    67→    icon: "Cake",
+    68→    title: "Compleanni (18, 30, 40, 50+)",
+    69→    card: "Divertimento puro, energia e personalizzazione totale in base all'età del festeggiato.",
+    70→    focus:
+    71→      "Divertimento puro, energia e personalizzazione totale in base all'età del festeggiato.",
+    72→    offers:
+    73→      "Presentazione scenografica ed energica del festeggiato, conduzione dei momenti clou (proiezione video ricordi, apertura regali, brindisi), animazione al microfono per coinvolgere la sala e far scattare la festa.",
+    74→    pairing:
+    75→      "Video Booth 360 per i 18esimi (per video virali sui social) o Audio Guestbook per i compleanni degli adulti per raccogliere gli auguri vocali.",
+    76→    options: [
+    77→      { label: "18esimi", value: "Conduzione giovane + Video Booth 360 + Dj Set commerciale" },
+    78→      { label: "30/40/50 anni", value: "Conduzione energetica + Audio Guestbook + Air Mirror" },
+    79→      { label: "60/70 anni", value: "Conduzione misurata + Air Mirror classico + Dj Set evergreen" },
+    80→      { label: "Durata", value: "4-5 ore base, estendibile con ora extra (+70€/h)" },
+    81→      { label: "Video ricordi", value: "Proiezione su maxischermo inclusa (invia file in anticipo)" },
+    82→      { label: "Brindisi organizzato", value: "Incluso con calice dedicato al festeggiato" },
+    83→      { label: "Apertura regali", value: "Regia musicale e annuncio dedicato" },
+    84→      { label: "Playlist personalizzata", value: "Inclusa — definiamo i generi insieme prima dell'evento" },
+    85→    ],
+    86→  },
+    87→  {
+    88→    id: "matrimoni",
+    89→    icon: "Heart",
+    90→    title: "Matrimoni & Destination Wedding",
+    91→    card: "Regia totale del ricevimento, zero stress per gli sposi, eleganza di classe.",
+    92→    focus:
+    93→      "Eleganza, massima responsabilità, fluidità della giornata e zero stress per gli sposi.",
+    94→    offers:
+    95→      "Regia e coordinamento totale del ricevimento. Salvo si interfaccia con il direttore di sala, i camerieri e i fotografi per fare in modo che i tempi vengano rispettati ed eliminare i tempi morti tra le portate. Intrattenimento di classe al microfono, conduzione del primo ballo, del lancio del bouquet/giarrettiera e del taglio della torta.",
+    96→    pairing:
+    97→      "Air Mirror con la \"Regia della Doppia Copia\" + Guestbook Premium (libro delle firme) e il Telefono Vintage.",
+    98→    options: [
+    99→      { label: "Durata", value: "7-9 ore (dall'aperitivo fino a notte)" },
+   100→      { label: "Coordinamento fornitori", value: "Incluso — catering, fotografo, fiorista, musicisti" },
+   101→      { label: "Interfaccia direttore di sala", value: "Continua, per zero tempi morti tra le portate" },
+   102→      { label: "Primo ballo", value: "Regia musicale + annuncio dedicato" },
+   103→      { label: "Lancio bouquet/giarrettiera", value: "Incluso con momento scenico" },
+   104→      { label: "Taglio torta", value: "Regia completa + luce + musica dedicata" },
+   105→      { label: "Air Mirror \"Doppia Copia\"", value: "Una stampa per gli sposi, una per gli ospiti — illimitate" },
+   106→      { label: "Guestbook Premium", value: "Libro delle firme elegante incluso" },
+   107→      { label: "Audio Guestbook", value: "Telefono vintage per auguri vocali (consegna file audio a fine serata)" },
+   108→      { label: "Trasferta", value: "Gratuita entro 30 km da Adrano; supplem. 40-60€ oltre" },
+   109→    ],
+   110→  },
+   111→  {
+   112→    id: "lauree",
+   113→    icon: "GraduationCap",
+   114→    title: "Lauree",
+   115→    card: "Fresca, dinamica, giovanile e celebrativa per traguardi importanti.",
+   116→    focus:
+   117→      "Una festa fresca, dinamica, giovanile e celebrativa per traguardi importanti.",
+   118→    offers:
+   119→      "Conduzione frizzante, proclamazione goliardica del neolaureato, gestione dei brindisi, giochi a tema legati al percorso di studi ed energia al microfono.",
+   120→    pairing:
+   121→      "Dj Set commerciale e Video Booth 360 per scatenarsi con i colleghi di università.",
+   122→    options: [
+   123→      { label: "Durata", value: "4-5 ore base, estendibile" },
+   124→      { label: "Proclamazione neolaureato", value: "Inclusa — annuncio scenico e foto di gruppo" },
+   125→      { label: "Giochi a tema università", value: "Inclusi — quiz sul percorso di studi, sfide tra tavoli" },
+   126→      { label: "Brindisi organizzato", value: "Incluso con calice dedicato" },
+   127→      { label: "Dj Set commerciale", value: "Incluso — playlist su richiesta" },
+   128→      { label: "Video Booth 360", value: "Consigliato per video virali con i colleghi" },
+   129→      { label: "Proiezione ricordi", value: "Inclusa su maxischermo (invia file in anticipo)" },
+   130→      { label: "Trasferta", value: "Gratuita entro 30 km da Adrano" },
+   131→    ],
+   132→  },
+   133→  {
+   134→    id: "feste-private",
+   135→    icon: "Lock",
+   136→    title: "Feste Private",
+   137→    card: "Anniversari, addii al celibato/nubilato, ricorrenze. Eventi sartoriali su misura.",
+   138→    focus:
+   139→      "Esclusività, privacy e un evento sartoriale cucito sui desideri del cliente in ville, loft o locali privati.",
+   140→    offers:
+   141→      "Gestione totale dell'intrattenimento in base al target degli invitati, scaletta personalizzata e conduzione su misura.",
+   142→    options: [
+   143→      { label: "Anniversari", value: "25°, 50°, 60° — conduzione elegante + Air Mirror ricordi" },
+   144→      { label: "Addii al celibato/nubilato", value: "Conduzione vivace + Dj Set + Video Booth 360" },
+   145→      { label: "Ricorrenze di coppia", value: "Conduzione intima + Audio Guestbook auguri" },
+   146→      { label: "Location", value: "Ville, loft, locali privati — su indicazione del cliente" },
+   147→      { label: "Scaletta", value: "Personalizzata su target e desideri del festeggiato" },
+   148→      { label: "Durata", value: "4-6 ore, estendibile con ora extra (+70€/h)" },
+   149→      { label: "Trasferta", value: "Gratuita entro 30 km da Adrano" },
+   150→    ],
+   151→  },
+   152→  {
+   153→    id: "feste-tema",
+   154→    icon: "Drama",
+   155→    title: "Feste a Tema",
+   156→    card: "Anni '80/'90, Halloween, Carnival Party, White Party. Immersione totale nel tema.",
+   157→    focus:
+   158→      "Immersione totale nel tema scelto dal cliente, dove ogni dettaglio deve essere coordinato.",
+   159→    offers:
+   160→      "Conduzione a tema (anche con abbigliamento dedicato), animazione basata sul filone della festa, coordinamento di eventuali contest (es. premio per la maschera o l'abito più bello).",
+   161→    pairing:
+   162→      "Layout fotografico dell'Air Mirror e scenografie neon personalizzate al 100% con il tema della serata.",
+   163→    options: [
+   164→      { label: "Anni '80 / '90", value: "Playlist tematica + grafiche Air Mirror vintage + contest abito" },
+   165→      { label: "Halloween", value: "Conduzione horror + Set Scenografico Premium neon + Air Mirror a tema" },
+   166→      { label: "Carnival Party", value: "Conduzione mascherata + contest maschera + Dj Set Carnevale" },
+   167→      { label: "White Party", value: "Dress code bianco + luci bianche/oro + Air Mirror elegante" },
+   168→      { label: "Glow Party", value: "Luci UV + Air Mirror neon + Video Booth 360 con filtri glow" },
+   169→      { label: "Contest a premio", value: "Incluso — organizzazione e premiazione scenica" },
+   170→      { label: "Abbigliamento conducente", value: "A tema se richiesto (incluso)" },
+   171→      { label: "Personalizzazione grafiche", value: "Air Mirror e Set Premium personalizzati al 100% sul tema" },
+   172→    ],
+   173→  },
+   174→  {
+   175→    id: "feste-aziendali",
+   176→    icon: "Building2",
+   177→    title: "Feste Aziendali & Team Building",
+   178→    card: "Premiazioni, meeting, team building. Professionalità e prestigio.",
+   179→    focus:
+   180→      "Rafforzare lo spirito di squadra, celebrare i successi aziendali e trasmettere professionalità e prestigio.",
+   181→    offers:
+   182→      "Conduzione istituzionale ma coinvolgente, presentazione dei manager o delle premiazioni interne, conduzione di attività di gruppo e gestione della transizione dal momento formale a quello del divertimento.",
+   183→    pairing:
+   184→      "Video Booth 360 o Air Mirror con il logo dell'azienda impresso su ogni foto/video per fare branding.",
+   185→    options: [
+   186→      { label: "Premiazioni interne", value: "Regia scenica + presentazione manager + momento trofeo" },
+   187→      { label: "Meeting annuali", value: "Conduzione istituzionale + transizione al divertimento" },
+   188→      { label: "Team Building", value: "Giochi di gruppo + attività di coordinamento" },
+   189→      { label: "Incentive trip", value: "Conduzione + Dj Set + esperienze sul territorio (Sicily Experience)" },
+   190→      { label: "Product launch", value: "Regia presentazione prodotto + momento celebrativo" },
+   191→      { label: "Branding foto/video", value: "Logo aziendale su ogni stampa Air Mirror / Video Booth 360" },
+   192→      { label: "Bilingue", value: "Disponibile in IT/EN per team internazionali" },
+   193→      { label: "Durata", value: "Personalizzata in base al format aziendale" },
+   194→    ],
+   195→  },
+   196→  {
+   197→    id: "dj-set",
+   198→    icon: "Disc3",
+   199→    title: "Dj Set",
+   200→    card:
+   201→      "Colonna sonora perfetta per ogni fase dell'evento, con impianti audio/luci professionali forniti da noi.",
+   202→    focus:
+   203→      "La colonna sonora perfetta per ogni fase dell'evento, con impianti audio e luci professionali.",
+   204→    offers:
+   205→      "Selezione musicale curata e personalizzata. Dai ritmi soft di sottofondo per l'aperitivo e la cena (Jazz, Lounge, Deep House), fino al momento del ballo sfrenato (Commerciale, Reggaeton, Dance anni '90/2000, i grandi classici italiani e i trend del momento). Nota: forniamo noi tutta la strumentazione audio/luci professionale se la location ne è sprovvista.",
+   206→    options: [
+   207→      { label: "Aperitivo", value: "Jazz, Lounge, Deep House soft" },
+   208→      { label: "Cena", value: "Bossa Nova, Nu-Disco, Italian evergreen riarrangiato" },
+   209→      { label: "Ballo", value: "Commerciale, Reggaeton, Dance anni '90/2000, classici italiani, trend del momento" },
+   210→      { label: "Fine serata", value: "Lento / momento romantico su richiesta" },
+   211→      { label: "Impianto audio", value: "Professionale incluso (casse, mixer, subwoofer)" },
+   212→      { label: "Luci", value: "Palco + dance floor + effetti (inclusi se location sprovvista)" },
+   213→      { label: "Playlist personalizzata", value: "Inclusa — definiamo generi e brani insieme prima" },
+   214→      { label: "Richieste live", value: "Accettate durante la serata via WhatsApp del DJ" },
+   215→    ],
+   216→  },
+   217→  {
+   218→    id: "serate-giochi",
+   219→    icon: "Dices",
+   220→    title: "Organizzazione Serate Giochi",
+   221→    card:
+   222→      "Quiz multimediali, karaoke, giochi di messaggeria. Conduzione da show televisivo.",
+   223→    focus:
+   224→      "Coinvolgimento attivo, interazione e competitività divertente tra i tavoli.",
+   225→    offers:
+   226→      "Una vera e propria conduzione da \"Show Televisivo\". Salvo organizza e presenta quiz multimediali a premi, giochi di abilità, serate karaoke con testi su maxischermo o giochi di messaggeria tra i tavoli. È il servizio perfetto per spezzare il ritmo delle cene o per eventi aziendali e feste private dove si vuole far socializzare tutti gli invitati.",
+   227→    options: [
+   228→      { label: "Cervelloni / Quiz multimediali", value: "Domande su maxischermo + punteggio + premio finale" },
+   229→      { label: "Karaoke", value: "Testi su maxischermo + microfoni + basi musicali curate" },
+   230→      { label: "Giochi di messaggeria", value: "Biglietti tra tavoli + sorteggio + lettura scenica" },
+   231→      { label: "Giochi di abilità", value: "Sfide fisiche/mentali tra tavoli + tabellone punteggi" },
+   232→      { label: "Premi", value: "Organizzazione logistica premi (a carico del cliente o su preventivo)" },
+   233→      { label: "Maxischermo", value: "Incluso per quiz, karaoke e tabelloni" },
+   234→      { label: "Conduzione", value: "Stile show televisivo con microfonaggio dedicato" },
+   235→      { label: "Ideale per", value: "Cene aziendali, feste private, team building, eventi collieghi" },
+   236→    ],
+   237→  },
+   238→];
+   239→
+   240→export interface Bundle {
+   241→  id: "party-style" | "family-joy" | "luxury-wedding";
+   242→  name: string;
+   243→  audience: string;
+   244→  duration?: string;
+   245→  description: string;
+   246→  priceLabel: string;
+   247→  price: number;
+   248→  badge?: string;
+   249→  highlighted?: boolean;
+   250→  /** Itemized inclusions list shown on the card */
+   251→  inclusions: string[];
+   252→  /** Image path under /images */
+   253→  image?: string;
+   254→}
+   255→
+   256→export const bundles: Bundle[] = [
+   257→  {
+   258→    id: "party-style",
+   259→    name: "Party & Style",
+   260→    audience: "Feste private, 18esimi, lauree, compleanni adulti",
+   261→    duration: "Durata 4-5 ore",
+   262→    description:
+   263→      "Conduzione dinamica, gestione dei tempi, intrattenimento giovanile e carismatico al microfono.",
+   264→    priceLabel: "a partire da",
+   265→    price: 350,
+   266→    inclusions: [
+   267→      "Conduzione di Salvo per 4-5 ore",
+   268→      "Microfonaggio professionale",
+   269→      "Gestione tempi della serata",
+   270→      "Coordinamento brindisi e momenti clou",
+   271→      "Annuncio e presentazione del festeggiato",
+   272→      "Trasferta gratuita entro 30 km da Adrano",
+   273→    ],
+   274→  },
+   275→  {
+   276→    id: "family-joy",
+   277→    name: "Family & Joy",
+   278→    audience: "Battesimi, comunioni, cresime, feste a tema",
+   279→    description:
+   280→      "Conduzione e animazione misurata, coordinamento brindisi e accoglienza parenti, giochi interattivi. Tarato per tutte le generazioni.",
+   281→    priceLabel: "a partire da",
+   282→    price: 350,
+   283→    badge: "Ideale per famiglie",
+   284→    inclusions: [
+   285→      "Conduzione di Salvo per 4 ore",
+   286→      "Animazione per tutte le età (bambini + adulti)",
+   287→      "Accoglienza parenti e coordinamento sala",
+   288→      "Gestione brindisi e momento della torta",
+   289→      "Giochi interattivi a tema",
+   290→      "Musica di sottofondo (Lounge, Italian classic)",
+   291→      "Trasferta gratuita entro 30 km da Adrano",
+   292→    ],
+   293→  },
+   294→  {
+   295→    id: "luxury-wedding",
+   296→    name: "Luxury Wedding",
+   297→    audience: "Matrimoni ed eventi aziendali di gala",
+   298→    duration: "Durata 7-9 ore",
+   299→    description:
+   300→      "Coordinamento totale del ricevimento. Interfacciamento continuo con staff del locale, catering e fotografi per eliminare i tempi morti. Intrattenimento elegante dall'aperitivo fino a notte.",
+   301→    priceLabel: "a partire da",
+   302→    price: 600,
+   303→    badge: "Più richiesto",
+   304→    highlighted: true,
+   305→    inclusions: [
+   306→      "Conduzione di Salvo per 7-9 ore",
+   307→      "Regia e coordinamento totale del ricevimento",
+   308→      "Interfaccia con direttore di sala, catering, fotografi",
+   309→      "Conduzione primo ballo + taglio torta + lancio bouquet",
+   310→      "Microfonaggio professionale + DJ Set incluso",
+   311→      "Impianto audio/luci professionale (se location sprovvista)",
+   312→      "Trasferta gratuita entro 30 km da Adrano",
+   313→    ],
+   314→  },
+   315→];
+   316→
+   317→export interface Extra {
+   318→  id: string;
+   319→  icon: IconName;
+   320→  name: string;
+   321→  description: string;
+   322→  priceLabel: string;
+   323→  strikeThrough?: string;
+   324→  /** Itemized specs shown in a tooltip/details */
+   325→  specs?: { label: string; value: string }[];
+   326→  /** Image path under /images */
+   327→  image?: string;
+   328→}
+   329→
+   330→export const extras: Extra[] = [
+   331→  {
+   332→    id: "air-mirror",
+   333→    icon: "Camera",
+   334→    name: "Air Mirror",
+   335→    description:
+   336→      "Specchio magico fluttuante. Stampe illimitate in tempo reale, kit gadget, operatore dedicato, condivisione QR Code. Regola della doppia copia per i matrimoni.",
+   337→    priceLabel: "+250€",
+   338→    strikeThrough: "450€ se singolo",
+   339→    image: "/images/air-mirror-photobooth.png",
+   340→    specs: [
+   341→      { label: "Stampe fotografiche", value: "ILLIMITATE per tutta la durata dell'evento" },
+   342→      { label: "Doppia copia matrimoni", value: "Inclusa — una per gli sposi, una per gli ospiti" },
+   343→      { label: "Kit gadget", value: "Occhiali, parrucche, cartelli (anche in dialetto siciliano)" },
+   344→      { label: "Operatore", value: "Dedicato sul posto per tutta la serata" },
+   345→      { label: "Condivisione digitale", value: "Immediata tramite QR Code (WhatsApp/Instagram)" },
+   346→      { label: "Grafiche personalizzate", value: "Incluse con nome sposi / festeggiato / tema" },
+   347→      { label: "Allestimento", value: "Incluso (specchio + luci + sfondo)" },
+   348→    ],
+   349→  },
+   350→  {
+   351→    id: "video-booth-360",
+   352→    icon: "Video",
+   353→    name: "Video Booth 360",
+   354→    description:
+   355→      "Pedana rotante per video slow-motion ad altissimo impatto. Pronti da condividere su TikTok e Instagram.",
+   356→    priceLabel: "+300€",
+   357→    image: "/images/video-booth-360.png",
+   358→    specs: [
+   359→      { label: "Pedana", value: "Rotante professionale, capacità fino a 4-5 persone" },
+   360→      { label: "Ripresa", value: "Slow-motion HD, 120 fps" },
+   361→      { label: "Effetti", value: "Filtri, musiche trend TikTok/Instagram, personalizzazione" },
+   362→      { label: "Condivisione", value: "Immediata via QR Code o AirDrop" },
+   363→      { label: "Operatore", value: "Dedicato per tutta la serata" },
+   364→      { label: "Video illimitati", value: "Per tutti gli ospiti, per tutta la durata" },
+   365→      { label: "Branding", value: "Logo aziendale / nome sposi sovrapposto opzionale" },
+   366→    ],
+   367→  },
+   368→  {
+   369→    id: "audio-video-guestbook",
+   370→    icon: "Phone",
+   371→    name: "Audio/Video Guestbook",
+   372→    description:
+   373→      "Telefono vintage: gli ospiti sollevano la cornetta e registrano un messaggio vocale di auguri (file audio a fine serata).",
+   374→    priceLabel: "+80€",
+   375→    specs: [
+   376→      { label: "Tipologia", value: "Telefono vintage d'epoca restaurato" },
+   377→      { label: "Registrazione", value: "Vocale (fino a 3 min per messaggio)" },
+   378→      { label: "Consegna", value: "File audio unico a fine serata (MP3/WAV)" },
+   379→      { label: "Messaggi", value: "Illimitati per tutta la durata dell'evento" },
+   380→      { label: "Allestimento", value: "Tavolino dedicato + cartello istruzioni" },
+   381→      { label: "Ideale per", value: "Matrimoni, anniversari, compleanni importanti" },
+   382→    ],
+   383→  },
+   384→  {
+   385→    id: "set-scenografico",
+   386→    icon: "Sparkles",
+   387→    name: "Set Scenografico Premium",
+   388→    description:
+   389→      "Fondale a paillettes lucide con scritta personalizzata a luce Neon. Trasforma la postazione in un set hollywoodiano.",
+   390→    priceLabel: "+80€",
+   391→    specs: [
+   392→      { label: "Fondale", value: "Paillettes lucide oro/argento (altezza 2m)" },
+   393→      { label: "Scritta Neon", value: "Personalizzata con nome sposi / festeggiato / azienda" },
+   394→      { label: "Colore Neon", value: "Oro, bianco caldo, rosa, blu (a scelta)" },
+   395→      { label: "Illuminazione", value: "Fari dedicati sulla postazione" },
+   396→      { label: "Compatibilità", value: "Abbinato ad Air Mirror o Video Booth 360" },
+   397→      { label: "Montaggio", value: "Incluso — entro 1 ora prima dell'inizio evento" },
+   398→    ],
+   399→  },
+   400→  {
+   401→    id: "ora-extra",
+   402→    icon: "Clock",
+   403→    name: "Ora Extra",
+   404→    description:
+   405→      "Gestione dei prolungamenti della festa richiesti sul momento.",
+   406→    priceLabel: "+70€ / ora",
+   407→    specs: [
+   408→      { label: "Tariffazione", value: "A ora, calcolata su frazioni di 30 min" },
+   409→      { label: "Richiesta", value: "Sul momento, anche durante la serata" },
+   410→      { label: "Disponibilità", value: "Soggetta ad autorizzazione struttura" },
+   411→      { label: "Cosa include", value: "Conduzione + musica + tutte le attrezzature" },
+   412→    ],
+   413→  },
+   414→  {
+   415→    id: "fascia-trasferta",
+   416→    icon: "Car",
+   417→    name: "Fascia Trasferta",
+   418→    description:
+   419→      "Gratuito ad Adrano e comuni entro 30km. Fuori provincia (Taormina, Caltagirone): supplemento.",
+   420→    priceLabel: "+40-60€",
+   421→    specs: [
+   422→      { label: "Gratuito", value: "Adrano + comuni entro 30 km (Belpasso, Paternò, Biancavilla, Adrano, Centuripe, ecc.)" },
+   423→      { label: "Supplemento 40€", value: "Catania, Acireale, Giarre, Riposto (40-60 km)" },
+   424→      { label: "Supplemento 50€", value: "Taormina, Giardini Naxos, Letojanni (60-80 km)" },
+   425→      { label: "Supplemento 60€", value: "Caltagirone, Ragusa, Noto (>80 km)" },
+   426→      { label: "Trasferta inclusa", value: "Carico, scarico, viaggio A/R con tutta l'attrezzatura" },
+   427→    ],
+   428→  },
+   429→];
+   430→
+   431→export interface SicilyExperience {
+   432→  icon: IconName;
+   433→  emoji: string;
+   434→  /** Image path under /images */
+   435→  image?: string;
+   436→  it: { title: string; description: string };
+   437→  en: { title: string; description: string };
+   438→}
+   439→
+   440→export const sicilyExperiences: SicilyExperience[] = [
+   441→  {
+   442→    icon: "Wine",
+   443→    emoji: "🍷",
+   444→    image: "/images/etna-wine-tasting.png",
+   445→    it: {
+   446→      title: "Etna Wine Tasting Premium",
+   447→      description:
+   448→        "Degustazioni guidate di vini Etna DOC nei palmenti e nelle cantine più esclusive della zona nord/est del vulcano (Milo, Castiglione di Sicilia, Randazzo, Linguaglossa), abbinate a taglieri di specialità e piatti tipici siciliani.",
+   449→    },
+   450→    en: {
+   451→      title: "Premium Etna Wine Tasting",
+   452→      description:
+   453→        "Guided tastings of Etna DOC wines in the most exclusive historic cellars on the north/east slopes of the volcano (Milo, Castiglione di Sicilia, Randazzo, Linguaglossa), paired with boards of Sicilian specialties and traditional dishes.",
+   454→    },
+   455→  },
+   456→  {
+   457→    icon: "Sun",
+   458→    emoji: "🌅",
+   459→    image: "/images/etna-sunset-party.png",
+   460→    it: {
+   461→      title: "Etna Sunset Party",
+   462→      description:
+   463→        "Aperitivo esclusivo al tramonto sulle pendici del vulcano. Regia, musica e intrattenimento leggero firmati Salvo, completati dall'Air Mirror attivo per scattare foto pazzesche con il vulcano e il tramonto sullo sfondo.",
+   464→    },
+   465→    en: {
+   466→      title: "Etna Sunset Party",
+   467→      description:
+   468→        "Exclusive sunset aperitif on the slopes of the volcano. Direction, music and light entertainment by Salvo, with the Air Mirror active to capture stunning photos with the volcano and sunset in the background.",
+   469→    },
+   470→  },
+   471→  {
+   472→    icon: "Tractor",
+   473→    emoji: "🚜",
+   474→    image: "/images/agriturismo-sicilian.png",
+   475→    it: {
+   476→      title: "Sicilian Food & Agriturismo Experience",
+   477→      description:
+   478→        "Pranzi o cene a base di piatti tradizionali in agriturismi selezionati (zona Adrano, Bronte, Nicolosi), ideali per grandi tavolate familiari, gruppi turistici o Team Building aziendali (Incentive).",
+   479→    },
+   480→    en: {
+   481→      title: "Sicilian Food & Agriturismo Experience",
+   482→      description:
+   483→        "Lunches or dinners featuring traditional dishes at selected agriturismos (Adrano, Bronte, Nicolosi area), ideal for large family tables, tourist groups or corporate Team Building (Incentive).",
+   484→    },
+   485→  },
+   486→  {
+   487→    icon: "Waves",
+   488→    emoji: "🌊",
+   489→    image: "/images/beach-coast-luxury.png",
+   490→    it: {
+   491→      title: "Luxury Beach & Coast Tours",
+   492→      description:
+   493→        "Welcome Party in spiaggia e terrazze panoramiche lungo il litorale di Taormina, Giardini Naxos e Letojanni, con intrattenimento bilingue e postazione Video Booth 360 per gli ospiti internazionali.",
+   494→    },
+   495→    en: {
+   496→      title: "Luxury Beach & Coast Tours",
+   497→      description:
+   498→        "Welcome Party on the beach and panoramic terraces along the coast of Taormina, Giardini Naxos and Letojanni, with bilingual entertainment and a Video Booth 360 station for international guests.",
+   499→    },
+   500→  },
+   501→];
+   502→
+   503→export const sicilyExperienceCopy = {
+   504→  it: {
+   505→    eyebrow: "GOLD EVENTS SICILY EXPERIENCE",
+   506→    title:
+   507→      "Destination Sicily: Non Solo Feste, Ma Esperienze Indimenticabili.",
+   508→    subtitle:
+   509→      "Stai pianificando il tuo matrimonio o un evento aziendale in Sicilia? Gold Events by Salvo unisce la magia del territorio all'intrattenimento di lusso. Organizziamo il tuo evento privato nei luoghi più iconici della Sicilia Orientale, gestendo le migliori collaborazioni con i partner locali.",
+   510→    partnerNote: {
+   511→      label: "Come funziona",
+   512→      title: "Salvo non eroga direttamente questi servizi: fa da tramite.",
+   513→      body:
+   514→        "Le esperienze del circuito Sicily Experience — degustazioni nelle cantine, aperitivi sull'Etna, pranzi in agriturismo, welcome party sulle coste — sono gestite e realizzate dai nostri partner territoriali selezionati (cantine, agriturismi, ristoranti, beach club, guide vulcanologiche). Gold Events by Salvo cura la regia, la selezione dei partner più adatti al tuo evento, la comunicazione bilingue con i tuoi ospiti internazionali e l'intrattenimento firmato Salvo, facendo da tramite tra te e le strutture. Tu vivi l'esperienza: noi coordiniamo tutto il dietro-le-quinte.",
+   515→      cta: "Diventa Partner",
+   516→    },
+   517→    discover: "Scopri di più",
+   518→  },
+   519→  en: {
+   520→    eyebrow: "GOLD EVENTS SICILY EXPERIENCE",
+   521→    title: "Destination Sicily: Not Just Parties, But Unforgettable Experiences.",
+   522→    subtitle:
+   523→      "Planning your wedding or corporate event in Sicily? Gold Events by Salvo combines the magic of the territory with luxury entertainment. We organize your private event in the most iconic locations of Eastern Sicily, managing the best partnerships with local partners.",
+   524→    partnerNote: {
+   525→      label: "How it works",
+   526→      title: "Salvo does not deliver these services directly: he acts as a bridge.",
+   527→      body:
+   528→        "The experiences in the Sicily Experience circuit — winery tastings, Mt. Etna aperitifs, agriturismo lunches, coastal welcome parties — are managed and delivered by our selected local partners (wineries, agriturismos, restaurants, beach clubs, volcanic guides). Gold Events by Salvo curates the direction, selects the partners best suited to your event, handles bilingual communication with your international guests, and provides Salvo-branded entertainment, acting as the bridge between you and the venues. You live the experience: we coordinate everything behind the scenes.",
+   529→      cta: "Become a Partner",
+   530→    },
+   531→    discover: "Discover more",
+   532→  },
+   533→};
+   534→
+   535→export const eventTypeOptions = [
+   536→  "Matrimonio",
+   537→  "18esimo",
+   538→  "Battesimo",
+   539→  "Comunione",
+   540→  "Cresima",
+   541→  "Compleanno",
+   542→  "Laurea",
+   543→  "Festa Privata",
+   544→  "Festa a Tema",
+   545→  "Festa Aziendale",
+   546→  "Destination Experience",
+   547→  "Altro",
+   548→] as const;
+   549→
+   550→export type EventTypeOption = (typeof eventTypeOptions)[number];
+   551→
+   552→export const serviceCheckboxes = [
+   553→  { id: "party-style", label: "Conduzione Base — Party & Style" },
+   554→  { id: "family-joy", label: "Conduzione Base — Family & Joy" },
+   555→  { id: "luxury-wedding", label: "Conduzione Base — Luxury Wedding" },
+   556→  { id: "air-mirror", label: "Air Mirror" },
+   557→  { id: "video-booth-360", label: "Video Booth 360" },
+   558→  { id: "audio-video-guestbook", label: "Audio/Video Guestbook" },
+   559→  { id: "set-scenografico", label: "Set Scenografico Premium" },
+   560→  { id: "dj-set", label: "Dj Set" },
+   561→  { id: "serate-giochi", label: "Serate Giochi" },
+   562→  { id: "etna-wine-tasting", label: "Etna Wine Tasting" },
+   563→  { id: "etna-sunset-party", label: "Etna Sunset Party" },
+   564→  { id: "agriturismo", label: "Agriturismo" },
+   565→  { id: "beach-tour", label: "Beach Tour" },
+   566→] as const;
+   567→
+   568→export const partnerActivityOptions = [
+   569→  "Cantina Vinicola",
+   570→  "Agriturismo",
+   571→  "Ristorante",
+   572→  "Guide Vulcanologiche",
+   573→  "Beach Club",
+   574→  "Altro",
+   575→] as const;
+   576→
+   577→export const navItems = [
+   578→  { href: "#chi-sono", label: "Chi sono" },
+   579→  { href: "#servizi", label: "Servizi" },
+   580→  { href: "#bundles", label: "Bundle" },
+   581→  { href: "#extra", label: "Extra" },
+   582→  { href: "#sicily-experience", label: "Sicily Experience" },
+   583→  { href: "#contatti", label: "Contatti" },
+   584→] as const;
+   585→
+   586→export const contactInfo = {
+   587→  // Persona
+   588→  personName: "Salvo Piemonte",
+   589→  brandRole: "Organizzatore di eventi",
+   590→  // Contact channels
+   591→  whatsapp: "+39 344 232 2176",
+   592→  whatsappHref: "https://wa.me/393442322176",
+   593→  email: "goldeventssicilyexperience@outlook.com",
+   594→  // Location
+   595→  location: "Adrano (Catania), Sicilia",
+   596→  // Social
+   597→  instagram: "https://www.instagram.com/goldeventsicily_experience",
+   598→  instagramHandle: "@goldeventsicily_experience",
+   599→  tiktok: "#",
+   600→  facebook: "#",
+   601→};
+   602→
+   603→/**
+   604→ * Tipologie di esperienza curate dal circuito Gold Events Sicily Experience
+   605→ * (estratte dalla bio ufficiale Instagram di Salvo Piemonte).
+   606→ * Mostrate come chip nella sezione Sicily Experience per dare visione d'insieme.
+   607→ */
+   608→export const sicilyExperienceCategories = [
+   609→  "Esperienze sull'Etna",
+   610→  "Degustazioni in cantina",
+   611→  "Esperienze gastronomiche",
+   612→  "Escursioni naturalistiche",
+   613→  "Tour fotografici",
+   614→  "Esperienze romantiche",
+   615→  "Weekend tematici",
+   616→  "Proposte di matrimonio",
+   617→  "Esperienze per voi",
+   618→] as const;
+   619→

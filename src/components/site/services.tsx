@@ -17,8 +17,22 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { services } from "@/lib/site-content";
+import { useDict } from "@/lib/i18n/use-lang";
+
+const eventChips = [
+  "Battesimi",
+  "Comunioni",
+  "Cresime",
+  "Compleanni",
+  "Matrimoni",
+  "Lauree",
+  "Feste Private",
+  "Feste a Tema",
+  "Eventi Aziendali",
+];
 
 export function Services() {
+  const t = useDict();
   return (
     <section
       id="servizi"
@@ -30,28 +44,18 @@ export function Services() {
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="I NOSTRI SERVIZI"
-          title="Nove Modi Di Rendere Indimenticabile Il Tuo Evento"
-          intro="Dal battesimo alla festa aziendale, dalla laurea al Dj Set: ogni servizio è cucito su misura sulla tua occasione."
+          eyebrow={t.eyebrow.services}
+          title={t.servicesTitle}
+          intro={t.servicesIntro}
         />
 
         {/* Explicit list of all event types offered by Gold Events by Salvo */}
         <Reveal y={14} delay={0.05} className="mt-10">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]/80">
-              Eventi che seguiamo:
+              {t.servicesEventsLabel}
             </span>
-            {[
-              "Battesimi",
-              "Comunioni",
-              "Cresime",
-              "Compleanni",
-              "Matrimoni",
-              "Lauree",
-              "Feste Private",
-              "Feste a Tema",
-              "Eventi Aziendali",
-            ].map((label) => (
+            {eventChips.map((label) => (
               <span
                 key={label}
                 className="inline-flex items-center rounded-full border border-[#D4AF37]/30 bg-[#1C1C1C]/60 px-3 py-1.5 text-xs font-medium text-white/90 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/10"
@@ -68,7 +72,16 @@ export function Services() {
           stagger={0.06}
         >
           {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+            <ServiceCard key={service.id} service={service} labels={{
+              discover: t.servicesDiscover,
+              focus: t.servicesFocusLabel,
+              offers: t.servicesOffersLabel,
+              pairing: t.servicesPairingLabel,
+              options: t.servicesOptionsLabel,
+              close: t.servicesCloseBtn,
+              request: t.servicesRequestBtn,
+              description: t.servicesDialogDescription,
+            }} />
           ))}
         </StaggerGroup>
       </div>
@@ -76,10 +89,23 @@ export function Services() {
   );
 }
 
+interface ServiceCardLabels {
+  discover: string;
+  focus: string;
+  offers: string;
+  pairing: string;
+  options: string;
+  close: string;
+  request: string;
+  description: string;
+}
+
 function ServiceCard({
   service,
+  labels,
 }: {
   service: (typeof services)[number];
+  labels: ServiceCardLabels;
 }) {
   return (
     <motion.li variants={itemVariants} className="h-full list-none">
@@ -108,7 +134,7 @@ function ServiceCard({
               type="button"
               className="group/cta mt-1 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37] transition-colors hover:text-[#E5C75A]"
             >
-              Scopri di più
+              {labels.discover}
               <Plus className="size-3.5 transition-transform group-hover/cta:rotate-90" strokeWidth={2} />
             </button>
           </DialogTrigger>
@@ -121,16 +147,16 @@ function ServiceCard({
                 {service.title}
               </DialogTitle>
               <DialogDescription className="text-[#A1A1A1]">
-                Dettaglio del servizio Gold Events by Salvo.
+                {labels.description}
               </DialogDescription>
             </DialogHeader>
 
             <div className="mt-2 flex flex-col gap-5">
-              <DialogBlock label="Il Focus" body={service.focus} />
-              <DialogBlock label="Cosa offre Salvo" body={service.offers} />
+              <DialogBlock label={labels.focus} body={service.focus} />
+              <DialogBlock label={labels.offers} body={service.offers} />
               {service.pairing && (
                 <DialogBlock
-                  label="Abbinamento consigliato"
+                  label={labels.pairing}
                   body={service.pairing}
                   highlight
                 />
@@ -138,7 +164,7 @@ function ServiceCard({
               {service.options && service.options.length > 0 && (
                 <div className="rounded-xl border border-[#D4AF37]/20 bg-[#1C1C1C]/60 p-4">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
-                    Opzioni dettagliate
+                    {labels.options}
                   </p>
                   <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
                     {service.options.map((opt, idx) => (
@@ -162,7 +188,7 @@ function ServiceCard({
                   type="button"
                   className="inline-flex h-11 items-center justify-center rounded-full border border-[#D4AF37]/50 px-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
                 >
-                  Chiudi
+                  {labels.close}
                 </button>
               </DialogClose>
               <a
@@ -181,7 +207,7 @@ function ServiceCard({
                 }}
                 className="inline-flex h-11 items-center justify-center rounded-full bg-[#D4AF37] px-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A]"
               >
-                Richiedi questo servizio
+                {labels.request}
               </a>
             </div>
           </DialogContent>

@@ -15,7 +15,8 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import { navItems } from "@/lib/site-content";
+import { useDict } from "@/lib/i18n/use-lang";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
 
 function scrollTo(href: string) {
   if (typeof document === "undefined") return;
@@ -57,6 +58,7 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
 export function Header() {
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const t = useDict();
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -64,6 +66,15 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navItems = [
+    { href: "#chi-sono", label: t.nav["chi-sono"] },
+    { href: "#servizi", label: t.nav.servizi },
+    { href: "#bundles", label: t.nav.bundle },
+    { href: "#extra", label: t.nav.extra },
+    { href: "#sicily-experience", label: t.nav["sicily-experience"] },
+    { href: "#contatti", label: t.nav.contatti },
+  ];
 
   return (
     <header
@@ -98,6 +109,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Language switcher (desktop) */}
+          <LanguageSwitcher variant="header" className="hidden sm:inline-flex" />
+
           <Button
             asChild
             className="hidden h-10 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] shadow-[0_8px_24px_-8px_rgba(212,175,55,0.55)] transition-all hover:bg-[#E5C75A] hover:shadow-[0_10px_30px_-8px_rgba(212,175,55,0.7)] sm:inline-flex"
@@ -109,7 +123,7 @@ export function Header() {
                 scrollTo("#contatti");
               }}
             >
-              Richiedi disponibilità
+              {t.nav.richiediDisponibilita}
             </a>
           </Button>
 
@@ -118,7 +132,7 @@ export function Header() {
             <SheetTrigger asChild>
               <button
                 className="inline-flex size-11 items-center justify-center rounded-full border border-[#D4AF37]/30 text-white transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37] lg:hidden"
-                aria-label="Apri menu di navigazione"
+                aria-label={t.openMenu}
               >
                 <Menu className="size-5" />
               </button>
@@ -137,7 +151,7 @@ export function Header() {
                   </span>
                 </SheetTitle>
                 <SheetClose
-                  aria-label="Chiudi menu"
+                  aria-label={t.closeMenu}
                   className="rounded-full border border-white/10 p-2 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-white"
                 >
                   <X className="size-4" />
@@ -172,7 +186,8 @@ export function Header() {
                 ))}
               </nav>
 
-              <div className="mt-auto px-6 pb-8">
+              <div className="mt-auto flex flex-col gap-3 px-6 pb-8">
+                <LanguageSwitcher variant="sheet" />
                 <Button
                   asChild
                   className="h-12 w-full rounded-full bg-[#D4AF37] text-xs font-semibold uppercase tracking-[0.2em] text-[#0F0F0F]"
@@ -185,11 +200,11 @@ export function Header() {
                       setTimeout(() => scrollTo("#contatti"), 80);
                     }}
                   >
-                    Richiedi disponibilità
+                    {t.nav.richiediDisponibilita}
                   </a>
                 </Button>
-                <p className="mt-4 text-center text-[11px] uppercase tracking-[0.24em] text-[#A1A1A1]">
-                  Adrano · Catania · Sicilia
+                <p className="text-center text-[11px] uppercase tracking-[0.24em] text-[#A1A1A1]">
+                  {t.mobileNavLocation}
                 </p>
               </div>
             </SheetContent>

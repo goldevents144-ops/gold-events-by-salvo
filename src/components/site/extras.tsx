@@ -8,8 +8,10 @@ import { SectionHeading } from "@/components/site/section-heading";
 import { StaggerGroup, itemVariants } from "@/components/site/reveal";
 import { Icon } from "@/components/site/icon";
 import { extras } from "@/lib/site-content";
+import { useDict } from "@/lib/i18n/use-lang";
 
 export function Extras() {
+  const t = useDict();
   return (
     <section
       id="extra"
@@ -17,10 +19,7 @@ export function Extras() {
       className="relative scroll-mt-24 border-t border-white/5 bg-[#0F0F0F] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="SERVIZI EXTRA & TECNOLOGIE"
-          title="Potenzia Il Tuo Evento Con Le Tecnologie Esclusive"
-        />
+        <SectionHeading eyebrow={t.eyebrow.extras} title={t.extrasTitle} />
 
         {/* Highlight banner */}
         <motion.div
@@ -35,9 +34,12 @@ export function Extras() {
           </span>
           <p className="text-sm leading-relaxed text-white sm:text-base">
             <span className="font-semibold text-[#D4AF37]">
-              Le stampe fotografiche dell'Air Mirror
+              {t.extrasHighlightPrefix}
             </span>{" "}
-            sono <span className="font-semibold text-white">TOTALMENTE ILLIMITATE</span>.
+            {t.extrasHighlightSuffix}{" "}
+            <span className="font-semibold text-white">
+              {t.extrasHighlightEmphasis}
+            </span>.
           </p>
         </motion.div>
 
@@ -46,12 +48,17 @@ export function Extras() {
           stagger={0.06}
         >
           {extras.map((extra) => (
-            <ExtraCard key={extra.id} extra={extra} />
+            <ExtraCard
+              key={extra.id}
+              extra={extra}
+              badgeLabel={t.extrasBadgeLabel}
+              specsLabel={t.extrasSpecsLabel}
+            />
           ))}
         </StaggerGroup>
 
         <p className="mt-8 text-center text-xs text-[#A1A1A1]">
-          I prezzi extra si intendono <span className="text-[#D4AF37]">in abbinamento</span> a una conduzione base. Fuori abbinamento: tariffe separate.
+          {t.extrasFooterNote}
         </p>
       </div>
     </section>
@@ -60,8 +67,12 @@ export function Extras() {
 
 function ExtraCard({
   extra,
+  badgeLabel,
+  specsLabel,
 }: {
   extra: (typeof extras)[number];
+  badgeLabel: string;
+  specsLabel: string;
 }) {
   const [open, setOpen] = React.useState(false);
   return (
@@ -93,11 +104,11 @@ function ExtraCard({
           <Icon name={extra.icon} className="size-5" />
         </span>
         <span
-          title="Prezzo in abbinamento"
+          title={badgeLabel}
           className="inline-flex items-center gap-1 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF37]"
         >
           <BadgePercent className="size-3" />
-          in abbinamento
+          {badgeLabel}
         </span>
       </div>
 
@@ -128,7 +139,7 @@ function ExtraCard({
             aria-expanded={open}
             className="flex w-full items-center justify-between text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37]/80 transition-colors hover:text-[#D4AF37]"
           >
-            Specifiche tecniche
+            {specsLabel}
             <ChevronDown
               className={`size-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
               strokeWidth={2}

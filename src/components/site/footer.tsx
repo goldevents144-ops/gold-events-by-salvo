@@ -4,7 +4,8 @@ import * as React from "react";
 import Link from "next/link";
 import { Sparkles, Mail, MessageCircle, MapPin, Instagram, Facebook, User } from "lucide-react";
 
-import { contactInfo, navItems } from "@/lib/site-content";
+import { contactInfo, navItems as defaultNavItems } from "@/lib/site-content";
+import { useDict } from "@/lib/i18n/use-lang";
 
 function scrollTo(href: string) {
   if (typeof document === "undefined") return;
@@ -14,6 +15,17 @@ function scrollTo(href: string) {
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const t = useDict();
+
+  // Map our 6 nav items to translated labels.
+  const navItems = [
+    { href: "#chi-sono", label: t.nav["chi-sono"] },
+    { href: "#servizi", label: t.nav.servizi },
+    { href: "#bundles", label: t.nav.bundle },
+    { href: "#extra", label: t.nav.extra },
+    { href: "#sicily-experience", label: t.nav["sicily-experience"] },
+    { href: "#contatti", label: t.nav.contatti },
+  ];
 
   return (
     <footer
@@ -21,7 +33,7 @@ export function Footer() {
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">
-        Piè di pagina
+        {t.footerSrTitle}
       </h2>
 
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -50,9 +62,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#A1A1A1]">
-              Conduzione, animazione e tecnologie esclusive per eventi
-              indimenticabili. Matrimoni, feste private ed esperienze di lusso
-              in Sicilia Orientale.
+              {t.footerTagline}
             </p>
             <p className="mt-5 inline-flex items-center gap-2 text-xs text-white/90">
               <User className="size-3.5 text-[#D4AF37]" />
@@ -76,11 +86,11 @@ export function Footer() {
 
           {/* Quick links */}
           <nav
-            aria-label="Collegamenti rapidi"
+            aria-label={t.footerNavLabel}
             className="md:col-span-3"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
-              Navigazione
+              {t.footerNavLabel}
             </p>
             <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-1">
               {navItems.map((item) => (
@@ -106,7 +116,7 @@ export function Footer() {
                   }}
                   className="text-sm text-[#A1A1A1] transition-colors hover:text-white"
                 >
-                  Diventa Partner
+                  {t.footerPartnerLink}
                 </Link>
               </li>
             </ul>
@@ -115,7 +125,7 @@ export function Footer() {
           {/* Contact CTAs */}
           <div className="md:col-span-4">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
-              Contatti
+              {t.footerContactsLabel}
             </p>
             <div className="mt-5 flex flex-col gap-3">
               <a
@@ -129,7 +139,7 @@ export function Footer() {
                 </span>
                 <span className="flex flex-col">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1A1A1]">
-                    WhatsApp
+                    {t.footerWhatsapp}
                   </span>
                   <span className="text-sm text-white">
                     {contactInfo.whatsapp}
@@ -145,7 +155,7 @@ export function Footer() {
                 </span>
                 <span className="flex flex-col">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1A1A1]">
-                    Email
+                    {t.footerEmail}
                   </span>
                   <span className="text-sm text-white">
                     {contactInfo.email}
@@ -157,7 +167,7 @@ export function Footer() {
             {/* Social icons */}
             <div className="mt-6 flex items-center gap-3">
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1A1A1]">
-                Seguimi
+                {t.footerFollow}
               </span>
               <div className="flex items-center gap-2">
                 <a
@@ -194,10 +204,10 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/8 pt-6 sm:flex-row">
           <p className="text-xs text-[#6B6B6B]">
-            © {year} Gold Events by Salvo. Tutti i diritti riservati.
+            © {year} {t.footerCopyright}
           </p>
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#6B6B6B]">
-            Adrano · Catania · Taormina · Etna
+            {t.footerRegion}
           </p>
         </div>
       </div>
