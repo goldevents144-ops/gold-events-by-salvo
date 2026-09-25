@@ -1,0 +1,212 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/*
+ * Gold Events by Salvo — Luxury Black & Gold Theme
+ * Palette:
+ *   Background: Matte Black   #0F0F0F
+ *   Card / 2nd bg:            #1C1C1C
+ *   Gold accent:              #D4AF37 (Satin Gold)
+ *   Body text:                Optical White #FFFFFF
+ *   Muted text:               #A1A1A1
+ */
+:root {
+  --radius: 0.75rem;
+
+  /* Brand palette (used by light + dark; this site is dark-only) */
+  --gold: #D4AF37;
+  --gold-soft: #E5C75A;
+
+  --background: #0F0F0F;
+  --foreground: #FFFFFF;
+  --card: #1C1C1C;
+  --card-foreground: #FFFFFF;
+  --popover: #1C1C1C;
+  --popover-foreground: #FFFFFF;
+  --primary: #D4AF37;
+  --primary-foreground: #0F0F0F;
+  --secondary: #1C1C1C;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1C1C1C;
+  --muted-foreground: #A1A1A1;
+  --accent: #1C1C1C;
+  --accent-foreground: #D4AF37;
+  --destructive: #E5484D;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.10);
+  --ring: #D4AF37;
+
+  --chart-1: #D4AF37;
+  --chart-2: #E5C75A;
+  --chart-3: #A1A1A1;
+  --chart-4: #FFFFFF;
+  --chart-5: #6B6B6B;
+
+  --sidebar: #0F0F0F;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #D4AF37;
+  --sidebar-primary-foreground: #0F0F0F;
+  --sidebar-accent: #1C1C1C;
+  --sidebar-accent-foreground: #D4AF37;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #D4AF37;
+}
+
+.dark {
+  /* The site is intentionally dark-themed. Keeping `.dark` mirrors `:root`
+     so next-themes / shadcn internals remain consistent. */
+  --background: #0F0F0F;
+  --foreground: #FFFFFF;
+  --card: #1C1C1C;
+  --card-foreground: #FFFFFF;
+  --popover: #1C1C1C;
+  --popover-foreground: #FFFFFF;
+  --primary: #D4AF37;
+  --primary-foreground: #0F0F0F;
+  --secondary: #1C1C1C;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1C1C1C;
+  --muted-foreground: #A1A1A1;
+  --accent: #1C1C1C;
+  --accent-foreground: #D4AF37;
+  --destructive: #E5484D;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.10);
+  --ring: #D4AF37;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor scroll so sticky header doesn't overlap section titles */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    background-color: #0F0F0F;
+    color: #FFFFFF;
+    /* Subtle film-grain / vignette atmosphere for luxury feel */
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212, 175, 55, 0.10), transparent 60%),
+      radial-gradient(ellipse 100% 80% at 50% 120%, rgba(212, 175, 55, 0.05), transparent 70%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), ui-serif, Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: rgba(212, 175, 55, 0.30);
+    color: #FFFFFF;
+  }
+}
+
+@layer utilities {
+  /* Custom slim scrollbar for long lists / mobile menus */
+  .gold-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .gold-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .gold-scroll::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.25);
+    border-radius: 9999px;
+  }
+  .gold-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.45);
+  }
+
+  /* Thin gold top/bottom hairline used to delimit luxury sections */
+  .gold-hairline {
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+  }
+
+  /* Text gradient utility for hero / brand words */
+  .text-gold-gradient {
+    background: linear-gradient(180deg, #F0D67A 0%, #D4AF37 55%, #A9842A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, #F0D67A 0%, #D4AF37 50%, #A9842A 100%);
+  }
+
+  .border-gold-gradient {
+    border-image: linear-gradient(135deg, #F0D67A 0%, #D4AF37 50%, #A9842A 100%) 1;
+  }
+
+  /* Subtle dotted grid background used in hero */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
