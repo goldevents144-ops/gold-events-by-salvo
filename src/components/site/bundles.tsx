@@ -111,6 +111,22 @@ function BundleCard({
           {bundle.description}
         </p>
 
+        {/* Itemized inclusions */}
+        <ul className="mt-6 flex flex-col gap-2.5">
+          {bundle.inclusions.map((inc, idx) => (
+            <li key={idx} className="flex items-start gap-2.5 text-sm text-white/85">
+              <Check
+                className={cn(
+                  "mt-0.5 size-4 shrink-0",
+                  highlighted ? "text-[#D4AF37]" : "text-[#D4AF37]/80",
+                )}
+                strokeWidth={2.5}
+              />
+              <span className="leading-snug">{inc}</span>
+            </li>
+          ))}
+        </ul>
+
         <div className="mt-7 flex items-baseline gap-2">
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#A1A1A1]">
             {bundle.priceLabel}

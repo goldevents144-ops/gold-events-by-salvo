@@ -135,6 +135,25 @@ function ServiceCard({
                   highlight
                 />
               )}
+              {service.options && service.options.length > 0 && (
+                <div className="rounded-xl border border-[#D4AF37]/20 bg-[#1C1C1C]/60 p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+                    Opzioni dettagliate
+                  </p>
+                  <dl className="mt-3 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
+                    {service.options.map((opt, idx) => (
+                      <div key={idx} className="flex flex-col">
+                        <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/55">
+                          {opt.label}
+                        </dt>
+                        <dd className="mt-0.5 text-sm leading-snug text-white/90">
+                          {opt.value}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
             </div>
 
             <div className="mt-6 flex flex-col gap-3 border-t border-white/8 pt-5 sm:flex-row sm:justify-end">

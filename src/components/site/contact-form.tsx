@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, Send, Check, CalendarDays, Square, CheckSquare } from "lucide-react";
+import { Loader2, Send, Check, CalendarDays, Square, CheckSquare, MessageCircle, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
@@ -32,6 +32,7 @@ import { Reveal } from "@/components/site/reveal";
 import {
   eventTypeOptions,
   serviceCheckboxes,
+  contactInfo,
 } from "@/lib/site-content";
 import { usePreferredBundle } from "@/lib/use-preferred-bundle";
 
@@ -64,6 +65,7 @@ const bundleLabels: Record<string, string> = {
 
 export function ContactForm() {
   const [submitted, setSubmitted] = React.useState(false);
+  const [submittedValues, setSubmittedValues] = React.useState<FormValues | null>(null);
   const preferredBundle = usePreferredBundle((s) => s.preferredBundle);
   const signal = usePreferredBundle((s) => s.signal);
   const clearPreferred = usePreferredBundle((s) => s.clear);
@@ -119,11 +121,12 @@ export function ContactForm() {
     clearPreferred();
   }, [signal]);
 
-  const onSubmit = async (_values: FormValues) => {
+  const onSubmit = async (values: FormValues) => {
     await new Promise((r) => setTimeout(r, 800));
+    setSubmittedValues(values);
     setSubmitted(true);
-    toast.success("Richiesta inviata con successo!", {
-      description: "Ti rispondo entro 24 ore con una proposta personalizzata.",
+    toast.success("Richiesta pronta per l'invio!", {
+      description: "Scegli come inviarla: WhatsApp o Email.",
     });
     reset();
   };
@@ -156,8 +159,10 @@ export function ContactForm() {
 
             {submitted ? (
               <SuccessState
+                values={submittedValues}
                 onReset={() => {
                   setSubmitted(false);
+                  setSubmittedValues(null);
                 }}
               />
             ) : (
@@ -441,24 +446,101 @@ function fieldClasses(hasError: boolean) {
   );
 }
 
-function SuccessState({ onReset }: { onReset: () => void }) {
+function buildMessage(values: FormValues): string {
+  const lines: string[] = [];
+  lines.push("*RICHIESTA PREVENTIVO — Gold Events by Salvo*");
+  lines.push("");
+  lines.push(`👤 *Nome:* ${values.fullName}`);
+  lines.push(`🎉 *Tipo di evento:* ${values.eventType}`);
+  lines.push(`📅 *Data:* ${values.eventDate}`);
+  lines.push(`📍 *Location:* ${values.location}`);
+  lines.push(`👥 *Ospiti stimati:* ${values.guests}`);
+  if (values.services && values.services.length > 0) {
+    const labels = values.services.map((id) => {
+      const match = serviceCheckboxes.find((s) => s.id === id);
+      return match ? match.label : id;
+    });
+    lines.push(`✨ *Servizi desiderati:*`);
+    labels.forEach((l) => lines.push(`   • ${l}`));
+  }
+  if (values.notes && values.notes.trim().length > 0) {
+    lines.push(`📝 *Note:* ${values.notes}`);
+  }
+  lines.push("");
+  lines.push("— Inviato dal sito goldeventsbysalvo.it");
+  return lines.join("\n");
+}
+
+function SuccessState({
+  values,
+  onReset,
+}: {
+  values: FormValues | null;
+  onReset: () => void;
+}) {
+  // Build pre-filled links once
+  const message = values ? buildMessage(values) : "";
+  const encodedMessage = encodeURIComponent(message);
+
+  // WhatsApp deep link: opens chat with Salvo, message pre-filled
+  const whatsappUrl = `${contactInfo.whatsappHref}?text=${encodedMessage}`;
+
+  // Email mailto: link with subject + body pre-filled
+  const subject = `Richiesta preventivo — ${values?.eventType ?? "Evento"}`;
+  const emailUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(
+    subject,
+  )}&body=${encodedMessage}`;
+
   return (
-    <div className="flex flex-col items-center gap-4 py-10 text-center">
+    <div className="flex flex-col items-center gap-5 py-8 text-center sm:py-12">
       <span className="inline-flex size-16 items-center justify-center rounded-full bg-[#D4AF37] text-[#0F0F0F]">
         <Check className="size-8" strokeWidth={2.5} />
       </span>
       <h3 className="font-serif text-2xl font-semibold text-white sm:text-3xl">
-        Richiesta inviata!
+        Richiesta pronta per l'invio!
       </h3>
       <p className="max-w-md text-sm leading-relaxed text-[#A1A1A1] sm:text-base">
-        Grazie per avermi contattato. Ti rispondo entro 24 ore con una proposta
-        personalizzata per il tuo evento.
+        Scegli come inviarla a <span className="font-semibold text-white">Salvo Piemonte</span>:
+        riceverai risposta entro 24 ore con una proposta personalizzata.
       </p>
+
+      {/* Two CTAs: WhatsApp + Email — both pre-filled */}
+      <div className="mt-2 flex w-full max-w-md flex-col gap-3 sm:flex-row">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A]"
+        >
+          <MessageCircle className="size-4" strokeWidth={2} />
+          Invia via WhatsApp
+        </a>
+        <a
+          href={emailUrl}
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/60 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+        >
+          <Mail className="size-4" strokeWidth={2} />
+          Invia via Email
+        </a>
+      </div>
+
+      {/* Preview of the message that will be sent */}
+      {values && (
+        <details className="mt-4 w-full max-w-md text-left">
+          <summary className="cursor-pointer text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37]/80 hover:text-[#D4AF37]">
+            Anteprima messaggio
+          </summary>
+          <pre className="mt-3 whitespace-pre-wrap rounded-xl border border-white/8 bg-[#0F0F0F]/80 p-4 text-[11px] leading-relaxed text-white/80 sm:text-xs">
+            {message}
+          </pre>
+        </details>
+      )}
+
       <Button
         type="button"
         onClick={onReset}
         variant="outline"
-        className="mt-2 h-11 rounded-full border-[#D4AF37]/60 text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+        className="mt-2 h-11 rounded-full border-[#D4AF37]/40 text-[#A1A1A1] hover:bg-transparent hover:text-white"
       >
         Invia un'altra richiesta
       </Button>

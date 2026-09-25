@@ -130,3 +130,49 @@ Stage Summary:
 - Sicily Experience section enriched with all 9 experience categories from the official Instagram bio.
 - All contact links tested and functional.
 - TikTok and Facebook still placeholders (#) pending user-provided handles.
+
+---
+Task ID: 6
+Agent: main (Super Z)
+Task: Generate context images, detail every option per service/bundle/extra, automate quote submission via WhatsApp + Email
+
+Work Log:
+- Generated 8 luxury context images via z-ai-web-dev-sdk (`/home/z/my-project/scripts/generate-images.ts` + retry script):
+  - hero-etna-dusk.png (1344x768) — luxury Etna-at-dusk event scene for hero background
+  - etna-wine-tasting.png — historic cellar wine tasting image
+  - etna-sunset-party.png — sunset aperitif on Etna slopes
+  - agriturismo-sicilian.png — rustic-luxury Sicilian agriturismo dining
+  - beach-coast-luxury.png — Taormina coast welcome party
+  - air-mirror-photobooth.png — elegant mirror photobooth at luxury event
+  - video-booth-360.png — 360 rotating platform
+  - salvo-portrait.png — placeholder professional presenter portrait (ready for "Chi Sono" section, not yet wired)
+- Edited `src/lib/site-content.ts`:
+  - Added `options` field to all 9 ServiceDetail entries (6-10 itemized options each: duration, what's included, role-specific variants like 18esimi vs 30/40/50 vs 60/70 for Compleanni, Etna vs Taormina vs Caltagirone pricing for Trasferta, etc.)
+  - Added `inclusions` field to all 3 bundles (6-7 itemized inclusions each shown on the card)
+  - Added `specs` field to all 6 extras (4-7 spec items each: stampe illimitate, doppia copia matrimoni, kit gadget, etc.)
+  - Added `image` field to Air Mirror and Video Booth 360 extras (mapped to generated images)
+  - Added `image` field to all 4 Sicily Experience cards (mapped to generated images)
+- Edited `src/components/site/services.tsx`: render the new `options` block in each service Dialog, in a gold-bordered "Opzioni dettagliate" panel with a 2-col grid (label/value).
+- Edited `src/components/site/bundles.tsx`: render `inclusions` as a checkmark list between description and price.
+- Edited `src/components/site/extras.tsx`: render image preview at top of card; render expandable "Specifiche tecniche" panel with chevron toggle.
+- Edited `src/components/site/sicily-experience.tsx`: render image at top of each ExperienceCard.
+- Edited `src/components/site/hero-split.tsx`: replaced CSS-only volcano silhouette with the generated hero-etna-dusk.png as base background, kept gradient overlays for legibility.
+- Edited `src/components/site/contact-form.tsx` for automated quote submission:
+  - Added `submittedValues` state to pass form data to SuccessState.
+  - Added `buildMessage()` function that formats all form fields (Nome, Tipo evento, Data, Location, Ospiti, Servizi con label mappate, Note) into a WhatsApp-friendly multi-line message with bold and emojis.
+  - Reworked SuccessState: now shows two CTA buttons — "Invia via WhatsApp" (deep link `wa.me/393442322176?text=<encoded message>`) and "Invia via Email" (`mailto:goldeventssicilyexperience@outlook.com?subject=...&body=<encoded message>`). Both pre-fill the entire message automatically.
+  - Added "Anteprima messaggio" expandable `<details>` showing the formatted message before sending.
+- Ran `bun run lint` → 0 errors, 4 warnings (3 unused eslint-disable + 1 RHF informational — all non-blocking).
+- Verified via Agent Browser end-to-end:
+  - Filled form with Mario Rossi / Matrimonio / 2026-06-15 / Villa dei Tigli Adrano / 100 ospiti / Luxury Wedding service.
+  - Submit → Success state appears with "Richiesta pronta per l'invio!" + WhatsApp + Email buttons.
+  - WhatsApp URL: `https://wa.me/393442322176?text=*RICHIESTA%20PREVENTIVO%20...` with all fields pre-filled (decoded: nome, tipo evento, data, location, ospiti, servizi con checkbox selezionate).
+  - Email URL: `mailto:goldeventssicilyexperience@outlook.com?subject=Richiesta preventivo — Matrimonio&body=...` with subject + body pre-filled.
+  - All 7 generated images load on the page (verified via DOM query: hero, 4 Sicily cards, 2 Extra cards).
+  - Screenshots saved to /home/z/my-project/download/.
+
+Stage Summary:
+- Every service/bundle/extra now has itemized options/specs visible to the user.
+- Quote form, on submit, opens a success state with two pre-filled CTAs (WhatsApp + Email) — user clicks one and the entire message is auto-filled.
+- Site now uses 7 generated luxury context images (hero background, 4 Sicily experiences, 2 extra cards).
+- 8th image (salvo-portrait.png) generated and ready to be wired into the Chi Sono section if user wants.

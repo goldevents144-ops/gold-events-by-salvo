@@ -56,71 +56,39 @@ export function HeroSplit() {
     >
       {/* Background layers */}
       <div className="absolute inset-0 -z-10" aria-hidden>
+        {/* Generated Etna-at-dusk hero image as base */}
         <motion.div
-          initial={{ scale: 1.05, opacity: 0 }}
+          initial={{ scale: 1.08, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          {/* Layered radial gradients — Etna sunset vibe */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/hero-etna-dusk.png"
+            alt=""
+            aria-hidden
+            className="h-full w-full object-cover opacity-55"
+          />
+          {/* Dark overlay for legibility */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(212,175,55,0.22), transparent 60%)",
+                "linear-gradient(180deg, rgba(15,15,15,0.55) 0%, rgba(15,15,15,0.75) 50%, #0F0F0F 100%)",
             }}
           />
+          {/* Gold radial accent */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 80% 30%, rgba(212,175,55,0.10), transparent 60%)",
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(15,15,15,0) 0%, rgba(15,15,15,0.65) 55%, #0F0F0F 100%)",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,0.18), transparent 60%)",
             }}
           />
         </motion.div>
         {/* Geometric dotted grid */}
-        <div className="hero-grid absolute inset-0 opacity-60" />
-        {/* Volcano silhouette (CSS only) */}
-        <svg
-          viewBox="0 0 1440 320"
-          className="absolute bottom-0 left-0 h-[40vh] w-full opacity-30 sm:h-[55vh]"
-          preserveAspectRatio="xMidYMax slice"
-          aria-hidden
-        >
-          <defs>
-            <linearGradient id="etna" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#1C1C1C" />
-              <stop offset="100%" stopColor="#0F0F0F" />
-            </linearGradient>
-            <linearGradient id="etnaGold" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {/* Far range */}
-          <path
-            fill="url(#etna)"
-            d="M0,260 L120,200 L260,225 L420,150 L560,180 L720,90 L880,170 L1040,140 L1180,200 L1320,175 L1440,210 L1440,320 L0,320 Z"
-          />
-          {/* Glow above peak */}
-          <path
-            fill="url(#etnaGold)"
-            d="M600,120 C640,80 760,60 820,110 C760,90 660,90 600,120 Z"
-            opacity="0.7"
-          />
-          {/* Foreground ridge */}
-          <path
-            fill="#0F0F0F"
-            d="M0,290 L160,250 L320,275 L500,240 L680,265 L840,235 L1020,270 L1200,250 L1320,275 L1440,260 L1440,320 L0,320 Z"
-          />
-        </svg>
+        <div className="hero-grid absolute inset-0 opacity-40" />
       </div>
 
       <div className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:px-8 lg:pt-32">

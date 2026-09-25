@@ -201,37 +201,53 @@ function ExperienceCard({
   return (
     <motion.article
       variants={itemVariants}
-      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border border-white/8 bg-[#1C1C1C]/70 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/40 hover:shadow-[0_18px_50px_-20px_rgba(212,175,55,0.4)] sm:p-6"
+      className="group relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border border-white/8 bg-[#1C1C1C]/70 transition-all duration-300 hover:-translate-y-1 hover:border-[#D4AF37]/40 hover:shadow-[0_18px_50px_-20px_rgba(212,175,55,0.4)]"
     >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -top-12 -right-12 size-28 rounded-full bg-[#D4AF37]/5 blur-2xl transition-opacity duration-300 group-hover:bg-[#D4AF37]/15"
-      />
+      {/* Experience image */}
+      {exp.image && (
+        <div className="relative h-32 w-full overflow-hidden sm:h-36">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={exp.image}
+            alt={data.title}
+            loading="lazy"
+            className="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-[#1C1C1C]/50 to-transparent" />
+        </div>
+      )}
 
-      <div className="flex items-start justify-between gap-2">
-        <span className="inline-flex size-12 items-center justify-center rounded-xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-xl text-[#D4AF37] transition-transform duration-300 group-hover:scale-105">
-          <span aria-hidden>{exp.emoji}</span>
-        </span>
-        <span className="inline-flex size-8 items-center justify-center rounded-lg border border-white/10 text-[#D4AF37]/70">
-          <Icon name={exp.icon} className="size-4" />
-        </span>
+      <div className="flex flex-1 flex-col gap-3 p-5 sm:p-6">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -top-12 -right-12 size-28 rounded-full bg-[#D4AF37]/5 blur-2xl transition-opacity duration-300 group-hover:bg-[#D4AF37]/15"
+        />
+
+        <div className="flex items-start justify-between gap-2">
+          <span className="inline-flex size-12 items-center justify-center rounded-xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-xl text-[#D4AF37] transition-transform duration-300 group-hover:scale-105">
+            <span aria-hidden>{exp.emoji}</span>
+          </span>
+          <span className="inline-flex size-8 items-center justify-center rounded-lg border border-white/10 text-[#D4AF37]/70">
+            <Icon name={exp.icon} className="size-4" />
+          </span>
+        </div>
+
+        <h3 className="font-serif text-base font-semibold leading-snug text-white sm:text-lg">
+          {data.title}
+        </h3>
+        <p className="flex-1 text-[13px] leading-relaxed text-[#A1A1A1] sm:text-sm">
+          {data.description}
+        </p>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          className="group/cta mt-1 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37] transition-colors hover:text-[#E5C75A]"
+        >
+          {discoverLabel}
+          <ArrowRight className="size-3.5 transition-transform group-hover/cta:translate-x-1" strokeWidth={2} />
+        </button>
       </div>
-
-      <h3 className="font-serif text-base font-semibold leading-snug text-white sm:text-lg">
-        {data.title}
-      </h3>
-      <p className="flex-1 text-[13px] leading-relaxed text-[#A1A1A1] sm:text-sm">
-        {data.description}
-      </p>
-
-      <button
-        type="button"
-        onClick={onOpen}
-        className="group/cta mt-1 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37] transition-colors hover:text-[#E5C75A]"
-      >
-        {discoverLabel}
-        <ArrowRight className="size-3.5 transition-transform group-hover/cta:translate-x-1" strokeWidth={2} />
-      </button>
     </motion.article>
   );
 }

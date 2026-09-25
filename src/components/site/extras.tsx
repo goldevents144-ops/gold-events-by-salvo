@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Camera, BadgePercent } from "lucide-react";
+import { Camera, BadgePercent, ChevronDown } from "lucide-react";
 
 import { SectionHeading } from "@/components/site/section-heading";
 import { StaggerGroup, itemVariants } from "@/components/site/reveal";
@@ -63,6 +63,7 @@ function ExtraCard({
 }: {
   extra: (typeof extras)[number];
 }) {
+  const [open, setOpen] = React.useState(false);
   return (
     <motion.article
       variants={itemVariants}
@@ -72,6 +73,20 @@ function ExtraCard({
         aria-hidden
         className="pointer-events-none absolute -top-10 -right-10 size-24 rounded-full bg-[#D4AF37]/5 blur-2xl transition-opacity duration-300 group-hover:bg-[#D4AF37]/15"
       />
+
+      {/* Optional preview image */}
+      {extra.image && (
+        <div className="relative -mx-5 -mt-5 mb-1 h-32 overflow-hidden sm:-mx-6 sm:-mt-6 sm:h-36">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={extra.image}
+            alt={extra.name}
+            loading="lazy"
+            className="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-[#1C1C1C]/40 to-transparent" />
+        </div>
+      )}
 
       <div className="flex items-start justify-between gap-2">
         <span className="inline-flex size-11 items-center justify-center rounded-xl border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37] transition-transform duration-300 group-hover:scale-105">
@@ -103,6 +118,38 @@ function ExtraCard({
           </span>
         )}
       </div>
+
+      {/* Expandable specs */}
+      {extra.specs && extra.specs.length > 0 && (
+        <div className="mt-2 border-t border-white/8 pt-3">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            className="flex w-full items-center justify-between text-[11px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37]/80 transition-colors hover:text-[#D4AF37]"
+          >
+            Specifiche tecniche
+            <ChevronDown
+              className={`size-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+              strokeWidth={2}
+            />
+          </button>
+          {open && (
+            <dl className="mt-3 flex flex-col gap-2">
+              {extra.specs.map((s, idx) => (
+                <div key={idx} className="flex flex-col">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/55">
+                    {s.label}
+                  </dt>
+                  <dd className="text-xs leading-snug text-white/85 sm:text-[13px]">
+                    {s.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      )}
     </motion.article>
   );
 }
