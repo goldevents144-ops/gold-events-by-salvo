@@ -400,8 +400,35 @@ export const navItems = [
 ] as const;
 
 export const contactInfo = {
-  whatsapp: "+39 333 0000000",
-  whatsappHref: "https://wa.me/393330000000",
-  email: "info@goldeventsbysalvo.it",
+  // Persona
+  personName: "Salvo Piemonte",
+  brandRole: "Organizzatore di eventi",
+  // Contact channels
+  whatsapp: "+39 344 232 2176",
+  whatsappHref: "https://wa.me/393442322176",
+  email: "goldeventssicilyexperience@outlook.com",
+  // Location
   location: "Adrano (Catania), Sicilia",
+  // Social
+  instagram: "https://www.instagram.com/goldeventsicily_experience",
+  instagramHandle: "@goldeventsicily_experience",
+  tiktok: "#",
+  facebook: "#",
 };
+
+/**
+ * Tipologie di esperienza curate dal circuito Gold Events Sicily Experience
+ * (estratte dalla bio ufficiale Instagram di Salvo Piemonte).
+ * Mostrate come chip nella sezione Sicily Experience per dare visione d'insieme.
+ */
+export const sicilyExperienceCategories = [
+  "Esperienze sull'Etna",
+  "Degustazioni in cantina",
+  "Esperienze gastronomiche",
+  "Escursioni naturalistiche",
+  "Tour fotografici",
+  "Esperienze romantiche",
+  "Weekend tematici",
+  "Proposte di matrimonio",
+  "Esperienze per voi",
+] as const;

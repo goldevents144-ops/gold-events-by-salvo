@@ -106,3 +106,27 @@ Stage Summary:
 - Sicily Experience section now explicitly clarifies Salvo's role as curator/bridge, not direct service provider — bilingual.
 - Services section now lists all 9 event types offered by Gold Events by Salvo as visible, scannable chips above the service grid.
 - Lint clean, dev server running, both updates visually verified.
+
+---
+Task ID: 5
+Agent: main (Super Z)
+Task: Add real contacts (Salvo Piemonte, WhatsApp, email, Instagram) and enrich Sicily Experience with brand bio categories
+
+Work Log:
+- Edited `src/lib/site-content.ts`: replaced placeholder contactInfo with real data — personName "Salvo Piemonte", brandRole "Organizzatore di eventi", whatsapp "+39 344 232 2176", whatsappHref "https://wa.me/393442322176", email "goldeventssicilyexperience@outlook.com", instagram "https://www.instagram.com/goldeventsicily_experience", instagramHandle "@goldeventsicily_experience". Added `sicilyExperienceCategories` array (9 categories from official IG bio: Esperienze sull'Etna, Degustazioni in cantina, Esperienze gastronomiche, Escursioni naturalistiche, Tour fotografici, Esperienze romantiche, Weekend tematici, Proposte di matrimonio, Esperienze per voi).
+- Edited `src/components/site/footer.tsx`: added User icon import; rendered persona row "Salvo Piemonte · Organizzatore di eventi" with gold User icon above location; linked Instagram button to real profile URL (target=_blank rel=noopener); left TikTok and Facebook with "#" placeholder pending user-provided handles; aria-label on Instagram now includes handle.
+- Edited `src/components/site/sicily-experience.tsx`: imported `sicilyExperienceCategories`; rendered a chip row directly under the SectionHeading with bilingual label "Cosa scopriremo insieme:" / "What we'll discover together:" and all 9 experience types as gold-outlined pills.
+- Ran `bun run lint` → 0 errors (1 pre-existing informational warning).
+- Verified via Agent Browser:
+  - Footer shows "Salvo Piemonte" with "Organizzatore di eventi" role.
+  - WhatsApp link href: https://wa.me/393442322176 ✓
+  - Email link href: mailto:goldeventssicilyexperience@outlook.com ✓
+  - Instagram link href: https://www.instagram.com/goldeventsicily_experience ✓ (opens in new tab)
+  - Sicily Experience section shows all 9 category chips: Esperienze sull'Etna, Degustazioni in cantina, Escursioni naturalistiche, Weekend tematici, Proposte di matrimonio, ecc.
+  - Screenshot saved: gold-events-contacts-footer.png
+
+Stage Summary:
+- Real contacts (Salvo Piemonte, +39 344 232 2176, goldeventssicilyexperience@outlook.com, @goldeventsicily_experience) now live across footer.
+- Sicily Experience section enriched with all 9 experience categories from the official Instagram bio.
+- All contact links tested and functional.
+- TikTok and Facebook still placeholders (#) pending user-provided handles.

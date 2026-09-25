@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Sparkles, Mail, MessageCircle, MapPin, Instagram, Facebook } from "lucide-react";
+import { Sparkles, Mail, MessageCircle, MapPin, Instagram, Facebook, User } from "lucide-react";
 
 import { contactInfo, navItems } from "@/lib/site-content";
 
@@ -54,7 +54,12 @@ export function Footer() {
               indimenticabili. Matrimoni, feste private ed esperienze di lusso
               in Sicilia Orientale.
             </p>
-            <p className="mt-5 inline-flex items-center gap-2 text-xs text-[#A1A1A1]">
+            <p className="mt-5 inline-flex items-center gap-2 text-xs text-white/90">
+              <User className="size-3.5 text-[#D4AF37]" />
+              <span className="font-semibold">{contactInfo.personName}</span>
+              <span className="text-[#A1A1A1]">· {contactInfo.brandRole}</span>
+            </p>
+            <p className="mt-3 inline-flex items-center gap-2 text-xs text-[#A1A1A1]">
               <MapPin className="size-3.5 text-[#D4AF37]" />
               {contactInfo.location}
             </p>
@@ -156,21 +161,27 @@ export function Footer() {
               </span>
               <div className="flex items-center gap-2">
                 <a
-                  href="#"
-                  aria-label="Instagram"
+                  href={contactInfo.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Instagram ${contactInfo.instagramHandle}`}
                   className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
                 >
                   <Instagram className="size-4" />
                 </a>
                 <a
-                  href="#"
+                  href={contactInfo.tikTok}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="TikTok"
                   className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
                 >
                   <span className="text-xs font-bold">TT</span>
                 </a>
                 <a
-                  href="#"
+                  href={contactInfo.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Facebook"
                   className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
                 >

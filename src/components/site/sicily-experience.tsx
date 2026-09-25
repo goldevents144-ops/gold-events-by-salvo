@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import {
   sicilyExperiences,
   sicilyExperienceCopy,
+  sicilyExperienceCategories,
   type SicilyExperience,
 } from "@/lib/site-content";
 
@@ -81,6 +82,23 @@ export function SicilyExperience() {
           intro={copy.subtitle}
           className="mt-8"
         />
+
+        {/* Chip row of all experience categories (from official brand bio) */}
+        <Reveal y={14} delay={0.05} className="mt-10">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]/80">
+              {lang === "it" ? "Cosa scopriremo insieme:" : "What we'll discover together:"}
+            </span>
+            {sicilyExperienceCategories.map((label) => (
+              <span
+                key={label}
+                className="inline-flex items-center rounded-full border border-[#D4AF37]/25 bg-[#1C1C1C]/60 px-3 py-1.5 text-xs font-medium text-white/85 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/10"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        </Reveal>
 
         <StaggerGroup
           className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
