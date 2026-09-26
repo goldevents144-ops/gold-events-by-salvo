@@ -360,10 +360,10 @@ function WorldCard({
       transition={{ delay, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
       className="group relative h-[28rem] overflow-hidden rounded-3xl border border-[#D4AF37]/30 sm:h-[32rem]"
     >
-      <Link href={href} className="block size-full">
-        {/* Cover image */}
-        <div className="absolute inset-0">
-          { }
+      <Link href={href} className="block size-full overflow-hidden rounded-3xl">
+        {/* Cover image — contained within rounded card */}
+        <div className="absolute inset-0 overflow-hidden rounded-3xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={image}
             alt={`${title} ${subtitle}`}
