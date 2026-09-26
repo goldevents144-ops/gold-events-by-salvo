@@ -246,7 +246,7 @@ function BrandCard({ card }: { card: BrandCardData }) {
       {/* Cover image (collage panel) — contained, no overflow, fills card width */}
       {card.image && (
         <div className="relative w-full overflow-hidden">
-          <div className="aspect-[4/3] w-full">
+          <div className="aspect-[3/4] w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={card.image}
