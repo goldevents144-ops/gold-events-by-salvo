@@ -27,13 +27,9 @@ function scrollTo(href: string) {
 function BrandMark({ compact = false }: { compact?: boolean }) {
   return (
     <Link
-      href="#top"
-      onClick={(e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }}
+      href="/"
       className="group flex items-center gap-3"
-      aria-label="Gold Events by Salvo — torna su"
+      aria-label="Gold Events by Salvo — torna al bivio"
     >
       <span
         className={cn(

@@ -389,3 +389,76 @@ Stage Summary:
   - PWA (manifest + service worker)
   - Security: bcrypt + 2FA TOTP + lockout + honeypot + DOMPurify + rate limiting + CSP/HSTS/Permissions-Policy + audit log
   - SEO: 5 JSON-LD schemas + 39 keywords + 15 hreflang + sitemap.xml + robots.txt + security.txt
+
+---
+Task ID: 13
+Agent: main (Super Z)
+Task: Cinematic intro + bivio split into 2 separate sites (Gold Events / Sicily Experience)
+
+Work Log:
+- Rewrote src/app/page.tsx as a cinematic landing page with Hollywood-style intro + bivio:
+  - CinematicIntro component: 3.8s animation sequence
+    - Particle field of 30 gold dust particles with infinite animation
+    - Letterbox bars (top + bottom) that shrink away at 3.0s
+    - Gold shimmer sweeping across the screen
+    - "GE" monogram logo materialization (scale + opacity + rotate)
+    - Pulsing gold glow behind logo
+    - Rotating dashed gold ring around logo
+    - "GOLD EVENTS" title fade-in + "by Salvo · Sicilia" subtitle
+    - Loading line that fills up 0-100% in 1.2s
+    - Final tagline "Il Tuo Evento, Il Tuo Viaggio"
+    - Skip button in bottom-right
+  - Bivio component: shows after intro completes
+    - Eyebrow "Adrano · Catania · Sicilia Orientale"
+    - h1 "Due Mundi. Un Solo Regista." with gold accent
+    - 2 WorldCard full-screen clickable cards (h-[28rem]/h-[32rem])
+      - LEFT: Gold Events by Salvo → /gold-events (couple-toast image, "Eventi & Cerimonie · IT")
+      - RIGHT: Gold Events Sicily Experience → /sicily-experience (sicily-aerial image, "Destination & Experiences · IT / EN")
+    - Each card: full-bleed image with gradient overlay, icon, eyebrow, title, subtitle (italic gold), description, CTA "Entra nel mondo eventi/esperienze"
+    - Hover: image scales 1.10× + opacity 0.60→0.80 + gold hairline appears at bottom
+    - Bottom contact line: Salvo Piemonte + WhatsApp + email
+
+- Created src/app/gold-events/page.tsx: separate route for the local events brand
+  - Header + BivioBack + GoldEventsHero + Philosophy + Services + Bundles + Extras + ContactForm + Footer + ChatbotWidget
+- Created src/app/sicily-experience/page.tsx: separate route for the international destination brand
+  - Header + BivioBack + SicilyHero + SicilyExperience + ContactForm + PartnerForm + Footer + ChatbotWidget
+
+- Created src/components/site/bivio-back.tsx: sticky banner shown at top of subpages
+  - Left: "Torna al bivio" link to /
+  - Center: "Stai visitando: <current brand>" with Repeat icon
+  - Right: link to the OTHER world (jump directly without going back to bivio)
+  - Sticky position top-16 (desktop) / top-20 (mobile) to sit below the header
+
+- Created src/components/site/gold-events-hero.tsx: hero specific to /gold-events
+  - Background: matrimoni-couple-toast.jpg with dark overlay + gold radial accent
+  - Title "Il Tuo Evento Unico, Dall'Animazione Alla Tecnologia"
+  - 2 CTAs (Richiedi disponibilità + Scopri i servizi)
+  - Stats row: 9 Servizi · 3 Bundle · 6 Tecnologie extra · 350€ da
+
+- Created src/components/site/sicily-hero.tsx: hero specific to /sicily-experience
+  - Background: sicily-aerial-etna-taormina.jpg with dark overlay + gold radial accent
+  - Title "Destination Sicily: Non Solo Feste, Ma Esperienze Indimenticabili"
+  - 2 CTAs (Pianifica la tua esperienza + Esplora le esperienze)
+  - Stats row: 4 Esperienze · 9 Categorie · 2 Lingue · ∞ Possibilità
+
+- Updated src/components/site/header.tsx: BrandMark now links to "/" (bivio) instead of scroll-to-top, so users can always navigate back to the choice screen from any subpage.
+
+- Verified end-to-end via Agent Browser:
+  - Intro animation plays (3.8s)
+  - Skip button works (jumps to bivio immediately)
+  - Bivio loads with h1 "Due Mundi. Un Solo Regista."
+  - 2 WorldCards render and are clickable
+  - Click "Gold Events by Salvo" → /gold-events with h1 "Il Tuo Evento Unico..."
+  - Click BivioBack "Altro" → /sicily-experience with h1 "Destination Sicily..."
+  - Click logo in header → returns to / (bivio) with h1 "GOLD EVENTS"
+
+- Lint: 0 errors, 1 warning (RHF, pre-existing, non-blocking)
+
+Stage Summary:
+- Site is now a proper "bivio" (crossroads) architecture:
+  - / → cinematic intro + bivio (2 world entry cards)
+  - /gold-events → Gold Events by Salvo (local events & ceremonies brand)
+  - /sicily-experience → Gold Events Sicily Experience (international destination brand)
+- Each subpage has its own hero, identity, and content (no overlap)
+- BivioBack banner on subpages lets user jump directly to the other world
+- Logo in header always returns to the bivio landing
