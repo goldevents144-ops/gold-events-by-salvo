@@ -28,6 +28,17 @@ export function SicilyExperience() {
       aria-labelledby="sicily-experience-title"
       className="relative scroll-mt-24 overflow-hidden border-y border-white/5 bg-gradient-to-b from-[#0F0F0F] via-[#101010] to-[#0F0F0F] py-20 sm:py-28"
     >
+      {/* Real aerial photo of Sicily as background (from user's collage) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/collage/sicily-aerial-etna-taormina.jpg"
+          alt=""
+          className="h-full w-full object-cover opacity-20"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0F0F0F]/95 via-[#101010]/85 to-[#0F0F0F]/95" />
+      </div>
+
       {/* Decorative glow */}
       <div
         aria-hidden

@@ -95,6 +95,7 @@ export const services: ServiceDetail[] = [
       "Regia e coordinamento totale del ricevimento. Salvo si interfaccia con il direttore di sala, i camerieri e i fotografi per fare in modo che i tempi vengano rispettati ed eliminare i tempi morti tra le portate. Intrattenimento di classe al microfono, conduzione del primo ballo, del lancio del bouquet/giarrettiera e del taglio della torta.",
     pairing:
       "Air Mirror con la \"Regia della Doppia Copia\" + Guestbook Premium (libro delle firme) e il Telefono Vintage.",
+    image: "/images/collage/matrimoni-couple-toast.jpg",
     options: [
       { label: "Durata", value: "7-9 ore (dall'aperitivo fino a notte)" },
       { label: "Coordinamento fornitori", value: "Incluso — catering, fotografo, fiorista, musicisti" },

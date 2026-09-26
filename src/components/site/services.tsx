@@ -151,6 +151,20 @@ function ServiceCard({
               </DialogDescription>
             </DialogHeader>
 
+            {/* Real photo (when available — e.g. matrimoni has the collage image) */}
+            {service.image && (
+              <div className="relative -mx-6 -mt-2 mb-4 h-48 overflow-hidden sm:-mx-8 sm:h-56">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={service.image}
+                  alt={`${service.title} — Gold Events by Salvo`}
+                  loading="lazy"
+                  className="h-full w-full object-cover opacity-90"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/30 to-transparent" />
+              </div>
+            )}
+
             <div className="mt-2 flex flex-col gap-5">
               <DialogBlock label={labels.focus} body={service.focus} />
               <DialogBlock label={labels.offers} body={service.offers} />

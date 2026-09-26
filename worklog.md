@@ -265,3 +265,35 @@ Stage Summary:
 - SEO: 5 JSON-LD schemas, 15 hreflang languages, 39 keywords, optimized title/description, Open Graph + Twitter Cards, canonical, geo meta, robots.txt with AI scraper block, dynamic sitemap.
 - All free, zero paid services.
 - Default admin password: GoldEvents_Salvo_2026! (in DB now as bcrypt hash — should be rotated via ADMIN_PASSWORD env var).
+
+---
+Task ID: 9
+Agent: main (Super Z)
+Task: Download user's collage from Google Drive + analyze + split + integrate into site
+
+Work Log:
+- User provided Google Drive public link: https://drive.google.com/file/d/17U_le7YP-8KndGsz7Ysk44yjV-RDe7kg/view?usp=sharing
+- Downloaded via curl from drive.usercontent.google.com (after user fixed the sharing permission to "Anyone with link")
+- File: collage.jpg, 240 KB, 1536×1024 px, JPEG progressive
+- Saved to /home/z/my-project/upload/collage.jpg + copied to /home/z/my-project/public/images/collage-original.jpg + /home/z/my-project/download/collage-original.jpg
+- Analyzed with PIL: no white separators detected → grid is edge-to-edge
+- Analyzed with VLM (z-ai vision API): detected 2×1 grid layout
+  - Left panel: elegant couple toasting with champagne, surrounded by friends, fireworks in background — luxury wedding atmosphere
+  - Right panel: aerial panorama of Sicily at sunset — Mount Etna erupting with smoke column, Taormina Greek Theatre visible, Ionian coast
+- Split into 2 panels with PIL:
+  - /public/images/collage/matrimoni-couple-toast.jpg (768×1024, 117 KB)
+  - /public/images/collage/sicily-aerial-etna-taormina.jpg (768×1024, 136 KB)
+- Updated src/lib/site-content.ts: added `image: "/images/collage/matrimoni-couple-toast.jpg"` to the Matrimoni service entry.
+- Updated src/components/site/services.tsx: rendered the service.image inside the Dialog (after DialogHeader, before the Focus/Offers/Abbinamento blocks) with gold-gradient overlay for legibility.
+- Updated src/components/site/sicily-experience.tsx: added the Sicily aerial photo as a fixed-position background of the whole Sicily Experience section (opacity-20 + dark gradient overlay for legibility).
+- Verified via Agent Browser:
+  - Sicily Experience section now has the aerial photo as visible background
+  - Matrimoni dialog opens with the couple-toasting photo at the top (above the Focus/Offers/Abbinamento text blocks)
+- Lint: 0 errors, 7 warnings (all informational, no functional impact)
+
+Stage Summary:
+- Real user collage successfully downloaded, split, and integrated into the site:
+  - Couple-toasting photo → Matrimoni service Dialog
+  - Aerial Sicily photo → Sicily Experience section background
+- Both images are now visible to users on the live site.
+- Original collage saved at /home/z/my-project/download/collage-original.jpg for user download.
