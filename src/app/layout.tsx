@@ -222,6 +222,11 @@ export default function RootLayout({
     <html lang="it" suppressHydrationWarning className="dark">
       <head>
         <StructuredData />
+        {/* Cache-buster: timestamp force-refresh */}
+        <meta name="generated-at" content={`${Date.now()}`} />
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
       </head>
       <body
         className={`${playfair.variable} ${inter.variable} antialiased bg-background text-foreground`}
