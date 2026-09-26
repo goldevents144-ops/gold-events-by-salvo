@@ -30,7 +30,7 @@ export function SicilyExperience() {
     >
       {/* Real aerial photo of Sicily as background (from user's collage) */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img
           src="/images/collage/sicily-aerial-etna-taormina.jpg"
           alt=""
@@ -217,7 +217,7 @@ function ExperienceCard({
       {/* Experience image */}
       {exp.image && (
         <div className="relative h-32 w-full overflow-hidden sm:h-36">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img
             src={exp.image}
             alt={data.title}

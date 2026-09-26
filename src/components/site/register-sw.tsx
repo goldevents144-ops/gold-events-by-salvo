@@ -25,7 +25,7 @@ export function RegisterSW() {
         .register("/sw.js", { scope: "/" })
         .catch((err) => {
           // Silently fail — PWA is a progressive enhancement.
-          // eslint-disable-next-line no-console
+           
           console.warn("[sw] registration failed:", err);
         });
     };

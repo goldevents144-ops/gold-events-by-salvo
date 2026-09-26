@@ -88,7 +88,7 @@ function ExtraCard({
       {/* Optional preview image */}
       {extra.image && (
         <div className="relative -mx-5 -mt-5 mb-1 h-32 overflow-hidden sm:-mx-6 sm:-mt-6 sm:h-36">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img
             src={extra.image}
             alt={extra.name}

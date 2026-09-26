@@ -73,7 +73,7 @@ export function HeroSplit() {
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img
             src="/images/hero-etna-dusk.png"
             alt=""
@@ -247,7 +247,7 @@ function BrandCard({ card }: { card: BrandCardData }) {
       {card.image && (
         <div className="relative w-full overflow-hidden">
           <div className="aspect-[3/4] w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <img
               src={card.image}
               alt={card.title}

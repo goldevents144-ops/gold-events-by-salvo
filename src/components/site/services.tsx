@@ -154,7 +154,7 @@ function ServiceCard({
             {/* Real photo (when available — e.g. matrimoni has the collage image) */}
             {service.image && (
               <div className="relative -mx-6 -mt-2 mb-4 h-48 overflow-hidden sm:-mx-8 sm:h-56">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <img
                   src={service.image}
                   alt={`${service.title} — Gold Events by Salvo`}
