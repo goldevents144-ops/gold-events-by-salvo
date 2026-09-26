@@ -27,11 +27,13 @@ export function GoldEventsHero() {
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          { }
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/collage/matrimoni-couple-toast.jpg"
             alt=""
             aria-hidden
+            loading="eager"
+            fetchPriority="high"
             className="h-full w-full object-cover opacity-50"
           />
           <div

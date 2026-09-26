@@ -28,6 +28,7 @@ export function BivioBack({
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <Link
           href="/"
+          prefetch={true}
           className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A1A1A1] transition-colors hover:text-[#D4AF37] sm:text-xs"
         >
           <ArrowLeft className="size-3.5" />
@@ -43,6 +44,7 @@ export function BivioBack({
 
         <Link
           href={otherHref}
+          prefetch={true}
           className="group inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white transition-colors hover:text-[#D4AF37] sm:text-xs"
         >
           <span className="hidden truncate sm:inline">{otherLabel}</span>

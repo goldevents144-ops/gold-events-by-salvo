@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Sparkles, Mail, MessageCircle, MapPin, Instagram, Facebook, User } from "lucide-react";
+import { Sparkles, Mail, MessageCircle, MapPin, Instagram, User } from "lucide-react";
 
 import { contactInfo, navItems as defaultNavItems } from "@/lib/site-content";
 import { useDict } from "@/lib/i18n/use-lang";
@@ -164,7 +164,7 @@ export function Footer() {
               </a>
             </div>
 
-            {/* Social icons */}
+            {/* Social icons — only Instagram (other socials removed by user request) */}
             <div className="mt-6 flex items-center gap-3">
               <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A1A1A1]">
                 {t.footerFollow}
@@ -174,28 +174,11 @@ export function Footer() {
                   href={contactInfo.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Instagram ${contactInfo.instagramHandle}`}
+                  aria-label={`Instagram ${contactInfo.instagramHandle} — apri il profilo`}
+                  title={`Seguimi su Instagram: ${contactInfo.instagramHandle}`}
                   className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
                 >
                   <Instagram className="size-4" />
-                </a>
-                <a
-                  href={contactInfo.tikTok}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="TikTok"
-                  className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
-                >
-                  <span className="text-xs font-bold">TT</span>
-                </a>
-                <a
-                  href={contactInfo.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                  className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
-                >
-                  <Facebook className="size-4" />
                 </a>
               </div>
             </div>

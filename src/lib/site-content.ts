@@ -597,8 +597,6 @@ export const contactInfo = {
   // Social
   instagram: "https://www.instagram.com/goldeventsicily_experience",
   instagramHandle: "@goldeventsicily_experience",
-  tiktok: "#",
-  facebook: "#",
 };
 
 /**

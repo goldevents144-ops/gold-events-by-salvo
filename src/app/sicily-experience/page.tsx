@@ -1,11 +1,14 @@
+import dynamic from "next/dynamic";
 import { Header } from "@/components/site/header";
-import { SicilyExperience } from "@/components/site/sicily-experience";
-import { ContactForm } from "@/components/site/contact-form";
-import { PartnerForm } from "@/components/site/partner-form";
-import { Footer } from "@/components/site/footer";
-import { ChatbotWidget } from "@/components/site/chatbot-widget";
 import { SicilyHero } from "@/components/site/sicily-hero";
 import { BivioBack } from "@/components/site/bivio-back";
+import { Footer } from "@/components/site/footer";
+
+// Lazy-load below-the-fold components
+const SicilyExperience = dynamic(() => import("@/components/site/sicily-experience").then((m) => m.SicilyExperience));
+const ContactForm = dynamic(() => import("@/components/site/contact-form").then((m) => m.ContactForm));
+const PartnerForm = dynamic(() => import("@/components/site/partner-form").then((m) => m.PartnerForm));
+const ChatbotWidget = dynamic(() => import("@/components/site/chatbot-widget").then((m) => m.ChatbotWidget));
 
 export default function SicilyExperiencePage() {
   return (
