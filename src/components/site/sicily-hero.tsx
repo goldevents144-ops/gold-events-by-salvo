@@ -53,7 +53,7 @@ export function SicilyHero() {
         </motion.div>
       </div>
 
-      <div className="mx-auto flex min-h-[85svh] max-w-7xl flex-col justify-center px-4 pb-16 pt-24 sm:px-6 sm:pt-28 lg:px-8 lg:pt-32">
+      <div className="mx-auto flex min-h-[80svh] max-w-6xl flex-col justify-center px-4 pb-12 pt-20 sm:px-6 sm:pt-24 lg:px-8 lg:pt-28">
         {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
@@ -61,10 +61,10 @@ export function SicilyHero() {
           transition={{ delay: 0.2, duration: 0.7 }}
           className="flex items-center gap-2"
         >
-          <span className="inline-flex size-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
-            <Plane className="size-4" />
+          <span className="inline-flex size-8 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+            <Plane className="size-3.5" />
           </span>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37] sm:text-[11px]">
             Destination Sicily · IT / EN
           </span>
         </motion.div>
@@ -75,7 +75,7 @@ export function SicilyHero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 max-w-4xl font-serif text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl"
+          className="mt-4 max-w-3xl font-serif text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl"
         >
           Destination Sicily:{" "}
           <span className="text-gold-gradient">Non Solo Feste, Ma Esperienze Indimenticabili.</span>
@@ -85,7 +85,7 @@ export function SicilyHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.9 }}
-          className="mt-6 max-w-2xl text-base leading-relaxed text-[#A1A1A1] sm:text-lg"
+          className="mt-4 max-w-2xl text-sm leading-relaxed text-[#A1A1A1] sm:text-base"
         >
           Stai pianificando il tuo matrimonio o un evento aziendale in Sicilia? Gold Events by Salvo
           unisce la magia del territorio all'intrattenimento di lusso. Esperienze
@@ -98,12 +98,12 @@ export function SicilyHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.75, duration: 0.9 }}
-          className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+          className="mt-6 flex flex-col items-stretch gap-2.5 sm:flex-row sm:items-center"
         >
           <button
             type="button"
             onClick={() => scrollTo("#contatti")}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-7 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] shadow-[0_14px_40px_-10px_rgba(212,175,55,0.65)] transition-all hover:bg-[#E5C75A] hover:shadow-[0_18px_50px_-10px_rgba(212,175,55,0.8)]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] shadow-[0_10px_30px_-8px_rgba(212,175,55,0.6)] transition-all hover:bg-[#E5C75A] sm:px-6"
           >
             <MapPin className="size-3.5" strokeWidth={2.5} />
             Pianifica la tua esperienza
@@ -111,7 +111,7 @@ export function SicilyHero() {
           <button
             type="button"
             onClick={() => scrollTo("#sicily-experience")}
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/60 px-7 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-all hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/60 px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-all hover:bg-[#D4AF37] hover:text-[#0F0F0F] sm:px-6"
           >
             Esplora le esperienze
             <ArrowRight className="size-3.5" strokeWidth={2.5} />
@@ -123,7 +123,7 @@ export function SicilyHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.95, duration: 0.9 }}
-          className="mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/8 pt-6 text-xs uppercase tracking-[0.22em] text-[#A1A1A1]"
+          className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/8 pt-4 text-[10px] uppercase tracking-[0.2em] text-[#A1A1A1] sm:text-xs"
         >
           <span><span className="font-bold text-[#D4AF37]">4</span> Esperienze</span>
           <span><span className="font-bold text-[#D4AF37]">9</span> Categorie</span>

@@ -104,8 +104,8 @@ function CinematicIntro({ onComplete }: { onComplete: () => void }) {
         transition={{ delay: 0.5, duration: 2.2, ease: "easeInOut" }}
       />
 
-      {/* Logo materializzazione */}
-      <div className="relative z-10 flex flex-col items-center gap-6 px-6">
+      {/* Logo materializzazione — sized-down for cinematic proportion */}
+      <div className="relative z-10 flex flex-col items-center gap-4 px-6 sm:gap-5">
         {/* Gold "GE" monogram in a circle */}
         <motion.div
           initial={{ scale: 0.4, opacity: 0, rotateZ: -8 }}
@@ -113,7 +113,7 @@ function CinematicIntro({ onComplete }: { onComplete: () => void }) {
           transition={{ delay: 0.3, duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <div className="relative flex size-32 items-center justify-center rounded-full border-2 border-[#D4AF37]/60 sm:size-40">
+          <div className="relative flex size-20 items-center justify-center rounded-full border-2 border-[#D4AF37]/60 sm:size-24">
             {/* Pulsing glow */}
             <motion.div
               className="absolute inset-0 rounded-full bg-[#D4AF37]/30 blur-2xl"
@@ -130,7 +130,7 @@ function CinematicIntro({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="font-serif text-5xl font-bold text-[#D4AF37] sm:text-6xl"
+              className="font-serif text-3xl font-bold text-[#D4AF37] sm:text-4xl"
             >
               GE
             </motion.span>
@@ -144,14 +144,14 @@ function CinematicIntro({ onComplete }: { onComplete: () => void }) {
           transition={{ delay: 1.4, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
         >
-          <h1 className="font-serif text-3xl font-bold tracking-tight text-white sm:text-5xl">
+          <h1 className="font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl">
             GOLD EVENTS
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.9, duration: 0.8 }}
-            className="mt-2 text-[10px] font-semibold uppercase tracking-[0.5em] text-[#D4AF37] sm:text-xs"
+            className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.5em] text-[#D4AF37] sm:text-[10px]"
           >
             by Salvo · Sicilia
           </motion.p>
@@ -255,16 +255,16 @@ function Bivio() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        className="relative z-10 px-6 pt-12 text-center sm:pt-16"
+        className="relative z-10 px-6 pt-10 text-center sm:pt-12"
       >
-        <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-[#D4AF37] sm:text-xs">
+        <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#D4AF37] sm:text-[11px]">
           Adrano · Catania · Sicilia Orientale
         </p>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-5 max-w-4xl font-serif text-3xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
+          className="mx-auto mt-3 max-w-3xl font-serif text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl"
         >
           Due Mondi. <span className="text-[#D4AF37]">Un Solo Regista.</span>
         </motion.h1>
@@ -272,7 +272,7 @@ function Bivio() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.9 }}
-          className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-[#A1A1A1] sm:text-base"
+          className="mx-auto mt-3 max-w-xl text-xs leading-relaxed text-[#A1A1A1] sm:text-sm"
         >
           Salvo Piemonte presenta due universi paralleli: l'eleganza degli eventi
           siciliani e la magia delle esperienze di lusso nel territorio. Scegli il
@@ -281,11 +281,11 @@ function Bivio() {
       </motion.div>
 
       {/* Two worlds */}
-      <div className="relative z-10 mx-auto mt-12 grid w-full max-w-7xl flex-1 grid-cols-1 gap-4 px-4 py-6 sm:mt-16 sm:gap-6 md:grid-cols-2 md:px-6">
+      <div className="relative z-10 mx-auto mt-8 grid w-full max-w-6xl flex-1 grid-cols-1 gap-3 px-4 py-4 sm:mt-10 sm:gap-4 md:grid-cols-2 md:px-6">
         <WorldCard
           variant="local"
           image="/images/collage/matrimoni-couple-toast.jpg"
-          icon={<Sparkles className="size-7" strokeWidth={1.5} />}
+          icon={<Sparkles className="size-5" strokeWidth={1.5} />}
           eyebrow="Eventi & Cerimonie · IT"
           title="Gold Events"
           subtitle="by Salvo"
@@ -298,7 +298,7 @@ function Bivio() {
         <WorldCard
           variant="international"
           image="/images/collage/sicily-aerial-etna-taormina.jpg"
-          icon={<MapPin className="size-7" strokeWidth={1.5} />}
+          icon={<MapPin className="size-5" strokeWidth={1.5} />}
           eyebrow="Destination & Experiences · IT / EN"
           title="Gold Events Sicily"
           subtitle="Experience"
@@ -355,68 +355,68 @@ function WorldCard({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
+      transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
     >
       <Link href={href} prefetch={true} className="flex size-full flex-col" aria-label={`${title} ${subtitle}`}>
-        {/* === Cover image — 3:4 vertical, contained, no overflow === */}
-        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
+        {/* === Cover image — 4:3 landscape, contained, no overflow === */}
+        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={image}
             alt={`${title} ${subtitle}`}
-            className="size-full object-cover transition-all duration-[1.2s] group-hover:scale-105"
+            className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {/* Variant badge overlayed on image */}
-          <div className="pointer-events-none absolute right-3 top-3 z-10">
-            <span className="rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37] backdrop-blur-sm">
+          <div className="pointer-events-none absolute right-2.5 top-2.5 z-10">
+            <span className="rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/85 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37] backdrop-blur-sm sm:text-[10px]">
               {variant === "international" ? "IT / EN" : "IT"}
             </span>
           </div>
           {/* Bottom gradient fade into card body for legibility */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1C1C1C] to-transparent"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#1C1C1C] to-transparent"
           />
         </div>
 
         {/* === Card body — text content === */}
-        <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
           {/* Icon */}
           <motion.div
             initial={{ opacity: 0, scale: 0.6 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: delay + 0.3, duration: 0.6 }}
-            className="mb-4 inline-flex size-12 items-center justify-center rounded-2xl border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-[#D4AF37]"
+            transition={{ delay: delay + 0.3, duration: 0.5 }}
+            className="mb-2.5 inline-flex size-9 items-center justify-center rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-[#D4AF37] sm:size-10"
           >
             {icon}
           </motion.div>
 
           {/* Eyebrow */}
-          <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]">
+          <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37] sm:text-[10px]">
             {eyebrow}
           </p>
 
           {/* Title */}
-          <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-white sm:text-3xl">
+          <h2 className="mt-1.5 font-serif text-lg font-bold leading-tight text-white sm:text-xl">
             {title}
           </h2>
-          <p className="font-serif text-xl font-light italic text-[#D4AF37] sm:text-2xl">
+          <p className="font-serif text-base font-light italic text-[#D4AF37] sm:text-lg">
             {subtitle}
           </p>
 
           {/* Description */}
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-[#A1A1A1]">
+          <p className="mt-2 flex-1 text-xs leading-relaxed text-[#A1A1A1] sm:text-sm">
             {description}
           </p>
 
           {/* CTA */}
-          <div className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
+          <div className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D4AF37] sm:text-[11px]">
             {cta}
             <ArrowRight
-              className="size-3.5 transition-transform group-hover:translate-x-2"
+              className="size-3 transition-transform group-hover:translate-x-1"
               strokeWidth={2.5}
             />
           </div>
