@@ -184,22 +184,94 @@ export function HeroSplit() {
             <span className="h-px w-10 bg-[#D4AF37]/40" />
           </motion.div>
 
-          <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
-            {brandCards.map((card, idx) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.7,
-                  delay: 0.55 + idx * 0.12,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                <BrandCard card={card} />
-              </motion.div>
-            ))}
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-[1fr_auto_1fr] md:items-center">
+            {/* Left: Gold Events by Salvo */}
+            <motion.div
+              key={brandCards[0].title}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <BrandCard card={brandCards[0]} />
+            </motion.div>
+
+            {/* Center: collage (real photo) */}
+            <motion.figure
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.9,
+                delay: 0.65,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative mx-auto hidden w-full max-w-xs overflow-hidden rounded-2xl border border-[#D4AF37]/30 shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)] md:block"
+            >
+              <div className="aspect-[3/2] w-full overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/collage-original.jpg"
+                  alt="Gold Events by Salvo — momenti di lusso in Sicilia"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              {/* Dark vignette overlay */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/80 via-transparent to-[#0F0F0F]/30"
+              />
+              {/* Gold frame hairline */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-3 rounded-xl border border-[#D4AF37]/30"
+              />
+              {/* Caption */}
+              <figcaption className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+                Salvo Piemonte · Sicilia
+              </figcaption>
+            </motion.figure>
+
+            {/* Right: Gold Events Sicily Experience */}
+            <motion.div
+              key={brandCards[1].title}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.75,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <BrandCard card={brandCards[1]} />
+            </motion.div>
           </div>
+
+          {/* Mobile: collage shown below the two cards (stacked) */}
+          <motion.figure
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mt-4 overflow-hidden rounded-2xl border border-[#D4AF37]/30 shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)] md:hidden"
+          >
+            <div className="aspect-[3/2] w-full overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/collage-original.jpg"
+                alt="Gold Events by Salvo — momenti di lusso in Sicilia"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/80 via-transparent to-[#0F0F0F]/30"
+            />
+            <figcaption className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+              Salvo Piemonte · Sicilia
+            </figcaption>
+          </motion.figure>
         </div>
       </div>
 

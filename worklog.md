@@ -297,3 +297,22 @@ Stage Summary:
   - Aerial Sicily photo → Sicily Experience section background
 - Both images are now visible to users on the live site.
 - Original collage saved at /home/z/my-project/download/collage-original.jpg for user download.
+
+---
+Task ID: 10
+Agent: main (Super Z)
+Task: Place collage between Gold Events by Salvo and Gold Events Sicily Experience brand cards
+
+Work Log:
+- Edited src/components/site/hero-split.tsx: changed the brand split grid from `md:grid-cols-2` to `md:grid-cols-[1fr_auto_1fr] md:items-center` so the collage sits in the middle column between the two BrandCards.
+- The left BrandCard (Gold Events by Salvo) → grid col 1
+- The collage image → grid col 2 (center, max-w-xs, hidden on mobile, displayed on md+)
+- The right BrandCard (Gold Events Sicily Experience) → grid col 3
+- Added mobile fallback: on small screens the collage appears below the two stacked BrandCards (md:hidden) so the layout stays clean on phones.
+- Collage styling: rounded-2xl border oro, dark vignette overlay (gradient from #0F0F0F/80 bottom → transparent → #0F0F0F/30 top), gold hairline inner border (inset-3), caption "Salvo Piemonte · Sicilia" pill in the bottom.
+- Verified via Agent Browser: collage-original.jpg is rendered 2 times on the page (desktop center + mobile below) and screenshot saved.
+- Lint: 0 errors, 9 warnings (all informational).
+
+Stage Summary:
+- Collage now visually bridges the two brand identities in the hero section.
+- Layout: [Gold Events by Salvo] | [collage] | [Gold Events Sicily Experience] on desktop; stacked on mobile.
