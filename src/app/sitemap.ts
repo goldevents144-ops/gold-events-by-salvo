@@ -21,12 +21,8 @@ const LANGS = [
 
 const SECTIONS = [
   { path: "/", priority: 1.0, changeFreq: "weekly" as const },
-  { path: "/#chi-sono", priority: 0.9, changeFreq: "monthly" as const },
-  { path: "/#servizi", priority: 0.9, changeFreq: "monthly" as const },
-  { path: "/#bundles", priority: 0.9, changeFreq: "monthly" as const },
-  { path: "/#extra", priority: 0.8, changeFreq: "monthly" as const },
-  { path: "/#sicily-experience", priority: 0.9, changeFreq: "monthly" as const },
-  { path: "/#contatti", priority: 0.7, changeFreq: "monthly" as const },
+  { path: "/gold-events", priority: 0.95, changeFreq: "weekly" as const },
+  { path: "/sicily-experience", priority: 0.95, changeFreq: "weekly" as const },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

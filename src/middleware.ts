@@ -164,6 +164,24 @@ export function middleware(request: NextRequest) {
     response.headers.set(key, value);
   }
 
+  // ── Cache headers for static assets (long-lived, immutable) ───────
+  // Images, icons, manifest, sw.js are immutable → browser caches them 1 year
+  if (
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/icons/") ||
+    pathname === "/manifest.json" ||
+    pathname === "/icon.svg" ||
+    pathname === "/favicon.ico" ||
+    pathname === "/sw.js" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml"
+  ) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=31536000, immutable",
+    );
+  }
+
   // ── Admin route protection ───────────────────────────────────────
   if (pathname.startsWith("/admin")) {
     // Block obvious scanners/bots
@@ -219,6 +237,9 @@ export function middleware(request: NextRequest) {
 export const config = {
   // Run on all routes except Next.js internals and static assets
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|images|robots.txt|sitemap.xml|manifest.json|sw.js|workbox-.*).*)",
+    // Match everything EXCEPT Next internals and hashed static assets
+    // (we keep public/ files like /images/, /manifest.json, /sw.js, /robots.txt, /sitemap.xml
+    //  so we can apply cache headers to them)
+    "/((?!_next/static|_next/image|favicon.ico|workbox-.*).*)",
   ],
 };

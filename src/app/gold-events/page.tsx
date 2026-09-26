@@ -1,17 +1,36 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Header } from "@/components/site/header";
 import { Philosophy } from "@/components/site/philosophy";
 import { GoldEventsHero } from "@/components/site/gold-events-hero";
 import { BivioBack } from "@/components/site/bivio-back";
 import { Footer } from "@/components/site/footer";
+import { Services } from "@/components/site/services";
+import { Bundles } from "@/components/site/bundles";
+import { Extras } from "@/components/site/extras";
 
-// Lazy-load below-the-fold components to reduce initial JS bundle
-// (these are only loaded when user scrolls toward them)
-const Services = dynamic(() => import("@/components/site/services").then((m) => m.Services));
-const Bundles = dynamic(() => import("@/components/site/bundles").then((m) => m.Bundles));
-const Extras = dynamic(() => import("@/components/site/extras").then((m) => m.Extras));
-const ContactForm = dynamic(() => import("@/components/site/contact-form").then((m) => m.ContactForm));
+const ContactForm = dynamic(() => import("@/components/site/contact-form").then((m) => m.ContactForm), {
+  loading: () => <div className="h-96 animate-pulse bg-[#1C1C1C]/40" />,
+});
 const ChatbotWidget = dynamic(() => import("@/components/site/chatbot-widget").then((m) => m.ChatbotWidget));
+
+const BASE_URL = "https://www.goldeventsbysalvo.it";
+
+export const metadata: Metadata = {
+  title: "Gold Events by Salvo · Eventi, Matrimoni e Feste di Lusso in Sicilia",
+  description:
+    "Servizi esclusivi per matrimoni, battesimi, compleanni, feste aziendali a Catania, Adrano, Taormina. Showman Salvo Piemonte, Air Mirror, Video Booth 360, Dj Set. Da 350€.",
+  alternates: {
+    canonical: BASE_URL + "/gold-events",
+  },
+  openGraph: {
+    title: "Gold Events by Salvo · Eventi di Lusso in Sicilia",
+    description:
+      "Matrimoni, feste private, eventi aziendali in Sicilia Orientale. Conduzione, animazione e tecnologie esclusive: Air Mirror, Video Booth 360.",
+    url: BASE_URL + "/gold-events",
+    images: ["/images/collage/matrimoni-couple-toast.jpg"],
+  },
+};
 
 export default function GoldEventsPage() {
   return (
