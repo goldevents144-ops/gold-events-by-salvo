@@ -358,38 +358,38 @@ function WorldCard({
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative h-[28rem] overflow-hidden rounded-3xl border border-[#D4AF37]/30 sm:h-[32rem]"
+      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
     >
-      <Link href={href} className="block size-full overflow-hidden rounded-3xl">
-        {/* Cover image — contained within rounded card */}
-        <div className="absolute inset-0 overflow-hidden rounded-3xl">
+      <Link href={href} className="flex h-full flex-col">
+        {/* === Cover image — 3:4 vertical, contained, no overflow === */}
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={image}
             alt={`${title} ${subtitle}`}
-            className="size-full object-cover opacity-60 transition-all duration-[1.2s] group-hover:scale-110 group-hover:opacity-80"
+            className="size-full object-cover transition-all duration-[1.2s] group-hover:scale-105"
           />
+          {/* Variant badge overlayed on image */}
+          <div className="absolute right-3 top-3 z-10">
+            <span className="rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37] backdrop-blur-sm">
+              {variant === "international" ? "IT / EN" : "IT"}
+            </span>
+          </div>
+          {/* Bottom gradient fade into card body for legibility */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/60 to-[#0F0F0F]/30"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#1C1C1C] to-transparent"
           />
         </div>
 
-        {/* Variant badge */}
-        <div className="absolute right-4 top-4 z-10">
-          <span className="rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37] backdrop-blur-sm">
-            {variant === "international" ? "IT / EN" : "IT"}
-          </span>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 flex h-full flex-col justify-end p-7 sm:p-10">
+        {/* === Card body — text content === */}
+        <div className="flex flex-1 flex-col p-6 sm:p-7">
           {/* Icon */}
           <motion.div
             initial={{ opacity: 0, scale: 0.6 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: delay + 0.3, duration: 0.6 }}
-            className="mb-5 inline-flex size-14 items-center justify-center rounded-2xl border border-[#D4AF37]/50 bg-[#0F0F0F]/60 text-[#D4AF37] backdrop-blur-sm"
+            className="mb-4 inline-flex size-12 items-center justify-center rounded-2xl border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-[#D4AF37]"
           >
             {icon}
           </motion.div>
@@ -400,20 +400,20 @@ function WorldCard({
           </p>
 
           {/* Title */}
-          <h2 className="mt-2 font-serif text-3xl font-bold leading-tight text-white sm:text-4xl">
+          <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-white sm:text-3xl">
             {title}
           </h2>
-          <p className="font-serif text-2xl font-light italic text-[#D4AF37] sm:text-3xl">
+          <p className="font-serif text-xl font-light italic text-[#D4AF37] sm:text-2xl">
             {subtitle}
           </p>
 
           {/* Description */}
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
+          <p className="mt-3 flex-1 text-sm leading-relaxed text-[#A1A1A1]">
             {description}
           </p>
 
           {/* CTA */}
-          <div className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
+          <div className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
             {cta}
             <ArrowRight
               className="size-3.5 transition-transform group-hover:translate-x-2"
