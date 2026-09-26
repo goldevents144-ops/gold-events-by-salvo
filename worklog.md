@@ -316,3 +316,35 @@ Work Log:
 Stage Summary:
 - Collage now visually bridges the two brand identities in the hero section.
 - Layout: [Gold Events by Salvo] | [collage] | [Gold Events Sicily Experience] on desktop; stacked on mobile.
+
+---
+Task ID: 11
+Agent: main (Super Z)
+Task: Split collage between the two brand cards (Gold Events by Salvo + Gold Events Sicily Experience)
+
+Work Log:
+- Edited src/components/site/hero-split.tsx:
+  - Added `image` and `imageCaption` fields to BrandCardData interface
+  - Wired the 2 collage panels to the 2 brand cards:
+    - brandCards[0] (Gold Events by Salvo) → image="/images/collage/matrimoni-couple-toast.jpg", caption="Matrimoni · Feste · Eventi"
+    - brandCards[1] (Gold Events Sicily Experience) → image="/images/collage/sicily-aerial-etna-taormina.jpg", caption="Etna · Taormina · Sicilia"
+  - Reverted the layout from `md:grid-cols-[1fr_auto_1fr]` (with collage in center column) back to `md:grid-cols-2 md:items-stretch` (two equal cards)
+  - Removed the standalone center collage figure (desktop + mobile) — no longer needed since the photos are now integrated into each card
+  - Modified BrandCard component to render an image cover at the top of the card (h-44/h-48) when `card.image` is provided:
+    - Image with hover scale animation (group-hover:scale-105)
+    - Dark gradient overlay (from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent) for visual depth and to ensure text legibility below
+    - Gold-bordered pill caption at the bottom of the image (imageCaption)
+    - Body below the image: icon + tag + title + subtitle + CTA (same structure as before, just wrapped in a sub-div with p-6/p-7 padding)
+- Verified via Agent Browser:
+  - Image `matrimoni-couple-toast.jpg` is rendered in the Gold Events by Salvo card (top, as cover)
+  - Image `sicily-aerial-etna-taormina.jpg` is rendered in the Gold Events Sicily Experience card (top, as cover)
+  - Old standalone center collage is removed
+  - Screenshot saved at /home/z/my-project/download/hero-split-collage.png
+- Lint: 0 errors, 8 warnings (all informational).
+
+Stage Summary:
+- Collage is now SPLIT between the two brand identities:
+  - Left card "Gold Events by Salvo" → cover photo: couple toasting with champagne + fireworks (wedding/luxury event vibe)
+  - Right card "Gold Events Sicily Experience" → cover photo: aerial Sicily with Etna erupting + Taormina (territory/destination vibe)
+- Each photo has its own gold-bordered pill caption
+- Card body (icon, tag, title, subtitle, CTA) sits below the cover image, unchanged behavior
