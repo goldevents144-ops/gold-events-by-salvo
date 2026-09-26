@@ -13,6 +13,7 @@ import {
   Loader2,
   ExternalLink,
   Sparkles,
+  Shield,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -73,6 +74,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <Link
+              href="/admin/security"
+              className="inline-flex h-9 items-center gap-2 rounded-full border border-[#D4AF37]/40 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+            >
+              <Shield className="size-3.5" /> Sicurezza
+            </Link>
             <Link
               href="/"
               target="_blank"
