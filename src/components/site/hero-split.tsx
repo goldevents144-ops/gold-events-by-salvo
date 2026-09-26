@@ -243,18 +243,20 @@ function BrandCard({ card }: { card: BrandCardData }) {
           : "border-white/10 bg-[#1C1C1C]/80 hover:border-[#D4AF37]/40",
       )}
     >
-      {/* Cover image (collage panel) */}
+      {/* Cover image (collage panel) — contained, no overflow, fills card width */}
       {card.image && (
-        <div className="relative h-44 w-full overflow-hidden sm:h-48">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={card.image}
-            alt={card.title}
-            className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
-          />
+        <div className="relative w-full overflow-hidden">
+          <div className="aspect-[4/3] w-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={card.image}
+              alt={card.title}
+              className="h-full w-full object-cover opacity-90 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+            />
+          </div>
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/35 to-transparent"
           />
           {card.imageCaption && (
             <span className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37] backdrop-blur-sm">
