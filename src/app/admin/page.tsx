@@ -151,21 +151,124 @@ function DashboardTab() {
     { label: "Sessioni chat", value: counts.chatSessions, hint: "Ultime 24h" },
   ];
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
-      {cards.map((c) => (
-        <div
-          key={c.label}
-          className="rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-6"
-        >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
-            {c.label}
-          </p>
-          <p className="mt-3 font-serif text-4xl font-bold text-white">
-            {c.value}
-          </p>
-          <p className="mt-1 text-xs text-[#A1A1A1]">{c.hint}</p>
+    <div className="flex flex-col gap-6">
+      {/* Stats cards */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {cards.map((c) => (
+          <div
+            key={c.label}
+            className="rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-5 sm:p-6"
+          >
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+              {c.label}
+            </p>
+            <p className="mt-3 font-serif text-4xl font-bold text-white">
+              {c.value}
+            </p>
+            <p className="mt-1 text-xs text-[#A1A1A1]">{c.hint}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Welcome + Guide */}
+      <GuideCard />
+    </div>
+  );
+}
+
+function GuideCard() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-br from-[#1C1C1C] to-[#0F0F0F]">
+      <div className="border-b border-white/8 px-6 py-4">
+        <h2 className="font-serif text-xl font-semibold text-white sm:text-2xl">
+          Benvenuto, Salvo 👑
+        </h2>
+        <p className="mt-1 text-sm text-[#A1A1A1]">
+          Questo è il tuo pannello di controllo privato. Da qui gestisci tutto il sito pubblico.
+        </p>
+      </div>
+
+      <div className="grid gap-5 p-6 sm:grid-cols-2">
+        {/* Section 1 — Navigazione */}
+        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5">
+          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+            <LayoutDashboard className="size-4" />
+          </div>
+          <h3 className="font-serif text-base font-semibold text-white">Le 5 sezioni</h3>
+          <ul className="mt-3 space-y-2 text-xs leading-relaxed text-[#A1A1A1] sm:text-sm">
+            <li>
+              <span className="font-semibold text-[#D4AF37]">Dashboard</span> — questa pagina, riepilogo generale.
+            </li>
+            <li>
+              <span className="font-semibold text-[#D4AF37]">Contatti</span> — tutte le richieste di preventivo dei clienti. Cambia stato (new → read → contacted → archived).
+            </li>
+            <li>
+              <span className="font-semibold text-[#D4AF37]">Partner</span> — candidature B2B (cantine, agriturismi, beach club). Il tuo profilo è già approvato.
+            </li>
+            <li>
+              <span className="font-semibold text-[#D4AF37]">AI Assistant</span> — chiedi all'AI di modificare il sito pubblico (prezzi, testi, immagini) e lei esegue direttamente.
+            </li>
+            <li>
+              <span className="font-semibold text-[#D4AF37]">Audit Log</span> — storico di tutte le azioni fatte qui (per sicurezza).
+            </li>
+          </ul>
         </div>
-      ))}
+
+        {/* Section 2 — AI Assistant */}
+        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5">
+          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+            <Bot className="size-4" />
+          </div>
+          <h3 className="font-serif text-base font-semibold text-white">Come usare l'AI Assistant</h3>
+          <ol className="mt-3 space-y-2 text-xs leading-relaxed text-[#A1A1A1] sm:text-sm">
+            <li>
+              <span className="font-semibold text-white">1.</span> Clicca sul tab "AI Assistant" in alto.
+            </li>
+            <li>
+              <span className="font-semibold text-white">2.</span> Scrivi in italiano cosa vuoi cambiare, es: <em className="text-[#D4AF37]">"Cambia il prezzo di Luxury Wedding a 700€"</em>.
+            </li>
+            <li>
+              <span className="font-semibold text-white">3.</span> L'AI analizza la richiesta, propone la modifica e la <span className="font-semibold text-white">applica direttamente al sito pubblico</span>.
+            </li>
+            <li>
+              <span className="font-semibold text-white">4.</span> Vedi il risultato immediatamente nel sito pubblico dopo refresh.
+            </li>
+          </ol>
+          <p className="mt-3 text-[11px] text-[#6B6B6B]">
+            Esempi: "Aggiungi un servizio per addii al nubilato", "Cambia la descrizione dell'Air Mirror", "Cambia il telefono nel footer".
+          </p>
+        </div>
+
+        {/* Section 3 — Gestione richieste */}
+        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5 sm:col-span-2">
+          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+            <Users className="size-4" />
+          </div>
+          <h3 className="font-serif text-base font-semibold text-white">Come gestire le richieste dei clienti</h3>
+          <div className="mt-3 grid gap-3 text-xs leading-relaxed text-[#A1A1A1] sm:grid-cols-2 sm:text-sm">
+            <p>
+              <span className="font-semibold text-white">Quando arriva una richiesta:</span> appare nella tab "Contatti" con stato <span className="text-[#D4AF37]">new</span>.
+              Clicca sulla riga per espandere e vedere tutti i dettagli (tipo evento, data, ospiti, servizi richiesti, note).
+            </p>
+            <p>
+              <span className="font-semibold text-white">Dopo averla letta:</span> cambia stato in <span className="text-[#D4AF37]">read</span>.
+              Quando contatti il cliente: <span className="text-[#D4AF37]">contacted</span>.
+              Quando chiusa: <span className="text-[#D4AF37]">archived</span>.
+            </p>
+          </div>
+        </div>
+
+        {/* Section 4 — Quick tips */}
+        <div className="rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-5 sm:col-span-2">
+          <h3 className="font-serif text-base font-semibold text-[#D4AF37]">⚡ Suggerimenti rapidi</h3>
+          <ul className="mt-3 grid gap-2 text-xs leading-relaxed text-white/85 sm:grid-cols-2 sm:text-sm">
+            <li>✓ Usa il pulsante "VEDI SITO" in alto per aprire il sito pubblico in una nuova scheda</li>
+            <li>✓ Dopo ogni modifica, ricarica il sito pubblico per vedere le modifiche</li>
+            <li>✓ Per sicurezza, premi "ESCI" quando hai finito</li>
+            <li>✓ Tutte le tue azioni vengono registrate nell'Audit Log</li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
