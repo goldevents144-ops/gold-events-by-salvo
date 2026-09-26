@@ -358,9 +358,9 @@ function WorldCard({
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
     >
-      <Link href={href} className="flex h-full flex-col">
+      <Link href={href} className="flex size-full flex-col" aria-label={`${title} ${subtitle}`}>
         {/* === Cover image — 3:4 vertical, contained, no overflow === */}
         <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -370,7 +370,7 @@ function WorldCard({
             className="size-full object-cover transition-all duration-[1.2s] group-hover:scale-105"
           />
           {/* Variant badge overlayed on image */}
-          <div className="absolute right-3 top-3 z-10">
+          <div className="pointer-events-none absolute right-3 top-3 z-10">
             <span className="rounded-full border border-[#D4AF37]/40 bg-[#0F0F0F]/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#D4AF37] backdrop-blur-sm">
               {variant === "international" ? "IT / EN" : "IT"}
             </span>
@@ -421,13 +421,13 @@ function WorldCard({
             />
           </div>
         </div>
-
-        {/* Gold hairline that animates on hover */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 h-px bg-[#D4AF37] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        />
       </Link>
+
+      {/* Gold hairline that animates on hover (outside Link, doesn't block clicks) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[#D4AF37] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      />
     </motion.div>
   );
 }
