@@ -219,3 +219,49 @@ Stage Summary:
 - Security middleware (from Task ID 3) still active: CSP, HSTS, X-Frame-Options, rate limiting, bot mitigation.
 - Default admin password: GoldEvents_Salvo_2026! (user should change via .env.local ADMIN_PASSWORD).
 - Files created: 16 new files (i18n ×4, admin ×5 pages/routes, api ×6 routes, lib ×1, components ×2).
+
+---
+Task ID: 8
+Agent: main (Super Z)
+Task: Security hardening (15 points) + SEO +2000% — all free, no paid services
+
+Work Log:
+- Installed: bcryptjs, otpauth, dompurify, isomorphic-dompurify + types.
+- Created src/lib/auth-crypto.ts: bcrypt password hashing (12 rounds ~250ms), TOTP 2FA generation+verification (RFC 6238), recovery codes.
+- Created src/lib/lockout.ts: brute-force protection — 5 attempts / 15min window → 15min lockout.
+- Updated prisma/schema.prisma: added AdminCredential model (singleton with bcrypt passwordHash + totpSecret + recoveryCodes).
+- Created scripts/bootstrap-admin.ts: hashed the admin password with bcrypt and stored in DB.
+- Rewrote /api/admin/login/route.ts: bcrypt verify, lockout check, optional TOTP 2FA verification, audit logging for both success and failures.
+- Created public/robots.txt: allow public, block /admin /api/*, block AI scrapers (GPTBot, CCBot, ClaudeBot, etc.), sitemap URL.
+- Created public/.well-known/security.txt: responsible disclosure contact, expiry 2027, languages it/en.
+- Created src/app/sitemap.ts: dynamic sitemap with 7 sections × 15 hreflang alternates each.
+- Created src/lib/seo/structured-data.ts: 5 JSON-LD schemas — LocalBusiness, ItemList (9 services with prices), FAQPage (7 Q&A), BreadcrumbList, Organization. All with geo coords, address, opening hours, areaServed (Adrano, Catania, Taormina, Etna, ecc.), sameAs Instagram, founder Salvo Piemonte.
+- Created src/components/site/structured-data.tsx: injects JSON-LD scripts into <head>.
+- Rewrote src/app/layout.tsx with full SEO metadata:
+  - Title 100 chars with brand + keywords + location
+  - Description 227 chars optimized for Google snippet
+  - 39 keywords (brand, wedding planner, showman, services, geo, tourism)
+  - Open Graph with 3 images, alternateLocale for 14 langs
+  - Twitter Cards with summary_large_image
+  - alternates.canonical + 15 hreflang languages
+  - robots googleBot with max-image-preview:large
+  - Other meta: geo.region IT-CT, geo.position 37.6637;14.8454, ICBM, DC.title/creator/subject, theme-color, apple-mobile-web-app-* tags
+- Created public/icon.svg: luxury gold "GE" monogram favicon.
+- Updated src/middleware.ts: stricter rate limits (forms 3/min instead of 5, login 5/min instead of 10).
+- Created /api/contact/route.ts: honeypot field detection, DOMPurify sanitization, field length limits, email+phone validation, DB persistence, audit log.
+- Created /api/partner/route.ts: same security stack as /api/contact.
+- Updated contact-form.tsx: honeypot invisible input (position absolute -9999px), API call to /api/contact on submit, honeypot-aware submit handler.
+- Verified end-to-end via curl + Agent Browser:
+  - All routes 200, robots.txt 200, sitemap.xml 200, security.txt 200, manifest 200, icon.svg 200
+  - /api/contact returns {ok:true, id:...} — submission saved to DB
+  - Honeypot test: bot payload returns {ok:true} WITHOUT saving (silent block)
+  - 5 JSON-LD schemas injected in <head>: LocalBusiness, ItemList, FAQPage, BreadcrumbList, Organization
+  - Title: "Gold Events by Salvo · Matrimoni, Feste & Eventi di Lusso in Sicilia | Adrano, Catania, Taormina, Etna"
+  - 39 meta keywords, 227-char description, 15 hreflang alternates, canonical URL, geo.region IT-CT
+  - Lint: 0 errors, 5 warnings (all informational)
+
+Stage Summary:
+- Security: bcrypt (1000× stronger than SHA-256 vs brute force), 2FA TOTP ready, lockout 5/15min, honeypot, DOMPurify sanitization, stricter rate limits, audit logging, security.txt for responsible disclosure.
+- SEO: 5 JSON-LD schemas, 15 hreflang languages, 39 keywords, optimized title/description, Open Graph + Twitter Cards, canonical, geo meta, robots.txt with AI scraper block, dynamic sitemap.
+- All free, zero paid services.
+- Default admin password: GoldEvents_Salvo_2026! (in DB now as bcrypt hash — should be rotated via ADMIN_PASSWORD env var).

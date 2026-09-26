@@ -70,6 +70,9 @@ export function ContactForm() {
   const signal = usePreferredBundle((s) => s.signal);
   const clearPreferred = usePreferredBundle((s) => s.clear);
 
+  // Honeypot field — bots fill hidden inputs, humans don't see them
+  const [honeypotWebsite, setHoneypotWebsite] = React.useState("");
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -122,13 +125,32 @@ export function ContactForm() {
   }, [signal]);
 
   const onSubmit = async (values: FormValues) => {
-    await new Promise((r) => setTimeout(r, 800));
+    // Honeypot check — if filled, silently pretend success
+    if (honeypotWebsite) {
+      await new Promise((r) => setTimeout(r, 500));
+      setSubmittedValues(values);
+      setSubmitted(true);
+      return;
+    }
+
+    await new Promise((r) => setTimeout(r, 600));
+
+    // Save to DB in background (don't block user if API fails — WhatsApp is the primary channel)
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...values, website: honeypotWebsite }),
+    }).catch(() => {
+      // ignore — WhatsApp/email CTAs still work even if DB write fails
+    });
+
     setSubmittedValues(values);
     setSubmitted(true);
     toast.success("Richiesta pronta per l'invio!", {
       description: "Scegli come inviarla: WhatsApp o Email.",
     });
     reset();
+    setHoneypotWebsite("");
   };
 
   const onError = () => {
@@ -403,6 +425,30 @@ export function ContactForm() {
                       </FormItem>
                     )}
                   />
+
+                  {/* Honeypot field — hidden from humans, bots fill it. aria-hidden + visually hidden. */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      left: "-9999px",
+                      top: "auto",
+                      width: 1,
+                      height: 1,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <label htmlFor="website_hp">Website (leave empty)</label>
+                    <input
+                      id="website_hp"
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypotWebsite}
+                      onChange={(e) => setHoneypotWebsite(e.target.value)}
+                    />
+                  </div>
 
                   <div className="sm:col-span-2 mt-2 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs text-[#A1A1A1]">

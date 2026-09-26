@@ -94,9 +94,9 @@ const SECURITY_HEADERS: Record<string, string> = {
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMITS: Record<string, { max: number; count: number; resetAt: number }> = {
   "/api/chat": { max: 15, count: 0, resetAt: 0 }, // chatbot: 15 msg/min
-  "/api/contact": { max: 5, count: 0, resetAt: 0 }, // contact form: 5/min
-  "/api/partner": { max: 5, count: 0, resetAt: 0 }, // partner form: 5/min
-  "/admin/login": { max: 10, count: 0, resetAt: 0 }, // login attempts: 10/min
+  "/api/contact": { max: 3, count: 0, resetAt: 0 }, // contact form: 3/min (stricter)
+  "/api/partner": { max: 3, count: 0, resetAt: 0 }, // partner form: 3/min (stricter)
+  "/admin/login": { max: 5, count: 0, resetAt: 0 }, // login attempts: 5/min (stricter)
 };
 
 function rateLimit(key: string): { allowed: boolean; remaining: number; retryAfterSec: number } {

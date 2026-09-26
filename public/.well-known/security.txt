@@ -1,0 +1,13 @@
+# security.txt — Gold Events by Salvo
+# Disclosure responsabile delle vulnerabilità di sicurezza.
+# https://securitytxt.org/
+
+Contact: mailto:goldeventssicilyexperience@outlook.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: it, en
+Canonical: https://www.goldeventsbysalvo.it/.well-known/security.txt
+Policy: https://www.goldeventsbysalvo.it/security-policy
+
+# NOTA: NON offriamo bug bounty monetario.
+# I ricercatori seri che segnalano vulnerabilità critiche
+# verranno citati pubblicamente (con permesso) nella hall of fame.

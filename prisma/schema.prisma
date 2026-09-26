@@ -100,6 +100,16 @@ model AdminSession {
   @@index([expiresAt])
 }
 
+/// Admin credentials (single owner — bcrypt password hash + TOTP secret for 2FA)
+model AdminCredential {
+  id              String   @id @default("singleton")
+  passwordHash    String   // bcrypt hash
+  totpSecret      String?  // base32 TOTP secret (set after 2FA enrollment)
+  totpEnrolledAt  DateTime?
+  recoveryCodes   String?  // JSON-encoded array of bcrypt-hashed recovery codes
+  updatedAt       DateTime @updatedAt
+}
+
 /// Audit log for admin actions (security compliance)
 model AuditLog {
   id        String   @id @default(cuid())
