@@ -266,7 +266,7 @@ function Bivio() {
           transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mt-5 max-w-4xl font-serif text-3xl font-bold leading-tight text-white sm:text-5xl md:text-6xl"
         >
-          Due Mundi. <span className="text-[#D4AF37]">Un Solo Regista.</span>
+          Due Mondi. <span className="text-[#D4AF37]">Un Solo Regista.</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
