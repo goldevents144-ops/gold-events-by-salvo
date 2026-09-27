@@ -246,8 +246,6 @@ export interface Bundle {
   description: string;
   priceLabel: string;
   price: number;
-  /** When false, price is hidden and "Prezzo su richiesta" is shown instead */
-  showPrice?: boolean;
   badge?: string;
   highlighted?: boolean;
   /** Itemized inclusions list shown on the card */
@@ -340,8 +338,8 @@ export const extras: Extra[] = [
     description:
       "Specchio magico fluttuante. Stampe illimitate in tempo reale, kit gadget, operatore dedicato, condivisione QR Code. Regola della doppia copia per i matrimoni.",
     priceLabel: "+250€",
-    strikeThrough: "450€ se singolo",
     showPrice: false,
+    strikeThrough: "450€ se singolo",
     image: "/images/air-mirror-photobooth.png",
     specs: [
       { label: "Stampe fotografiche", value: "ILLIMITATE per tutta la durata dell'evento" },
