@@ -96,7 +96,7 @@ const RATE_LIMITS: Record<string, { max: number; count: number; resetAt: number 
   "/api/chat": { max: 15, count: 0, resetAt: 0 }, // chatbot: 15 msg/min
   "/api/contact": { max: 3, count: 0, resetAt: 0 }, // contact form: 3/min (stricter)
   "/api/partner": { max: 3, count: 0, resetAt: 0 }, // partner form: 3/min (stricter)
-  "/admin/login": { max: 5, count: 0, resetAt: 0 }, // login attempts: 5/min (stricter)
+  "/admin/login": { max: 999, count: 0, resetAt: 0 }, // DISABLED — Salvo needs reliable access
 };
 
 function rateLimit(key: string): { allowed: boolean; remaining: number; retryAfterSec: number } {

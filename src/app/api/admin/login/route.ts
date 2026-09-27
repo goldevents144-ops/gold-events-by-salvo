@@ -24,18 +24,9 @@ export async function POST(req: NextRequest) {
   const ipHash = getIpHash(req);
   const lockoutKey = `login:${ipHash}`;
 
-  // Check lockout first
-  const lockStatus = isLocked(lockoutKey);
-  if (lockStatus.locked) {
-    return NextResponse.json(
-      {
-        error: `Troppi tentativi. Riprova tra ${Math.ceil(
-          lockStatus.remainingMs / 1000,
-        )} secondi.`,
-      },
-      { status: 429 },
-    );
-  }
+  // Lockout DISATTIVATO per permettere accesso affidabile a Salvo
+  // (il rate limiter del middleware è anche disattivato per /admin/login)
+  // Riattivare in produzione con: const lockStatus = isLocked(lockoutKey);
 
   try {
     const body = await req.json();
