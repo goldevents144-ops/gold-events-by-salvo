@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import ZAI from "z-ai-web-dev-sdk";
 import { db } from "@/lib/db";
 import { authenticate, logAudit } from "@/lib/admin-auth";
+import { clearContentCache } from "@/lib/content-overrides";
 
 /**
  * AI Assistant API — executes real changes to the public site.
@@ -154,8 +155,10 @@ export async function POST(req: NextRequest) {
         update: { value: action.value },
         create: { id: action.key, value: action.value },
       });
+      // CRITICAL: clear the cache so the public site picks up the new value immediately
+      clearContentCache();
       appliedKey = action.key;
-      result = `✓ ${action.summary}\n\nModifica applicata al sito pubblico. Ricarica la pagina per vederla.`;
+      result = `✓ ${action.summary}\n\nModifica applicata al sito pubblico. Visibile al prossimo caricamento della pagina.`;
       await logAudit("ai_update_content", action.key, {
         value: action.value,
         question,

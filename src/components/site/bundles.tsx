@@ -10,10 +10,26 @@ import { StaggerGroup, itemVariants } from "@/components/site/reveal";
 import { bundles, type Bundle } from "@/lib/site-content";
 import { usePreferredBundle } from "@/lib/use-preferred-bundle";
 import { useDict } from "@/lib/i18n/use-lang";
+import { useContentOverrides } from "@/lib/use-content-overrides";
 import { cn } from "@/lib/utils";
 
 export function Bundles() {
   const t = useDict();
+  const { overrides } = useContentOverrides();
+
+  // Apply price overrides to bundles (AI can change prices from admin panel)
+  const bundlesWithOverrides = bundles.map((bundle) => {
+    const overrideKey = `bundle.${bundle.id}.price`;
+    const overrideValue = overrides[overrideKey];
+    if (overrideValue) {
+      const num = parseInt(overrideValue.replace(/[^\d]/g, ""), 10);
+      if (Number.isFinite(num) && num > 0) {
+        return { ...bundle, price: num };
+      }
+    }
+    return bundle;
+  });
+
   return (
     <section
       id="bundles"
@@ -31,7 +47,7 @@ export function Bundles() {
           className="mt-14 grid gap-5 md:grid-cols-3 md:items-stretch"
           stagger={0.1}
         >
-          {bundles.map((bundle) => (
+          {bundlesWithOverrides.map((bundle) => (
             <BundleCard
               key={bundle.id}
               bundle={bundle}

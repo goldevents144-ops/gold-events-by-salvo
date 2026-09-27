@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Header } from "@/components/site/header";
 import { SicilyHero } from "@/components/site/sicily-hero";
 import { BivioBack } from "@/components/site/bivio-back";
 import { Footer } from "@/components/site/footer";
 import { SicilyExperience } from "@/components/site/sicily-experience";
-
-const ContactForm = dynamic(() => import("@/components/site/contact-form").then((m) => m.ContactForm), {
-  loading: () => <div className="h-96 animate-pulse bg-[#1C1C1C]/40" />,
-});
-const PartnerForm = dynamic(() => import("@/components/site/partner-form").then((m) => m.PartnerForm), {
-  loading: () => <div className="h-32 animate-pulse bg-[#1C1C1C]/40" />,
-});
-const ChatbotWidget = dynamic(() => import("@/components/site/chatbot-widget").then((m) => m.ChatbotWidget));
+import { ContactForm } from "@/components/site/contact-form";
+import { PartnerForm } from "@/components/site/partner-form";
+import { ChatbotWidget } from "@/components/site/chatbot-widget";
 
 const BASE_URL = "https://www.goldeventsbysalvo.it";
 
 export const metadata: Metadata = {
-  title: "Gold Events Sicily Experience · Destination Sicily · IT / EN",
+  title: "Destination Sicily · Esperienze di Lusso in Sicilia · IT / EN",
   description:
     "Destination weddings, tour sull'Etna, degustazioni in cantina, agriturismo e beach party a Taormina. Salvo Piemonte curatore di esperienze di lusso in Sicilia Orientale. Italiano · English.",
   alternates: {

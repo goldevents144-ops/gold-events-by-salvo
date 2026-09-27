@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Header } from "@/components/site/header";
 import { Philosophy } from "@/components/site/philosophy";
 import { GoldEventsHero } from "@/components/site/gold-events-hero";
@@ -8,16 +7,13 @@ import { Footer } from "@/components/site/footer";
 import { Services } from "@/components/site/services";
 import { Bundles } from "@/components/site/bundles";
 import { Extras } from "@/components/site/extras";
-
-const ContactForm = dynamic(() => import("@/components/site/contact-form").then((m) => m.ContactForm), {
-  loading: () => <div className="h-96 animate-pulse bg-[#1C1C1C]/40" />,
-});
-const ChatbotWidget = dynamic(() => import("@/components/site/chatbot-widget").then((m) => m.ChatbotWidget));
+import { ContactForm } from "@/components/site/contact-form";
+import { ChatbotWidget } from "@/components/site/chatbot-widget";
 
 const BASE_URL = "https://www.goldeventsbysalvo.it";
 
 export const metadata: Metadata = {
-  title: "Gold Events by Salvo · Eventi, Matrimoni e Feste di Lusso in Sicilia",
+  title: "Eventi, Matrimoni e Feste di Lusso in Sicilia",
   description:
     "Servizi esclusivi per matrimoni, battesimi, compleanni, feste aziendali a Catania, Adrano, Taormina. Showman Salvo Piemonte, Air Mirror, Video Booth 360, Dj Set. Da 350€.",
   alternates: {

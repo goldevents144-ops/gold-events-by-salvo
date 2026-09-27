@@ -6,6 +6,7 @@ import { Sparkles, Mail, MessageCircle, MapPin, Instagram, User } from "lucide-r
 
 import { contactInfo, navItems as defaultNavItems } from "@/lib/site-content";
 import { useDict } from "@/lib/i18n/use-lang";
+import { useContentOverrides } from "@/lib/use-content-overrides";
 
 function scrollTo(href: string) {
   if (typeof document === "undefined") return;
@@ -16,6 +17,20 @@ function scrollTo(href: string) {
 export function Footer() {
   const year = new Date().getFullYear();
   const t = useDict();
+  const { overrides } = useContentOverrides();
+
+  // Apply AI overrides to contact info (admin can change phone, email, instagram)
+  const contact = {
+    personName: overrides["contact.personName"] || contactInfo.personName,
+    brandRole: overrides["contact.brandRole"] || contactInfo.brandRole,
+    whatsapp: overrides["contact.whatsapp"] || contactInfo.whatsapp,
+    whatsappHref: overrides["contact.whatsappHref"] ||
+      `https://wa.me/${(overrides["contact.whatsapp"] || contactInfo.whatsapp).replace(/[^\d]/g, "")}`,
+    email: overrides["contact.email"] || contactInfo.email,
+    location: overrides["contact.location"] || contactInfo.location,
+    instagram: overrides["contact.instagram"] || contactInfo.instagram,
+    instagramHandle: overrides["contact.instagramHandle"] || contactInfo.instagramHandle,
+  };
 
   // Map our 6 nav items to translated labels.
   const navItems = [
@@ -66,12 +81,12 @@ export function Footer() {
             </p>
             <p className="mt-5 inline-flex items-center gap-2 text-xs text-white/90">
               <User className="size-3.5 text-[#D4AF37]" />
-              <span className="font-semibold">{contactInfo.personName}</span>
-              <span className="text-[#A1A1A1]">· {contactInfo.brandRole}</span>
+              <span className="font-semibold">{contact.personName}</span>
+              <span className="text-[#A1A1A1]">· {contact.brandRole}</span>
             </p>
             <p className="mt-3 inline-flex items-center gap-2 text-xs text-[#A1A1A1]">
               <MapPin className="size-3.5 text-[#D4AF37]" />
-              {contactInfo.location}
+              {contact.location}
             </p>
 
             {/* Brand split note */}
@@ -129,7 +144,7 @@ export function Footer() {
             </p>
             <div className="mt-5 flex flex-col gap-3">
               <a
-                href={contactInfo.whatsappHref}
+                href={contact.whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-3 rounded-xl border border-[#D4AF37]/30 bg-[#1C1C1C]/60 px-4 py-3 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#1C1C1C]"
@@ -142,12 +157,12 @@ export function Footer() {
                     {t.footerWhatsapp}
                   </span>
                   <span className="text-sm text-white">
-                    {contactInfo.whatsapp}
+                    {contact.whatsapp}
                   </span>
                 </span>
               </a>
               <a
-                href={`mailto:${contactInfo.email}`}
+                href={`mailto:${contact.email}`}
                 className="group inline-flex items-center gap-3 rounded-xl border border-[#D4AF37]/30 bg-[#1C1C1C]/60 px-4 py-3 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#1C1C1C]"
               >
                 <span className="inline-flex size-9 items-center justify-center rounded-full bg-[#D4AF37]/10 text-[#D4AF37]">
@@ -158,7 +173,7 @@ export function Footer() {
                     {t.footerEmail}
                   </span>
                   <span className="text-sm text-white">
-                    {contactInfo.email}
+                    {contact.email}
                   </span>
                 </span>
               </a>
@@ -171,11 +186,11 @@ export function Footer() {
               </span>
               <div className="flex items-center gap-2">
                 <a
-                  href={contactInfo.instagram}
+                  href={contact.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Instagram ${contactInfo.instagramHandle} — apri il profilo`}
-                  title={`Seguimi su Instagram: ${contactInfo.instagramHandle}`}
+                  aria-label={`Instagram ${contact.instagramHandle} — apri il profilo`}
+                  title={`Seguimi su Instagram: ${contact.instagramHandle}`}
                   className="inline-flex size-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
                 >
                   <Instagram className="size-4" />
