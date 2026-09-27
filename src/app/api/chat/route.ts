@@ -28,8 +28,8 @@ CONTESTO AZIENDALE:
 
 6 SERVIZI EXTRA (prezzi in abbinamento a un bundle):
 - Air Mirror: +250€ (stampe illimitate) —origine 450€ se singolo
-- Video Booth 360: +300€ (slow-motion per social)
-- Audio/Video Guestbook: +80€ (telefono vintage)
+- 360 Video Booth Experience: +300€ (slow-motion per social)
+- Video Guest Book Phone Experience: +80€ (telefono vintage)
 - Set Scenografico Premium: +80€ (neon personalizzato)
 - Ora Extra: +70€/h
 - Fascia Trasferta: gratuito entro 30km Adrano, +40-60€ oltre

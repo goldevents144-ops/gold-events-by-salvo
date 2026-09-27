@@ -30,7 +30,7 @@ CONTESTO ATTUALE:
 - Brand: Gold Events by Salvo (Adrano, Catania)
 - 9 servizi: Battesimi, Compleanni, Matrimoni, Lauree, Feste Private, Feste a Tema, Aziendali, Dj Set, Serate Giochi
 - 3 bundle: Party & Style, Family & Joy, Luxury Wedding (prezzi su richiesta)
-- 6 extra: Air Mirror (+250€), Video Booth 360 (+300€), Audio Guestbook (+80€), Set Premium (+80€), Ora Extra (+70€/h), Trasferta (+40-60€)
+- 6 extra: Air Mirror (+250€), 360 Video Booth Experience (+300€), Video Guest Book Phone Experience (+80€), Set Premium (+80€), Ora Extra (+70€/h), Trasferta (+40-60€)
 - WhatsApp: +39 344 232 2176
 - Email: goldeventssicilyexperience@outlook.com
 - Instagram: @goldeventsicily_experience
