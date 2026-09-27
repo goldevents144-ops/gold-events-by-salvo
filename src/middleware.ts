@@ -192,23 +192,7 @@ export function middleware(request: NextRequest) {
       });
     }
 
-    // Rate-limit admin login attempts
-    if (pathname === "/admin/login") {
-      const rl = rateLimit("/admin/login");
-      if (!rl.allowed) {
-        return new NextResponse(
-          JSON.stringify({ error: "Too many attempts. Retry later." }),
-          {
-            status: 429,
-            headers: {
-              ...SECURITY_HEADERS,
-              "Content-Type": "application/json",
-              "Retry-After": String(rl.retryAfterSec),
-            },
-          },
-        );
-      }
-    }
+    // Rate limiting RIMOSSO dal login admin per garantire accesso affidabile a Salvo
   }
 
   // ── API rate limiting ────────────────────────────────────────────
