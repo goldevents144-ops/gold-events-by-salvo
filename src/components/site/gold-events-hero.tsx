@@ -88,7 +88,7 @@ export function GoldEventsHero() {
           className="mt-4 max-w-2xl text-sm leading-relaxed text-[#A1A1A1] sm:text-base"
         >
           Showman, presentatore e servizi esclusivi per matrimoni, feste private ed
-          eventi aziendali a Catania e provincia. Conduzione di Salvo Piemonte,
+          eventi aziendali ovunque venga richiesto. Conduzione di Salvo Piemonte,
           tecnologie esclusive: Air Mirror, Video Booth 360, Dj Set.
         </motion.p>
 
@@ -127,7 +127,7 @@ export function GoldEventsHero() {
           <span><span className="font-bold text-[#D4AF37]">9</span> Servizi</span>
           <span><span className="font-bold text-[#D4AF37]">3</span> Bundle</span>
           <span><span className="font-bold text-[#D4AF37]">6</span> Tecnologie extra</span>
-          <span><span className="font-bold text-[#D4AF37]">350€</span> da</span>
+          <span><span className="font-bold text-[#D4AF37]">∞</span> possibilità</span>
         </motion.div>
       </div>
     </section>

@@ -102,7 +102,7 @@ export interface Dictionary {
     subtitle: string;
     primaryCta: string;
     secondaryCta: string;
-    brandSplitLabel: string; // "Salvo: unico regista organizzativo"
+    brandSplitLabel: string; // "Salvo: unica voce organizzativa"
     cardLocalTitle: string; // "Gold Events by Salvo"
     cardLocalSubtitle: string;
     cardLocalTag: string; // "IT · Nazionale"
@@ -299,10 +299,10 @@ const it: Dictionary = {
     titleLine1: "Il Tuo Evento Unico,",
     titleLine2: "Dall'Animazione Alla Tecnologia",
     subtitle:
-      "Showman, Presentatore e Servizi Esclusivi per Matrimoni e Feste Private a Catania e Provincia.",
+      "Showman, Presentatore e Servizi Esclusivi per Matrimoni e Feste Private ovunque venga richiesto.",
     primaryCta: "Richiedi la disponibilità per la tua data",
     secondaryCta: "Scopri i servizi",
-    brandSplitLabel: "Salvo: unico regista organizzativo",
+    brandSplitLabel: "Salvo: unica voce organizzativa",
     cardLocalTitle: "Gold Events by Salvo",
     cardLocalSubtitle: "Cerimonie, feste private, matrimoni locali.",
     cardLocalTag: "IT · Nazionale",

@@ -22,9 +22,9 @@ CONTESTO AZIENDALE:
 9. Organizzazione Serate Giochi — Quiz, karaoke, cervelloni
 
 3 BUNDLE DI CONDUZIONE:
-- Party & Style: da 350€ (feste private, 18esimi, lauree)
-- Family & Joy: da 350€ (battesimi, comunioni, cresime)
-- Luxury Wedding: da 600€ (matrimoni, eventi gala) — PIÙ RICHIESTO
+- Party & Style: prezzo su richiesta (feste private, 18esimi, lauree)
+- Family & Joy: prezzo su richiesta (battesimi, comunioni, cresime)
+- Luxury Wedding: prezzo su richiesta (matrimoni, eventi gala) — PIÙ RICHIESTO
 
 6 SERVIZI EXTRA (prezzi in abbinamento a un bundle):
 - Air Mirror: +250€ (stampe illimitate) —origine 450€ se singolo

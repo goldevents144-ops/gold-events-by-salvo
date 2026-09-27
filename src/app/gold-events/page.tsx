@@ -15,7 +15,7 @@ const BASE_URL = "https://www.goldeventsbysalvo.it";
 export const metadata: Metadata = {
   title: "Eventi, Matrimoni e Feste di Lusso in Sicilia",
   description:
-    "Servizi esclusivi per matrimoni, battesimi, compleanni, feste aziendali a Catania, Adrano, Taormina. Showman Salvo Piemonte, Air Mirror, Video Booth 360, Dj Set. Da 350€.",
+    "Servizi esclusivi per matrimoni, battesimi, compleanni, feste aziendali a Catania, Adrano, Taormina. Showman Salvo Piemonte, Air Mirror, Video Booth 360, Dj Set. Prezzi su richiesta.",
   alternates: {
     canonical: BASE_URL + "/gold-events",
   },

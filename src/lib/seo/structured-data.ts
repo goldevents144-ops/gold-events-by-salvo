@@ -100,7 +100,7 @@ export const FAQ_LD = {
       name: "Quanto costa un matrimonio con Gold Events by Salvo?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Il bundle Luxury Wedding parte da 600€ per 7-9 ore di conduzione totale del ricevimento. A questo si possono aggiungere extra come Air Mirror (+250€), Video Booth 360 (+300€), Audio Guestbook (+80€) e Set Scenografico Premium (+80€). Trasferta gratuita entro 30 km da Adrano.",
+        text: "I prezzi dei bundle di conduzione (Party & Style, Family & Joy, Luxury Wedding) sono personalizzati e su richiesta, in base ai servizi scelti. Si possono aggiungere extra come Air Mirror (+250€), Video Booth 360 (+300€), Audio Guestbook (+80€) e Set Scenografico Premium (+80€). Trasferta gratuita entro 30 km da Adrano.",
       },
     },
     {

@@ -87,7 +87,7 @@ export function Philosophy() {
                   Salvo
                 </p>
                 <p className="text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
-                  Showman · Presentatore · Regista di sala
+                  Showman · Presentatore · Voce guida della sala
                 </p>
               </figcaption>
             </figure>

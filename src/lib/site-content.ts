@@ -246,6 +246,8 @@ export interface Bundle {
   description: string;
   priceLabel: string;
   price: number;
+  /** When false, price is hidden and "Prezzo su richiesta" is shown instead */
+  showPrice?: boolean;
   badge?: string;
   highlighted?: boolean;
   /** Itemized inclusions list shown on the card */
@@ -264,6 +266,7 @@ export const bundles: Bundle[] = [
       "Conduzione dinamica, gestione dei tempi, intrattenimento giovanile e carismatico al microfono.",
     priceLabel: "a partire da",
     price: 350,
+    showPrice: false,
     inclusions: [
       "Conduzione di Salvo per 4-5 ore",
       "Microfonaggio professionale",
@@ -281,6 +284,7 @@ export const bundles: Bundle[] = [
       "Conduzione e animazione misurata, coordinamento brindisi e accoglienza parenti, giochi interattivi. Tarato per tutte le generazioni.",
     priceLabel: "a partire da",
     price: 350,
+    showPrice: false,
     badge: "Ideale per famiglie",
     inclusions: [
       "Conduzione di Salvo per 4 ore",
@@ -301,6 +305,7 @@ export const bundles: Bundle[] = [
       "Coordinamento totale del ricevimento. Interfacciamento continuo con staff del locale, catering e fotografi per eliminare i tempi morti. Intrattenimento elegante dall'aperitivo fino a notte.",
     priceLabel: "a partire da",
     price: 600,
+    showPrice: false,
     badge: "Più richiesto",
     highlighted: true,
     inclusions: [

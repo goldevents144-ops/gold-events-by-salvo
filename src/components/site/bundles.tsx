@@ -163,12 +163,28 @@ function BundleCard({
         </ul>
 
         <div className="mt-7 flex items-baseline gap-2">
-          <span className="text-[11px] uppercase tracking-[0.2em] text-[#A1A1A1]">
-            {priceFromLabel}
-          </span>
-          <span className="font-serif text-4xl font-bold text-gold-gradient sm:text-5xl">
-            {bundle.price}€
-          </span>
+          {bundle.showPrice === false ? (
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[#A1A1A1]">
+                Prezzo
+              </span>
+              <span className="font-serif text-xl font-semibold text-gold-gradient sm:text-2xl">
+                Su richiesta
+              </span>
+              <span className="text-[10px] text-[#6B6B6B]">
+                Preventivo personalizzato in base ai servizi
+              </span>
+            </div>
+          ) : (
+            <>
+              <span className="text-[11px] uppercase tracking-[0.2em] text-[#A1A1A1]">
+                {priceFromLabel}
+              </span>
+              <span className="font-serif text-4xl font-bold text-gold-gradient sm:text-5xl">
+                {bundle.price}€
+              </span>
+            </>
+          )}
         </div>
       </div>
 

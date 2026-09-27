@@ -258,7 +258,7 @@ function Bivio() {
         className="relative z-10 px-6 pt-10 text-center sm:pt-12"
       >
         <p className="text-[9px] font-semibold uppercase tracking-[0.36em] text-[#D4AF37] sm:text-[11px]">
-          Adrano · Catania · Sicilia Orientale
+          Sede ad Adrano · Disponibile ovunque · Sicilia e oltre
         </p>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -266,7 +266,7 @@ function Bivio() {
           transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto mt-3 max-w-3xl font-serif text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl"
         >
-          Due Mondi. <span className="text-[#D4AF37]">Un Solo Regista.</span>
+          Due Mondi. <span className="text-[#D4AF37]">Una Solo Voce.</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -275,9 +275,43 @@ function Bivio() {
           className="mx-auto mt-3 max-w-xl text-xs leading-relaxed text-[#A1A1A1] sm:text-sm"
         >
           Salvo Piemonte presenta due universi paralleli: l'eleganza degli eventi
-          siciliani e la magia delle esperienze di lusso nel territorio. Scegli il
-          tuo mondo.
+          e la magia delle esperienze di lusso in Sicilia e ovunque venga richiesto.
+          Scegli il tuo mondo.
         </motion.p>
+
+        {/* Elenco eventi che Salvo realizza */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+          className="mx-auto mt-6 max-w-3xl"
+        >
+          <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37]/90 sm:text-[11px]">
+            Eventi che seguiamo
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+            {[
+              "Battesimi",
+              "Comunioni",
+              "Cresime",
+              "Lauree",
+              "Compleanni",
+              "Matrimoni",
+              "Feste Private",
+              "Feste a Tema",
+              "Feste Aziendali",
+              "Dj Set",
+              "Serate Organizzate",
+            ].map((event, i) => (
+              <span
+                key={event}
+                className="inline-flex items-center rounded-full border border-[#D4AF37]/30 bg-[#0F0F0F]/60 px-2.5 py-1 text-[10px] font-medium text-white/90 transition-colors hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/10 sm:px-3 sm:text-[11px]"
+              >
+                {event}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* Two worlds */}
@@ -289,7 +323,7 @@ function Bivio() {
           eyebrow="Eventi & Cerimonie · IT"
           title="Gold Events"
           subtitle="by Salvo"
-          description="Matrimoni, battesimi, compleanni, feste aziendali. Showman, conduzione, animazione e tecnologie esclusive: Air Mirror, Video Booth 360, Dj Set. Catania e provincia."
+          description="Matrimoni, battesimi, compleanni, feste aziendali. Showman, conduzione, animazione e tecnologie esclusive: Air Mirror, Video Booth 360, Dj Set. Disponibile ovunque venga richiesto."
           languages="Italiano"
           href="/gold-events"
           cta="Entra nel mondo eventi"
