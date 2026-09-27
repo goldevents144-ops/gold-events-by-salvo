@@ -52,7 +52,7 @@ export const services: ServiceDetail[] = [
     pairing:
       "L'Air Mirror con grafiche e animazioni colorate dedicate ai più piccoli, per stampare ricordi istantanei e illimitati per zii e nonni.",
     options: [
-      { label: "Durata conduzione", value: "4 ore (dall'aperitivo al taglio della torta)" },
+      { label: "Durata conduzione", value: "Flessibile, si adatta all'evento" },
       { label: "Accoglienza parenti", value: "Inclusa — coordinamento ingresso e saluti" },
       { label: "Gestione brindisi", value: "Inclusa con microfonaggio curato" },
       { label: "Momento della torta", value: "Regia musicale + annuncio dedicato" },
@@ -77,7 +77,7 @@ export const services: ServiceDetail[] = [
       { label: "18esimi", value: "Conduzione giovane + Video Booth 360 + Dj Set commerciale" },
       { label: "30/40/50 anni", value: "Conduzione energetica + Audio Guestbook + Air Mirror" },
       { label: "60/70 anni", value: "Conduzione misurata + Air Mirror classico + Dj Set evergreen" },
-      { label: "Durata", value: "4-5 ore base, estendibile con ora extra (+70€/h)" },
+      { label: "Durata", value: "Flessibile, estendibile con ora extra (+70€/h)" },
       { label: "Video ricordi", value: "Proiezione su maxischermo inclusa (invia file in anticipo)" },
       { label: "Brindisi organizzato", value: "Incluso con calice dedicato al festeggiato" },
       { label: "Apertura regali", value: "Regia musicale e annuncio dedicato" },
@@ -97,7 +97,7 @@ export const services: ServiceDetail[] = [
       "Air Mirror con la \"Regia della Doppia Copia\" + Guestbook Premium (libro delle firme) e il Telefono Vintage.",
     image: "/images/collage/matrimoni-couple-toast.jpg",
     options: [
-      { label: "Durata", value: "7-9 ore (dall'aperitivo fino a notte)" },
+      { label: "Durata", value: "Flessibile, dall'aperitivo fino a notte" },
       { label: "Coordinamento fornitori", value: "Incluso — catering, fotografo, fiorista, musicisti" },
       { label: "Interfaccia direttore di sala", value: "Continua, per zero tempi morti tra le portate" },
       { label: "Primo ballo", value: "Regia musicale + annuncio dedicato" },
@@ -121,7 +121,7 @@ export const services: ServiceDetail[] = [
     pairing:
       "Dj Set commerciale e Video Booth 360 per scatenarsi con i colleghi di università.",
     options: [
-      { label: "Durata", value: "4-5 ore base, estendibile" },
+      { label: "Durata", value: "Flessibile, estendibile con ora extra (+70€/h)" },
       { label: "Proclamazione neolaureato", value: "Inclusa — annuncio scenico e foto di gruppo" },
       { label: "Giochi a tema università", value: "Inclusi — quiz sul percorso di studi, sfide tra tavoli" },
       { label: "Brindisi organizzato", value: "Incluso con calice dedicato" },
@@ -146,7 +146,7 @@ export const services: ServiceDetail[] = [
       { label: "Ricorrenze di coppia", value: "Conduzione intima + Audio Guestbook auguri" },
       { label: "Location", value: "Ville, loft, locali privati — su indicazione del cliente" },
       { label: "Scaletta", value: "Personalizzata su target e desideri del festeggiato" },
-      { label: "Durata", value: "4-6 ore, estendibile con ora extra (+70€/h)" },
+      { label: "Durata", value: "Flessibile, estendibile con ora extra (+70€/h)" },
       { label: "Trasferta", value: "Gratuita entro 30 km da Adrano" },
     ],
   },
@@ -261,14 +261,14 @@ export const bundles: Bundle[] = [
     id: "party-style",
     name: "Party & Style",
     audience: "Feste private, 18esimi, lauree, compleanni adulti",
-    duration: "Durata 4-5 ore",
+    duration: "Durata flessibile",
     description:
       "Conduzione dinamica, gestione dei tempi, intrattenimento giovanile e carismatico al microfono.",
     priceLabel: "a partire da",
     price: 350,
     showPrice: false,
     inclusions: [
-      "Conduzione di Salvo per 4-5 ore",
+      "Conduzione di Salvo per tutta la durata dell'evento",
       "Microfonaggio professionale",
       "Gestione tempi della serata",
       "Coordinamento brindisi e momenti clou",
@@ -287,7 +287,7 @@ export const bundles: Bundle[] = [
     showPrice: false,
     badge: "Ideale per famiglie",
     inclusions: [
-      "Conduzione di Salvo per 4 ore",
+      "Conduzione di Salvo per tutta la durata dell'evento",
       "Animazione per tutte le età (bambini + adulti)",
       "Accoglienza parenti e coordinamento sala",
       "Gestione brindisi e momento della torta",
@@ -300,7 +300,7 @@ export const bundles: Bundle[] = [
     id: "luxury-wedding",
     name: "Luxury Wedding",
     audience: "Matrimoni ed eventi aziendali di gala",
-    duration: "Durata 7-9 ore",
+    duration: "Durata flessibile",
     description:
       "Coordinamento totale del ricevimento. Interfacciamento continuo con staff del locale, catering e fotografi per eliminare i tempi morti. Intrattenimento elegante dall'aperitivo fino a notte.",
     priceLabel: "a partire da",
@@ -309,7 +309,7 @@ export const bundles: Bundle[] = [
     badge: "Più richiesto",
     highlighted: true,
     inclusions: [
-      "Conduzione di Salvo per 7-9 ore",
+      "Conduzione di Salvo per tutta la durata dell'evento",
       "Regia e coordinamento totale del ricevimento",
       "Interfaccia con direttore di sala, catering, fotografi",
       "Conduzione primo ballo + taglio torta + lancio bouquet",
