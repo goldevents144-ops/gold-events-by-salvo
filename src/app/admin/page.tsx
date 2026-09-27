@@ -14,6 +14,12 @@ import {
   ExternalLink,
   Sparkles,
   Shield,
+  ImageIcon,
+  Upload,
+  Trash2,
+  Copy,
+  Check,
+  FileText,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -21,6 +27,7 @@ const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "contatti", label: "Contatti", icon: Users },
   { id: "partner", label: "Partner", icon: Building2 },
+  { id: "media", label: "Media & File", icon: ImageIcon },
   { id: "ai", label: "AI Assistant", icon: Bot },
   { id: "audit", label: "Audit Log", icon: ScrollText },
 ] as const;
@@ -128,6 +135,7 @@ export default function AdminDashboardPage() {
         {tab === "partner" && <PartnerTab />}
         {tab === "ai" && <AiTab />}
         {tab === "audit" && <AuditTab />}
+        {tab === "media" && <MediaTab />}
       </main>
     </div>
   );
@@ -655,6 +663,261 @@ function Field({ label, value }: { label: string; value: string }) {
         {label}
       </dt>
       <dd className="mt-0.5 text-sm text-white/90">{value}</dd>
+    </div>
+  );
+}
+
+// =====================================
+// Media & File Tab — upload and manage images/files
+// =====================================
+function MediaTab() {
+  const [media, setMedia] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [uploading, setUploading] = React.useState(false);
+  const [copiedUrl, setCopiedUrl] = React.useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [category, setCategory] = React.useState("image");
+  const [description, setDescription] = React.useState("");
+
+  const loadMedia = () => {
+    setLoading(true);
+    fetch("/api/admin/upload")
+      .then((r) => r.json())
+      .then((d) => setMedia(d.media || []))
+      .finally(() => setLoading(false));
+  };
+
+  React.useEffect(loadMedia, []);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("category", category);
+    formData.append("description", description);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Errore upload");
+      } else {
+        toast.success(data.message || "File caricato!");
+        setDescription("");
+        loadMedia();
+      }
+    } catch {
+      toast.error("Errore di connessione");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Eliminare "${name}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/media/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        toast.success("File eliminato");
+        loadMedia();
+      } else {
+        toast.error("Errore eliminazione");
+      }
+    } catch {
+      toast.error("Errore di connessione");
+    }
+  };
+
+  const copyUrl = (url: string) => {
+    navigator.clipboard?.writeText(url);
+    setCopiedUrl(url);
+    setTimeout(() => setCopiedUrl(null), 1500);
+    toast.success("URL copiato negli appunti");
+  };
+
+  return (
+    <div className="space-y-5">
+      {/* Upload form */}
+      <div className="rounded-2xl border border-[#D4AF37]/30 bg-[#1C1C1C]/60 p-5 sm:p-6">
+        <h2 className="font-serif text-lg font-semibold text-white sm:text-xl">
+          Carica nuovo file
+        </h2>
+        <p className="mt-1 text-sm text-[#A1A1A1]">
+          Immagini (JPG, PNG, WebP, GIF, SVG) o documenti (PDF, DOC, XLS). Max 10MB.
+          I file caricati qui sono visibili pubblicamente e possono essere usati nel sito.
+        </p>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A1A1A1]">
+              Categoria
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="mt-1.5 h-11 w-full rounded-lg border border-white/12 bg-[#0F0F0F]/60 px-3 text-white focus:border-[#D4AF37] focus:outline-none"
+            >
+              <option value="image">Immagine</option>
+              <option value="document">Documento</option>
+              <option value="logo">Logo</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#A1A1A1]">
+              Descrizione (opzionale)
+            </label>
+            <input
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="es: Foto matrimonio Villa dei Tigli"
+              className="mt-1.5 h-11 w-full rounded-lg border border-white/12 bg-[#0F0F0F]/60 px-3 text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <input
+            ref={fileInputRef}
+            type="file"
+            onChange={handleUpload}
+            disabled={uploading}
+            accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A] disabled:opacity-50"
+          >
+            {uploading ? (
+              <>
+                <Loader2 className="size-3.5 animate-spin" /> Caricamento…
+              </>
+            ) : (
+              <>
+                <Upload className="size-3.5" /> Seleziona file
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Media gallery */}
+      <div className="rounded-2xl border border-white/8 bg-[#1C1C1C]/40 p-5 sm:p-6">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-serif text-lg font-semibold text-white sm:text-xl">
+            Libreria file ({media.length})
+          </h2>
+          <button
+            type="button"
+            onClick={loadMedia}
+            className="text-xs uppercase tracking-[0.16em] text-[#A1A1A1] hover:text-[#D4AF37]"
+          >
+            Aggiorna
+          </button>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center py-8">
+            <Loader2 className="size-6 animate-spin text-[#D4AF37]" />
+          </div>
+        ) : media.length === 0 ? (
+          <div className="py-8 text-center">
+            <ImageIcon className="mx-auto size-8 text-[#6B6B6B]" />
+            <p className="mt-2 text-sm text-[#A1A1A1]">
+              Nessun file caricato. Usa il modulo sopra per caricare immagini o documenti.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {media.map((item) => {
+              const isImage = item.type?.startsWith("image/");
+              return (
+                <div
+                  key={item.id}
+                  className="group overflow-hidden rounded-xl border border-white/8 bg-[#0F0F0F]/60"
+                >
+                  {/* Preview */}
+                  <div className="relative h-32 overflow-hidden bg-[#1C1C1C]">
+                    {isImage ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.url}
+                        alt={item.description || item.originalName}
+                        className="size-full object-cover opacity-90 transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex size-full items-center justify-center">
+                        <FileText className="size-10 text-[#A1A1A1]" />
+                      </div>
+                    )}
+                    <span className="absolute right-2 top-2 rounded-full border border-[#D4AF37]/30 bg-[#0F0F0F]/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.16em] text-[#D4AF37]">
+                      {item.category}
+                    </span>
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-3">
+                    <p className="truncate text-xs font-medium text-white" title={item.originalName}>
+                      {item.originalName}
+                    </p>
+                    {item.description && (
+                      <p className="mt-0.5 truncate text-[11px] text-[#A1A1A1]">
+                        {item.description}
+                      </p>
+                    )}
+                    <p className="mt-0.5 text-[10px] text-[#6B6B6B]">
+                      {item.sizeKB}KB · {new Date(item.uploadedAt).toLocaleDateString("it-IT")}
+                    </p>
+
+                    {/* Actions */}
+                    <div className="mt-2 flex gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => copyUrl(item.url)}
+                        className="inline-flex size-7 items-center justify-center rounded-lg border border-white/12 text-[#A1A1A1] transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                        title="Copia URL"
+                      >
+                        {copiedUrl === item.url ? (
+                          <Check className="size-3.5 text-green-400" />
+                        ) : (
+                          <Copy className="size-3.5" />
+                        )}
+                      </button>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex size-7 items-center justify-center rounded-lg border border-white/12 text-[#A1A1A1] transition-colors hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                        title="Apri"
+                      >
+                        <ExternalLink className="size-3.5" />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item.id, item.originalName)}
+                        className="inline-flex size-7 items-center justify-center rounded-lg border border-white/12 text-[#A1A1A1] transition-colors hover:border-red-500/50 hover:text-red-300"
+                        title="Elimina"
+                      >
+                        <Trash2 className="size-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
