@@ -120,13 +120,26 @@ function ExtraCard({
       </p>
 
       <div className="mt-1 flex items-baseline gap-2">
-        <span className="font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
-          {extra.priceLabel}
-        </span>
-        {extra.strikeThrough && (
-          <span className="text-xs text-[#A1A1A1] line-through decoration-[#D4AF37]/50">
-            {extra.strikeThrough}
-          </span>
+        {extra.showPrice === false ? (
+          <div className="flex flex-col gap-0.5">
+            <span className="font-serif text-base font-semibold text-gold-gradient sm:text-lg">
+              Prezzo su richiesta
+            </span>
+            <span className="text-[10px] text-[#6B6B6B]">
+              Preventivo personalizzato in base ai servizi
+            </span>
+          </div>
+        ) : (
+          <>
+            <span className="font-serif text-2xl font-bold text-[#D4AF37] sm:text-3xl">
+              {extra.priceLabel}
+            </span>
+            {extra.strikeThrough && (
+              <span className="text-xs text-[#A1A1A1] line-through decoration-[#D4AF37]/50">
+                {extra.strikeThrough}
+              </span>
+            )}
+          </>
         )}
       </div>
 

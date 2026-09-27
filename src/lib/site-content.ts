@@ -266,7 +266,6 @@ export const bundles: Bundle[] = [
       "Conduzione dinamica, gestione dei tempi, intrattenimento giovanile e carismatico al microfono.",
     priceLabel: "a partire da",
     price: 350,
-    showPrice: false,
     inclusions: [
       "Conduzione di Salvo per tutta la durata dell'evento",
       "Microfonaggio professionale",
@@ -284,7 +283,6 @@ export const bundles: Bundle[] = [
       "Conduzione e animazione misurata, coordinamento brindisi e accoglienza parenti, giochi interattivi. Tarato per tutte le generazioni.",
     priceLabel: "a partire da",
     price: 350,
-    showPrice: false,
     badge: "Ideale per famiglie",
     inclusions: [
       "Conduzione di Salvo per tutta la durata dell'evento",
@@ -305,7 +303,6 @@ export const bundles: Bundle[] = [
       "Coordinamento totale del ricevimento. Interfacciamento continuo con staff del locale, catering e fotografi per eliminare i tempi morti. Intrattenimento elegante dall'aperitivo fino a notte.",
     priceLabel: "a partire da",
     price: 600,
-    showPrice: false,
     badge: "Più richiesto",
     highlighted: true,
     inclusions: [
@@ -327,6 +324,8 @@ export interface Extra {
   description: string;
   priceLabel: string;
   strikeThrough?: string;
+  /** When false, price is hidden and "Prezzo su richiesta" is shown instead */
+  showPrice?: boolean;
   /** Itemized specs shown in a tooltip/details */
   specs?: { label: string; value: string }[];
   /** Image path under /images */
@@ -342,6 +341,7 @@ export const extras: Extra[] = [
       "Specchio magico fluttuante. Stampe illimitate in tempo reale, kit gadget, operatore dedicato, condivisione QR Code. Regola della doppia copia per i matrimoni.",
     priceLabel: "+250€",
     strikeThrough: "450€ se singolo",
+    showPrice: false,
     image: "/images/air-mirror-photobooth.png",
     specs: [
       { label: "Stampe fotografiche", value: "ILLIMITATE per tutta la durata dell'evento" },
@@ -360,6 +360,7 @@ export const extras: Extra[] = [
     description:
       "La nuova frontiera dell'intrattenimento digitale per eventi esclusivi. Gli ospiti salgono sulla piattaforma dedicata e una telecamera ruota intorno a loro realizzando video dinamici in slow motion con effetti cinematografici, musica personalizzata e grafiche dell'evento. I contenuti vengono elaborati in pochi secondi e condivisi direttamente tramite smartphone e social network.",
     priceLabel: "+300€",
+    showPrice: false,
     image: "/images/video-booth-360-real.jpg",
     specs: [
       { label: "Esperienza", value: "Video slow-motion immersivi con effetti cinematografici" },
@@ -380,6 +381,7 @@ export const extras: Extra[] = [
     description:
       "Un'esperienza innovativa e ricca di emozione che trasforma i tradizionali messaggi degli invitati in un ricordo video unico e senza tempo. Postazione scenografica con telefono vintage dotato di sistema di registrazione video e audio professionale. Gli ospiti possono lasciare dediche, auguri, pensieri e momenti spontanei direttamente durante l'evento, creando un archivio di emozioni autentiche da rivivere nel tempo.",
     priceLabel: "+80€",
+    showPrice: false,
     image: "/images/video-guest-book.png",
     specs: [
       { label: "Esperienza", value: "Registrazione video + audio professionale con telefono vintage" },
@@ -398,6 +400,7 @@ export const extras: Extra[] = [
     description:
       "Fondale a paillettes lucide con scritta personalizzata a luce Neon. Trasforma la postazione in un set hollywoodiano.",
     priceLabel: "+80€",
+    showPrice: false,
     specs: [
       { label: "Fondale", value: "Paillettes lucide oro/argento (altezza 2m)" },
       { label: "Scritta Neon", value: "Personalizzata con nome sposi / festeggiato / azienda" },
