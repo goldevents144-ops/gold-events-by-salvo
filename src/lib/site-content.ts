@@ -360,7 +360,7 @@ export const extras: Extra[] = [
     description:
       "La nuova frontiera dell'intrattenimento digitale per eventi esclusivi. Gli ospiti salgono sulla piattaforma dedicata e una telecamera ruota intorno a loro realizzando video dinamici in slow motion con effetti cinematografici, musica personalizzata e grafiche dell'evento. I contenuti vengono elaborati in pochi secondi e condivisi direttamente tramite smartphone e social network.",
     priceLabel: "+300€",
-    image: "/images/video-booth-360-premium.png",
+    image: "/images/video-booth-360-real.jpg",
     specs: [
       { label: "Esperienza", value: "Video slow-motion immersivi con effetti cinematografici" },
       { label: "Pedana", value: "Rotante professionale, capacità fino a 4-5 persone" },
