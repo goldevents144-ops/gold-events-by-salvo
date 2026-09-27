@@ -164,8 +164,11 @@ function DashboardTab() {
         {cards.map((c) => (
           <div
             key={c.label}
-            className="rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-5 sm:p-6"
+            className="relative overflow-hidden rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-5 sm:p-6"
           >
+            {c.value > 0 && (
+              <span className="absolute right-3 top-3 inline-flex size-2.5 animate-pulse rounded-full bg-[#D4AF37]" />
+            )}
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
               {c.label}
             </p>
@@ -177,8 +180,106 @@ function DashboardTab() {
         ))}
       </div>
 
+      {/* Notifiche recenti */}
+      <NotificationsCard />
+
       {/* Welcome + Guide */}
       <GuideCard />
+    </div>
+  );
+}
+
+function NotificationsCard() {
+  const [notifications, setNotifications] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const loadNotifications = React.useCallback(() => {
+    fetch("/api/admin/audit")
+      .then((r) => r.json())
+      .then((d) => {
+        const notifs = (d.logs || [])
+          .filter((l: any) =>
+            l.action === "notification_new_request" ||
+            l.action === "notification_new_partner"
+          )
+          .slice(0, 5);
+        setNotifications(notifs);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  React.useEffect(() => {
+    loadNotifications();
+    // Auto-refresh ogni 30 secondi per nuove notifiche
+    const interval = setInterval(loadNotifications, 30_000);
+    return () => clearInterval(interval);
+  }, [loadNotifications]);
+
+  return (
+    <div className="rounded-2xl border border-[#D4AF37]/30 bg-[#1C1C1C]/60 p-5 sm:p-6">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="relative inline-flex size-2.5">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#D4AF37]/60" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-[#D4AF37]" />
+          </span>
+          <h3 className="font-serif text-base font-semibold text-white sm:text-lg">
+            Notifiche recenti
+          </h3>
+        </div>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">
+          Auto-refresh 30s
+        </span>
+      </div>
+
+      {loading ? (
+        <p className="py-4 text-center text-sm text-[#A1A1A1]">Caricamento…</p>
+      ) : notifications.length === 0 ? (
+        <div className="py-6 text-center">
+          <p className="text-sm text-[#A1A1A1]">Nessuna nuova richiesta.</p>
+          <p className="mt-1 text-[11px] text-[#6B6B6B]">
+            Quando un cliente compila il form, apparirà qui automaticamente.
+          </p>
+        </div>
+      ) : (
+        <ul className="space-y-2.5">
+          {notifications.map((n) => {
+            const meta = JSON.parse(n.meta || "{}");
+            const isPartner = n.action === "notification_new_partner";
+            return (
+              <li
+                key={n.id}
+                className="flex items-start gap-3 rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-3"
+              >
+                <span
+                  className={`mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg ${
+                    isPartner
+                      ? "border border-blue-500/30 bg-blue-500/10 text-blue-400"
+                      : "border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-[#D4AF37]"
+                  }`}
+                >
+                  {isPartner ? "🤝" : "📋"}
+                </span>
+                <div className="flex-1 text-sm">
+                  <p className="font-medium text-white">
+                    {isPartner
+                      ? meta.businessName || "Nuovo partner"
+                      : meta.fullName || "Nuova richiesta"}
+                  </p>
+                  <p className="text-xs text-[#A1A1A1]">
+                    {isPartner
+                      ? `${meta.activityType} · ${meta.location}`
+                      : `${meta.eventType} · ${meta.eventDate} · ${meta.guests} ospiti · ${meta.location}`}
+                  </p>
+                  <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-[#6B6B6B]">
+                    {new Date(n.createdAt).toLocaleString("it-IT")}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

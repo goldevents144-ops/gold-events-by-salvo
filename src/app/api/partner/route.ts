@@ -79,6 +79,27 @@ export async function POST(req: NextRequest) {
 
     await logAudit("partner_submission_created", submission.id, undefined, req);
 
+    // === NOTIFICA AUTOMATICA A SALVO ===
+    try {
+      await db.auditLog.create({
+        data: {
+          action: "notification_new_partner",
+          target: submission.id,
+          meta: JSON.stringify({
+            type: "partner",
+            businessName,
+            activityType,
+            location,
+            referentName,
+            referentEmail,
+            timestamp: new Date().toISOString(),
+          }),
+        },
+      });
+    } catch (e) {
+      console.error("Notifica non inviata:", e);
+    }
+
     return NextResponse.json({ ok: true, id: submission.id });
   } catch (error: any) {
     console.error("Partner API error:", error?.message);
