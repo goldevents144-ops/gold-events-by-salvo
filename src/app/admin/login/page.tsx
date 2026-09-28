@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Lock, Loader2, ArrowLeft } from "lucide-react";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = React.useState("");
@@ -20,6 +20,7 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: "no-store",
         body: JSON.stringify({ password }),
       });
       const data = await res.json();
@@ -73,14 +74,14 @@ export default function AdminLoginPage() {
                 autoFocus
                 required
                 className="mt-2 h-11 w-full rounded-lg border border-white/12 bg-[#0F0F0F]/60 px-3 text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none focus:ring-0"
-                placeholder="••••••••••••"
+                placeholder="Inserisci password"
               />
             </div>
 
             {error && (
-              <p className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <div className="rounded-md border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-3 py-2 text-sm text-[#D4AF37]">
                 {error}
-              </p>
+              </div>
             )}
 
             <button
@@ -100,7 +101,7 @@ export default function AdminLoginPage() {
         </div>
 
         <p className="mt-4 text-center text-[11px] text-[#6B6B6B]">
-          Accesso riservato al proprietario · Tentativi limitati
+          Accesso riservato al proprietario
         </p>
       </div>
     </div>
