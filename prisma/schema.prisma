@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -28,37 +25,27 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
-// ============================================================
-// Gold Events — Application data
-// ============================================================
-
-/// Contact form submissions from customers (form A in #contatti)
 model ContactSubmission {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
   fullName    String
   eventType   String
   eventDate   String
   location    String
   guests      Int
-  services    String // JSON-encoded array of service IDs
+  services    String
   notes       String?
-
-  status      String   @default("new") // new | read | contacted | archived
+  status      String   @default("new")
   adminNotes  String?
-
   @@index([createdAt])
   @@index([status])
 }
 
-/// Partner form submissions (form B in #partner)
 model PartnerSubmission {
   id            String   @id @default(cuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-
   businessName  String
   activityType  String
   location      String
@@ -66,69 +53,58 @@ model PartnerSubmission {
   referentPhone String
   referentEmail String
   capacity      String?
-  hasPower      String   // "si" | "no"
+  hasPower      String
   b2bRates      String?
-
-  status        String   @default("new") // new | contacted | approved | archived
+  status        String   @default("new")
   adminNotes    String?
-
   @@index([createdAt])
   @@index([status])
 }
 
-/// Chatbot conversation sessions (for context + audit)
 model ChatSession {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  messages  String   // JSON-encoded array of {role, content}
+  messages  String
   lang      String   @default("it")
   userAgent  String?
-  ipHash    String?  // SHA-256 hash for rate-limit, never raw IP
-
+  ipHash    String?
   @@index([createdAt])
 }
 
-/// Simple admin session token (single-owner model)
 model AdminSession {
   id        String   @id @default(cuid())
   tokenHash String   @unique
   createdAt DateTime @default(now())
   expiresAt DateTime
   userAgent String?
-
   @@index([expiresAt])
 }
 
-/// Admin credentials (single owner — bcrypt password hash + TOTP secret for 2FA)
 model AdminCredential {
   id              String   @id @default("singleton")
-  passwordHash    String   // bcrypt hash
-  totpSecret      String?  // base32 TOTP secret (set after 2FA enrollment)
+  passwordHash    String
+  totpSecret      String?
   totpEnrolledAt  DateTime?
-  recoveryCodes   String?  // JSON-encoded array of bcrypt-hashed recovery codes
+  recoveryCodes   String?
   updatedAt       DateTime @updatedAt
 }
 
-/// Audit log for admin actions (security compliance)
 model AuditLog {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  action    String   // login | logout | view_submission | delete_submission | edit_content | ...
+  action    String
   target    String?
   ipHash    String?
   userAgent String?
-  meta      String?  // JSON-encoded extras
-
+  meta      String?
   @@index([createdAt])
   @@index([action])
 }
 
-/// Editable site content snippets (managed via admin AI assistant)
 model SiteContent {
   id       String @id
   value    String
   updatedAt DateTime @updatedAt
-
   @@index([id])
 }
