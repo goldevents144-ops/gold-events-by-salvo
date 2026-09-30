@@ -222,6 +222,8 @@ export default function RootLayout({
     <html lang="it" suppressHydrationWarning className="dark">
       <head>
         <StructuredData />
+        {/* Google Search Console verification */}
+        <meta name="google-site-verification" content="0xcRnn5VKF3NWe-AnkTPWfcmJk5QVoi3YFefWFMCcbk" />
         {/* Cache-buster: timestamp force-refresh */}
         <meta name="generated-at" content={`${Date.now()}`} />
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
