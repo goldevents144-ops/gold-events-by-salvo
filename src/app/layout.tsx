@@ -20,7 +20,7 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const BASE_URL = "https://www.goldeventsbysalvo.it";
+const BASE_URL = "https://goldevents-nine.vercel.app";
 const LANGS = ["it", "en", "fr", "de", "es", "pt", "nl", "ru", "ar", "zh", "ja", "ko", "pl", "tr", "hi"];
 
 // SEO-optimized title with primary keywords + brand + location
