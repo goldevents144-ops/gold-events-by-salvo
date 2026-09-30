@@ -1,0 +1,75 @@
+================================================================
+  GUIDA DEPLOY GOLD EVENTS BY SALVO - WINDOWS
+================================================================
+
+FASE 1: SCARICA I FILE (2 minuti)
+---------------------------------
+1. Scarica i 2 file dalla cartella download:
+   - gold-events-deploy.zip (il sito)
+   - DEPLOY-WINDOWS.bat (script automatico)
+2. Crea una cartella sul Desktop chiamata "gold-events"
+3. Estrai TUTTI i file dello zip dentro quella cartella
+4. Copia DEPLOY-WINDOWS.bat dentro la stessa cartella
+
+FASE 2: CREA ACCOUNT VERCEL (3 minuti)
+--------------------------------------
+1. Apri il browser
+2. Vai su https://vercel.com/signup
+3. Registrati con la tua email
+4. Conferma l'email (controlla la posta)
+5. Torna su Vercel e accedi
+
+FASE 3: INSTALLA NODE.JS (se non lo hai) (3 minuti)
+----------------------------------------------------
+1. Vai su https://nodejs.org
+2. Clicca il pulsante verde "LTS" (Left Button)
+3. Scarica e installa (doppio clic, next next next)
+4. Riavvia il computer
+
+FASE 4: DEPLOY (5 minuti)
+--------------------------
+1. Apri la cartella "gold-events" sul Desktop
+2. Fai doppio clic su DEPLOY-WINDOWS.bat
+3. Si apre una finestra nera (terminale)
+4. Segui le istruzioni a schermo:
+   - "Log in to Vercel?" -> premi Y e poi Invio
+   - Si apre il browser -> conferma il login
+   - "Set up and deploy?" -> premi Y e Invio
+   - "Which scope?" -> premi Invio
+   - "Link to existing project?" -> premi N e Invio
+   - "Project name?" -> scrivi gold-events e premi Invio
+   - "Directory?" -> premi Invio
+5. Attendi 2 minuti
+6. Vercel ti dà un URL: https://gold-events.vercel.app
+7. IL TUO SITO È ONLINE!
+
+FASE 5: IMPOSTA LE VARIABILI (2 minuti)
+---------------------------------------
+1. Vai su https://vercel.com/dashboard
+2. Clicca sul progetto "gold-events"
+3. Vai su Settings -> Environment Variables
+4. Clicca "Add New"
+   - Key: DATABASE_URL
+   - Value: file:./db/custom.db
+   - Clicca "Save"
+5. Clicca "Add New" di nuovo
+   - Key: ADMIN_PASSWORD
+   - Value: salvo2026
+   - Clicca "Save"
+6. Vai su Deployments
+7. Clicca i 3 puntini (...) sul deploy più recente
+8. Clicca "Redeploy"
+9. Attendi 1 minuto
+10. Fatto!
+
+FASE 6: ACCEDI AL PANNELLO (1 minuto)
+--------------------------------------
+1. Vai su: https://gold-events.vercel.app/admin/login
+2. Password: salvo2026
+3. Clicca "Accedi"
+4. Cambia subito la password da Sicurezza
+
+================================================================
+  COSTI: 0€ (gratis per sempre su piano Hobby Vercel)
+  TEMPO TOTALE: 15 minuti
+================================================================
