@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://goldevents-nine.vercel.app";
+const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 const LANGS = [
   "it",
   "en",

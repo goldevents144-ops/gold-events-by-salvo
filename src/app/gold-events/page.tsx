@@ -10,7 +10,7 @@ import { Extras } from "@/components/site/extras";
 import { ContactForm } from "@/components/site/contact-form";
 import { ChatbotWidget } from "@/components/site/chatbot-widget";
 
-const BASE_URL = "https://goldevents-nine.vercel.app";
+const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 
 export const metadata: Metadata = {
   title: "Eventi, Matrimoni e Feste di Lusso in Sicilia",

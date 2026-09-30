@@ -1,5 +1,5 @@
 # robots.txt — Gold Events by Salvo
-# https://goldevents-nine.vercel.app/
+# https://goldeventsbysalvo.vercel.app/
 
 # === Allow all crawlers on public site ===
 User-agent: *
@@ -40,4 +40,4 @@ User-agent: Applebot-Extended
 Disallow: /
 
 # === Sitemap ===
-Sitemap: https://goldevents-nine.vercel.app/sitemap.xml
+Sitemap: https://goldeventsbysalvo.vercel.app/sitemap.xml

@@ -8,7 +8,7 @@ import { ContactForm } from "@/components/site/contact-form";
 import { PartnerForm } from "@/components/site/partner-form";
 import { ChatbotWidget } from "@/components/site/chatbot-widget";
 
-const BASE_URL = "https://goldevents-nine.vercel.app";
+const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 
 export const metadata: Metadata = {
   title: "Destination Sicily · Esperienze di Lusso in Sicilia · IT / EN",
