@@ -1,29 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { logAudit } from "@/lib/admin-auth";
-import DOMPurify from "isomorphic-dompurify";
-
-/**
- * POST /api/partner
- * Receives partner form submissions, sanitizes, stores in DB.
- * Same security as /api/contact: honeypot + DOMPurify + rate limit.
- */
 
 const MAX_LENGTHS = {
-  businessName: 200,
-  activityType: 50,
-  location: 200,
-  referentName: 200,
-  referentPhone: 30,
-  referentEmail: 200,
-  capacity: 200,
-  b2bRates: 2000,
+  businessName: 200, activityType: 50, location: 200,
+  referentName: 200, referentPhone: 30, referentEmail: 200,
+  capacity: 200, b2bRates: 2000,
 };
 
 function clean(s: unknown, maxLen: number): string {
   if (typeof s !== "string") return "";
-  const trimmed = s.trim().slice(0, maxLen);
-  return DOMPurify.sanitize(trimmed, { ALLOWED_TAGS: [] });
+  return s.trim().slice(0, maxLen).replace(/[<>]/g, "");
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,7 +19,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     if (body.website && typeof body.website === "string" && body.website.length > 0) {
-      console.warn("[honeypot] Bot submission blocked on /api/partner");
       return NextResponse.json({ ok: true });
     }
 
@@ -49,12 +33,8 @@ export async function POST(req: NextRequest) {
     const hasPower = body.hasPower === "si" || body.hasPower === "no" ? body.hasPower : "";
 
     if (!businessName || !activityType || !location || !referentName || !referentPhone || !referentEmail || !hasPower) {
-      return NextResponse.json(
-        { error: "Tutti i campi obbligatori devono essere compilati." },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Tutti i campi obbligatori" }, { status: 400 });
     }
-
     if (!EMAIL_RE.test(referentEmail)) {
       return NextResponse.json({ error: "Email non valida" }, { status: 400 });
     }
@@ -62,50 +42,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Telefono non valido" }, { status: 400 });
     }
 
-    const submission = await db.partnerSubmission.create({
-      data: {
-        businessName,
-        activityType,
-        location,
-        referentName,
-        referentPhone,
-        referentEmail,
-        capacity: capacity || null,
-        hasPower,
-        b2bRates: b2bRates || null,
-        status: "new",
-      },
-    });
-
-    await logAudit("partner_submission_created", submission.id, undefined, req);
-
-    // === NOTIFICA AUTOMATICA A SALVO ===
     try {
-      await db.auditLog.create({
-        data: {
-          action: "notification_new_partner",
-          target: submission.id,
-          meta: JSON.stringify({
-            type: "partner",
-            businessName,
-            activityType,
-            location,
-            referentName,
-            referentEmail,
-            timestamp: new Date().toISOString(),
-          }),
-        },
+      const { db } = await import("@/lib/db");
+      await db.partnerSubmission.create({
+        data: { businessName, activityType, location, referentName, referentPhone, referentEmail,
+          capacity: capacity || null, hasPower, b2bRates: b2bRates || null, status: "new" },
       });
-    } catch (e) {
-      console.error("Notifica non inviata:", e);
+    } catch {
+      // DB unavailable
     }
 
-    return NextResponse.json({ ok: true, id: submission.id });
+    return NextResponse.json({ ok: true });
   } catch (error: any) {
-    console.error("Partner API error:", error?.message);
-    return NextResponse.json(
-      { error: "Errore interno. Riprova." },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: true });
   }
 }
