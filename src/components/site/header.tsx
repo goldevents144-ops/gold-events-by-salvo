@@ -63,14 +63,40 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navItems = [
-    { href: "#chi-sono", label: t.nav["chi-sono"] },
-    { href: "#servizi", label: t.nav.servizi },
-    { href: "#bundles", label: t.nav.bundle },
-    { href: "#extra", label: t.nav.extra },
-    { href: "#sicily-experience", label: t.nav["sicily-experience"] },
-    { href: "#contatti", label: t.nav.contatti },
-  ];
+  // Context-aware navigation: detect current page
+  const [pathname, setPathname] = React.useState("");
+  React.useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
+  // On /gold-events: show sections of that page + link to /sicily-experience
+  // On /sicily-experience: show sections of that page + link to /gold-events
+  // On / (bivio): link to both subpages
+  const navItems = React.useMemo(() => {
+    if (pathname === "/gold-events") {
+      return [
+        { href: "#chi-sono", label: "Chi Sono", type: "anchor" },
+        { href: "#servizi", label: "Servizi", type: "anchor" },
+        { href: "#bundles", label: "Bundle", type: "anchor" },
+        { href: "#extra", label: "Extra", type: "anchor" },
+        { href: "#contatti", label: "Contatti", type: "anchor" },
+        { href: "/sicily-experience", label: "Sicily Experience", type: "link" },
+      ];
+    } else if (pathname === "/sicily-experience") {
+      return [
+        { href: "#sicily-experience", label: "Esperienze", type: "anchor" },
+        { href: "#contatti", label: "Contatti", type: "anchor" },
+        { href: "#partner", label: "Partner", type: "anchor" },
+        { href: "/gold-events", label: "Gold Events", type: "link" },
+      ];
+    } else {
+      // Bivio / home
+      return [
+        { href: "/gold-events", label: "Gold Events", type: "link" },
+        { href: "/sicily-experience", label: "Sicily Experience", type: "link" },
+      ];
+    }
+  }, [pathname]);
 
   return (
     <header
@@ -94,8 +120,11 @@ export function Header() {
               key={item.href}
               href={item.href}
               onClick={(e) => {
-                e.preventDefault();
-                scrollTo(item.href);
+                if (item.type === "anchor") {
+                  e.preventDefault();
+                  scrollTo(item.href);
+                }
+                // If type is "link", let Next.js handle the navigation
               }}
               className="relative rounded-full px-4 py-2 text-sm font-medium text-[#A1A1A1] transition-colors hover:text-white"
             >
@@ -168,10 +197,13 @@ export function Header() {
                     <Link
                       href={item.href}
                       onClick={(e) => {
-                        e.preventDefault();
-                        setOpen(false);
-                        // Allow sheet to close before scrolling
-                        setTimeout(() => scrollTo(item.href), 80);
+                        if (item.type === "anchor") {
+                          e.preventDefault();
+                          setOpen(false);
+                          setTimeout(() => scrollTo(item.href), 80);
+                        } else {
+                          setOpen(false);
+                        }
                       }}
                       className="flex items-center justify-between rounded-xl px-4 py-4 text-base font-medium text-white transition-colors hover:bg-white/5 hover:text-[#D4AF37]"
                     >
