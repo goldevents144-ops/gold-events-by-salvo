@@ -85,14 +85,14 @@ function ExtraCard({
         className="pointer-events-none absolute -top-10 -right-10 size-24 rounded-full bg-[#D4AF37]/5 blur-2xl transition-opacity duration-300 group-hover:bg-[#D4AF37]/15"
       />
 
-      {/* Optional preview image */}
+      {/* Optional preview image — eager load for visibility */}
       {extra.image && (
         <div className="relative -mx-5 -mt-5 mb-1 h-32 overflow-hidden sm:-mx-6 sm:-mt-6 sm:h-36">
-          { }
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={extra.image}
             alt={extra.name}
-            loading="lazy"
+            loading="eager"
             className="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-[#1C1C1C]/40 to-transparent" />
