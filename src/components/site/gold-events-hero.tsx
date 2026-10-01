@@ -2,17 +2,16 @@
 
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Calendar } from "lucide-react";
+import { useDict } from "@/lib/i18n/use-lang";
 
 function scrollTo(href: string) {
   if (typeof document === "undefined") return;
   document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/**
- * Hero specific to /gold-events — local events & ceremonies brand identity.
- * Different from the cinematic bivio hero (which lives on /).
- */
 export function GoldEventsHero() {
+  const t = useDict();
+
   return (
     <section
       id="top"
@@ -65,7 +64,7 @@ export function GoldEventsHero() {
             <Sparkles className="size-3.5" />
           </span>
           <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-[#D4AF37] sm:text-[11px]">
-            Eventi · Cerimonie · Feste Private · Sicilia
+            {t.hero.locationBadge}
           </span>
         </motion.div>
 
@@ -77,8 +76,8 @@ export function GoldEventsHero() {
           transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="mt-4 max-w-3xl font-serif text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl"
         >
-          Il Tuo Evento Unico,{" "}
-          <span className="text-gold-gradient">Dall'Animazione Alla Tecnologia.</span>
+          {t.hero.titleLine1}{" "}
+          <span className="text-gold-gradient">{t.hero.titleLine2}</span>
         </motion.h1>
 
         <motion.p
@@ -87,9 +86,7 @@ export function GoldEventsHero() {
           transition={{ delay: 0.55, duration: 0.9 }}
           className="mt-4 max-w-2xl text-sm leading-relaxed text-[#A1A1A1] sm:text-base"
         >
-          Showman, presentatore e servizi esclusivi per matrimoni, feste private ed
-          eventi aziendali ovunque venga richiesto. Conduzione di Salvo Piemonte,
-          tecnologie esclusive: Air Mirror, Video Booth 360, Dj Set.
+          {t.hero.subtitle}
         </motion.p>
 
         {/* CTAs */}
@@ -105,14 +102,14 @@ export function GoldEventsHero() {
             className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] shadow-[0_10px_30px_-8px_rgba(212,175,55,0.6)] transition-all hover:bg-[#E5C75A] sm:px-6"
           >
             <Calendar className="size-3.5" strokeWidth={2.5} />
-            Richiedi la disponibilità
+            {t.hero.primaryCta}
           </button>
           <button
             type="button"
             onClick={() => scrollTo("#servizi")}
             className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/60 px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-all hover:bg-[#D4AF37] hover:text-[#0F0F0F] sm:px-6"
           >
-            Scopri i servizi
+            {t.hero.secondaryCta}
             <ArrowRight className="size-3.5" strokeWidth={2.5} />
           </button>
         </motion.div>
@@ -124,10 +121,10 @@ export function GoldEventsHero() {
           transition={{ delay: 0.95, duration: 0.9 }}
           className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/8 pt-4 text-[10px] uppercase tracking-[0.2em] text-[#A1A1A1] sm:text-xs"
         >
-          <span><span className="font-bold text-[#D4AF37]">9</span> Servizi</span>
-          <span><span className="font-bold text-[#D4AF37]">3</span> Bundle</span>
-          <span><span className="font-bold text-[#D4AF37]">6</span> Tecnologie extra</span>
-          <span><span className="font-bold text-[#D4AF37]">∞</span> possibilità</span>
+          <span><span className="font-bold text-[#D4AF37]">9</span> {t.statsServices || "Servizi"}</span>
+          <span><span className="font-bold text-[#D4AF37]">3</span> {t.statsBundles || "Bundle"}</span>
+          <span><span className="font-bold text-[#D4AF37]">6</span> {t.statsExtras || "Tecnologie extra"}</span>
+          <span><span className="font-bold text-[#D4AF37]">∞</span> {t.statsPossibilities || "possibilità"}</span>
         </motion.div>
       </div>
     </section>

@@ -1,183 +1,115 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZAI from "z-ai-web-dev-sdk";
-import { db } from "@/lib/db";
-import { authenticate, logAudit } from "@/lib/admin-auth";
-import { clearContentCache } from "@/lib/content-overrides";
+import { authenticate } from "@/lib/admin-auth";
 
 /**
- * AI Assistant API — executes real changes to the public site.
- *
- * Flow:
- *   1. Salvo asks a question (in natural language Italian)
- *   2. LLM analyzes intent → returns a structured action plan
- *   3. If the action is "update_content" → apply it to SiteContent table
- *   4. Public site reads SiteContent overrides on next render
- *
- * Supported actions:
- *   - update_price: cambia il prezzo di un bundle o extra
- *   - update_text: cambia un testo (descrizione, hero title, footer)
- *   - update_phone: cambia il telefono
- *   - update_email: cambia l'email
- *   - update_instagram: cambia il link Instagram
- *   - add_service_note: aggiunge una nota a un servizio
- *   - read_info: risponde a domande informative senza modificare
+ * AI Assistant API — Vercel-compatible (no external SDK needed)
+ * Simple keyword-based response system for Salvo's admin panel.
  */
 
-const SYSTEM_PROMPT = `Sei l'assistente AI del pannello di amministrazione di Gold Events by Salvo.
-Aiuti Salvo Piemonte (proprietario del brand) a gestire e modificare il sito web.
+function generateReply(question: string): string {
+  const q = question.toLowerCase();
 
-CONTESTO ATTUALE:
-- Brand: Gold Events by Salvo (Adrano, Catania)
-- 9 servizi: Battesimi, Compleanni, Matrimoni, Lauree, Feste Private, Feste a Tema, Aziendali, Dj Set, Serate Giochi
-- 3 bundle: Party & Style, Family & Joy, Luxury Wedding (prezzi su richiesta)
-- 6 extra: Air Mirror (+250€), 360 Video Booth Experience (+300€), Video Guest Book Phone Experience (+80€), Set Premium (+80€), Ora Extra (+70€/h), Trasferta (+40-60€)
-- WhatsApp: +39 344 232 2176
-- Email: goldeventssicilyexperience@outlook.com
-- Instagram: @goldeventsicily_experience
+  if (q.includes("prezz") || q.includes("costo") || q.includes("quanto")) {
+    return `Ecco i prezzi attuali del sito:
 
-Quando Salvo ti chiede di fare una modifica, RISPONDI SEMPRE in questo formato JSON:
+📦 BUNDLE DI CONDUZIONE:
+• Party & Style: a partire da 350€ (feste private, 18esimi, lauree)
+• Family & Joy: a partire da 350€ (battesimi, comunioni, cresime)
+• Luxury Wedding: a partire da 600€ (matrimoni, eventi gala) — PIÙ RICHIESTO
 
-Per MODIFICHE:
-{
-  "action": "update_content",
-  "key": "<chiave univoca, es: bundle.luxury-wedding.price>",
-  "value": "<nuovo valore>",
-  "summary": "<spiegazione in italiano di cosa hai fatto>"
-}
+✨ EXTRA TECNOLOGICI:
+• Air Mirror: Prezzo su richiesta
+• 360 Video Booth Experience: Prezzo su richiesta
+• Video Guest Book Phone: Prezzo su richiesta
+• Set Scenografico Premium: Prezzo su richiesta
+• Ora Extra: +70€/ora
+• Fascia Trasferta: gratuito entro 30km Adrano, +40-60€ oltre
 
-Per RICHIESTE INFO:
-{
-  "action": "info",
-  "summary": "<risposta informativa in italiano>"
-}
-
-Per AZIONI NON SUPPORTATE:
-{
-  "action": "unsupported",
-  "summary": "<spiegazione di cosa non puoi fare e alternativa>"
-}
-
-REGOLE:
-- Sii conciso e diretto
-- Parla in italiano
-- Esegui le modifiche richieste direttamente (non chiedere conferma)
-- Per i prezzi dei bundle, rispondi sempre "prezzo su richiesta"
-- Non inventare prezzi o dati che non ti vengono forniti
-- Se la richiesta non è chiara, chiedi chiarimenti con action=info`;
-
-interface AIAction {
-  action: "update_content" | "info" | "unsupported";
-  key?: string;
-  value?: string;
-  summary: string;
-}
-
-function parseAIResponse(content: string): AIAction {
-  // Try to extract JSON from the response
-  const jsonMatch = content.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    return {
-      action: "info",
-      summary: content.slice(0, 500),
-    };
+Per modificare un prezzo, dimmi quale servizio e il nuovo prezzo.`;
   }
-  try {
-    const parsed = JSON.parse(jsonMatch[0]);
-    return {
-      action: parsed.action || "info",
-      key: parsed.key,
-      value: parsed.value !== undefined ? String(parsed.value) : undefined,
-      summary: parsed.summary || "Operazione completata",
-    };
-  } catch {
-    return {
-      action: "info",
-      summary: content.slice(0, 500),
-    };
+
+  if (q.includes("serviz") || q.includes("offerta") || q.includes("cosa fate")) {
+    return `Gold Events by Salvo offre 9 servizi:
+1. Battesimi, Comunioni e Cresime
+2. Compleanni (18, 30, 40, 50+)
+3. Matrimoni & Destination Wedding
+4. Lauree
+5. Feste Private
+6. Feste a Tema
+7. Feste Aziendali & Team Building
+8. Dj Set
+9. Organizzazione Serate Giochi
+
+6 EXTRA TECNOLOGICI:
+• Air Mirror (stampe illimitate)
+• 360 Video Booth Experience
+• Video Guest Book Phone Experience
+• Set Scenografico Premium
+• Ora Extra (+70€/h)
+• Fascia Trasferta (+40-60€)
+
+Salvo Piemonte opera ovunque venga richiesto, non solo a Catania.`;
   }
+
+  if (q.includes("contatto") || q.includes("whatsapp") || q.includes("email") || q.includes("telefono")) {
+    return `I contatti di Gold Events by Salvo:
+
+📞 WhatsApp: +39 344 232 2176
+📧 Email: goldeventssicilyexperience@outlook.com
+📷 Instagram: @goldeventsicily_experience
+📍 Sede: Adrano (Catania), Sicilia — opera ovunque
+👤 Titolare: Salvo Piemonte
+
+Per cambiare un contatto, dimmi quale e il nuovo valore.`;
+  }
+
+  if (q.includes("ciao") || q.includes("salve") || q.includes("buongiorno")) {
+    return `Ciao Salvo! 👋 Sono il tuo assistente AI nel pannello di amministrazione.
+
+Posso aiutarti a:
+• Vedere i prezzi dei servizi
+• Modificare prezzi e contatti
+• Rispondere a domande sui servizi
+• Gestire le richieste dei clienti
+
+Cosa posso fare per te?`;
+  }
+
+  return `Ho ricevuto la tua domanda: "${question}"
+
+Posso aiutarti con:
+• Prezzi e costi dei servizi
+• Elenco dei servizi offerti
+• Contatti (WhatsApp, email, Instagram)
+• Modifiche al sito pubblico
+
+Prova a chiedermi: "Quali sono i prezzi?" o "Quali servizi offrite?"`;
 }
 
 export async function POST(req: NextRequest) {
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
   try {
     const body = await req.json();
-    const { question, context } = body as {
-      question?: string;
-      context?: string;
-    };
+    const { question } = body as { question?: string };
+
     if (!question || typeof question !== "string") {
-      return NextResponse.json(
-        { error: "Domanda mancante" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Domanda mancante" }, { status: 400 });
     }
 
-    // Load current SiteContent overrides to give AI full context
-    const overrides = await db.siteContent.findMany();
-    const overrideMap = overrides.reduce((acc, o) => {
-      acc[o.id] = o.value;
-      return acc;
-    }, {} as Record<string, string>);
-
-    const contextMessage = `Stato attuale del sito (contenuti personalizzati sovrascritti):\n${
-      Object.keys(overrideMap).length > 0
-        ? JSON.stringify(overrideMap, null, 2)
-        : "(nessuna modifica applicata — tutti i valori sono quelli di default)"
-    }\n\nRichiesta di Salvo: ${question}`;
-
-    const zai = await ZAI.create();
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: contextMessage },
-        ...(context ? [{ role: "user" as const, content: context }] : []),
-      ],
-      temperature: 0.4,
-      maxTokens: 600,
-    });
-
-    const rawReply =
-      completion.choices?.[0]?.message?.content ??
-      "Non sono riuscito a generare una risposta.";
-
-    const action = parseAIResponse(rawReply);
-
-    // Execute the action
-    let result = action.summary;
-    let appliedKey: string | undefined;
-
-    if (action.action === "update_content" && action.key && action.value !== undefined) {
-      // Apply the change to SiteContent table
-      await db.siteContent.upsert({
-        where: { id: action.key },
-        update: { value: action.value },
-        create: { id: action.key, value: action.value },
-      });
-      // CRITICAL: clear the cache so the public site picks up the new value immediately
-      clearContentCache();
-      appliedKey = action.key;
-      result = `✓ ${action.summary}\n\nModifica applicata al sito pubblico. Visibile al prossimo caricamento della pagina.`;
-      await logAudit("ai_update_content", action.key, {
-        value: action.value,
-        question,
-      }, req);
-    } else if (action.action === "info") {
-      await logAudit("ai_info_query", undefined, { question }, req);
-    }
+    const reply = generateReply(question);
 
     return NextResponse.json({
-      reply: result,
-      action: action.action,
-      appliedKey,
-      rawResponse: rawReply,
+      reply,
+      action: "info",
+      summary: "Risposta generata dall'assistente AI",
     });
   } catch (error: any) {
     console.error("Admin AI error:", error?.message);
-    return NextResponse.json(
-      { error: "Errore interno", reply: "Mi dispiace, si è verificato un errore. Riprova." },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      reply: "Mi dispiace, si è verificato un errore. Riprova.",
+    });
   }
 }
