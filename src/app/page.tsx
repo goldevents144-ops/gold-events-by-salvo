@@ -395,9 +395,9 @@ function WorldCard({
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#1C1C1C]/80 transition-colors hover:border-[#D4AF37]/60"
     >
       <Link href={href} prefetch={true} className="flex size-full flex-col" aria-label={`${title} ${subtitle}`}>
-        {/* === Cover image — 4:3 landscape, contained, no overflow === */}
-        <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
-          { }
+        {/* === Cover image — 3:4 portrait (foto intera senza taglio), contained, no overflow === */}
+        <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden bg-[#0F0F0F]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={image}
             alt={`${title} ${subtitle}`}

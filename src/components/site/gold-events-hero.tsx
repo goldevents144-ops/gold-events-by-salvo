@@ -19,28 +19,28 @@ export function GoldEventsHero() {
       className="relative isolate overflow-hidden bg-[#0F0F0F]"
       aria-labelledby="ge-hero-title"
     >
-      {/* Background image */}
-      <div className="absolute inset-0 -z-10" aria-hidden>
+      {/* Background image — contained, no overflow */}
+      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>
         <motion.div
-          initial={{ scale: 1.1, opacity: 0 }}
+          initial={{ scale: 1.05, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          { }
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/collage/matrimoni-couple-toast.jpg"
             alt=""
             aria-hidden
             loading="eager"
             fetchPriority="high"
-            className="h-full w-full object-cover opacity-50"
+            className="h-full w-full object-cover opacity-40"
           />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(15,15,15,0.65) 0%, rgba(15,15,15,0.85) 60%, #0F0F0F 100%)",
+                "linear-gradient(180deg, rgba(15,15,15,0.70) 0%, rgba(15,15,15,0.88) 60%, #0F0F0F 100%)",
             }}
           />
           <div
