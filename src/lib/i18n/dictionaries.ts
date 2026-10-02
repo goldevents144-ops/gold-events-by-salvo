@@ -299,7 +299,7 @@ const it: Dictionary = {
     titleLine1: "Il Tuo Evento Unico,",
     titleLine2: "Dall'Animazione Alla Tecnologia",
     subtitle:
-      "Showman, Presentatore e Servizi Esclusivi per Matrimoni e Feste Private ovunque venga richiesto.",
+      "Salvo Piemonte: Showman, Presentatore e Servizi Esclusivi per Matrimoni e Feste Private ovunque venga richiesto.",
     primaryCta: "Richiedi la disponibilità per la tua data",
     secondaryCta: "Scopri i servizi",
     brandSplitLabel: "Salvo: unica voce organizzativa",
@@ -1225,7 +1225,7 @@ const es: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Sígueme",
-  footerCopyright: "Gold Events by Salvo. Todos los derechos reservados.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Todos los derechos reservados.",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "¡Hola! Soy el asistente virtual de Gold Events by Salvo. Puedo ayudarte a elegir el servicio adecuado, entender los precios o planificar tu evento. ¿Cómo puedo ayudarte?",
@@ -1408,7 +1408,7 @@ const pt: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Segue-me",
-  footerCopyright: "Gold Events by Salvo. Todos os direitos reservados.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Todos os direitos reservados.",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "Olá! Sou o assistente virtual da Gold Events by Salvo. Posso ajudar-te a escolher o serviço certo, perceber os preços ou planear o teu evento. Como posso ajudar?",
@@ -1591,7 +1591,7 @@ const nl: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Volg mij",
-  footerCopyright: "Gold Events by Salvo. Alle rechten voorbehouden.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Alle rechten voorbehouden.",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "Hoi! Ik ben de virtuele assistent van Gold Events by Salvo. Ik kan je helpen de juiste dienst te kiezen, prijzen te begrijpen of je evenement te plannen. Hoe kan ik helpen?",
@@ -1774,7 +1774,7 @@ const ru: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Подписаться",
-  footerCopyright: "Gold Events by Salvo. Все права защищены.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Все права защищены.",
   footerRegion: "Адрано · Катания · Таормина · Этна",
   chatWelcome:
     "Здравствуйте! Я виртуальный ассистент Gold Events by Salvo. Помогу выбрать подходящую услугу, разобраться с ценами или спланировать ваше событие. Чем помочь?",
@@ -1957,7 +1957,7 @@ const ar: PartialDict = {
   footerWhatsapp: "واتساب",
   footerEmail: "البريد",
   footerFollow: "تابعني",
-  footerCopyright: "Gold Events by Salvo. جميع الحقوق محفوظة.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. جميع الحقوق محفوظة.",
   footerRegion: "أدرانو · كاتانيا · تاورمينا · إتنا",
   chatWelcome:
     "مرحباً! أنا المساعد الافتراضي لـ Gold Events by Salvo. أساعدك في اختيار الخدمة المناسبة، فهم الأسعار أو تخطيط مناسبتك. كيف يمكنني المساعدة؟",
@@ -2130,7 +2130,7 @@ const zh: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "邮箱",
   footerFollow: "关注我",
-  footerCopyright: "Gold Events by Salvo. 保留所有权利。",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. 保留所有权利。",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "您好！我是 Gold Events by Salvo 虚拟助手。我可以帮您选择合适的服务、了解价格或规划活动。需要什么帮助？",
@@ -2650,7 +2650,7 @@ const pl: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Obserwuj",
-  footerCopyright: "Gold Events by Salvo. Wszelkie prawa zastrzeżone.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Wszelkie prawa zastrzeżone.",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "Cześć! Jestem wirtualnym asystentem Gold Events by Salvo. Mogę pomóc w wyborze odpowiedniej usługi, zrozumieniu cen lub zaplanowaniu wydarzenia. W czym mogę pomóc?",
@@ -2823,7 +2823,7 @@ const tr: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "Email",
   footerFollow: "Beni takip et",
-  footerCopyright: "Gold Events by Salvo. Tüm hakları saklıdır.",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. Tüm hakları saklıdır.",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "Merhaba! Ben Gold Events by Salvo sanal asistanı. Doğru hizmeti seçmenize, fiyatları anlamanıza veya etkinliğinizi planlamanıza yardımcı olabilirim. Nasıl yardımcı olabilirim?",
@@ -2996,7 +2996,7 @@ const hi: PartialDict = {
   footerWhatsapp: "WhatsApp",
   footerEmail: "ईमेल",
   footerFollow: "फ़ॉलो करें",
-  footerCopyright: "Gold Events by Salvo. सर्वाधिकार सुरक्षित।",
+  footerCopyright: "Salvo Piemonte - Gold Events by Salvo. सर्वाधिकार सुरक्षित।",
   footerRegion: "Adrano · Catania · Taormina · Etna",
   chatWelcome:
     "नमस्ते! मैं Gold Events by Salvo का वर्चुअल असिस्टेंट हूँ। मैं सही सेवा चुनने, कीमतें समझने या कार्यक्रम योजना में मदद कर सकता हूँ। मैं कैसे मदद करूँ?",
