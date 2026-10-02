@@ -92,7 +92,7 @@ export const FAQ_LD = {
       name: "Che servizi offre Gold Events by Salvo?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Gold Events by Salvo offre 9 servizi: Battesimi/Comunioni/Cresime, Compleanni, Matrimoni, Lauree, Feste Private, Feste a Tema, Feste Aziendali, Dj Set e Organizzazione Serate Giochi. Affianca a queste conduzioni 6 servizi extra tecnologici: Air Mirror, Video Booth 360, Audio Guestbook, Set Scenografico Premium, Ora Extra e Fascia Trasferta.",
+        text: "Gold Events by Salvo di Salvo Piemonte offre 9 servizi: Battesimi, Comunioni, Cresime, Compleanni, Matrimoni, Lauree, Feste Private, Feste a Tema, Feste Aziendali, Dj Set e Organizzazione Serate Giochi. Affianca a queste conduzioni 6 servizi extra tecnologici: Air Mirror (specchio magico fotobooth con stampe illimitate), 360 Video Booth Experience (pedana rotante per video slow-motion), Video Guest Book Phone Experience (telefono vintage per registrazioni video), Set Scenografico Premium (fondale neon personalizzato), Ora Extra (+70€/h) e Fascia Trasferta (gratuita entro 30km da Adrano).",
       },
     },
     {
@@ -100,7 +100,7 @@ export const FAQ_LD = {
       name: "Quanto costa un matrimonio con Gold Events by Salvo?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "I prezzi dei bundle di conduzione (Party & Style, Family & Joy, Luxury Wedding) sono personalizzati e su richiesta, in base ai servizi scelti. Si possono aggiungere extra come Air Mirror (+250€), Video Booth 360 (+300€), Audio Guestbook (+80€) e Set Scenografico Premium (+80€). Trasferta gratuita entro 30 km da Adrano.",
+        text: "Il bundle Luxury Wedding parte da 600€ per 7-9 ore di conduzione totale del ricevimento. Include regia e coordinamento totale, interfaccia con direttore di sala, catering e fotografi, conduzione primo ballo, taglio torta e lancio bouquet. I prezzi degli extra tecnologici (Air Mirror, Video Booth 360, Video Guest Book Phone) sono su richiesta e personalizzati in base ai servizi scelti. L'Ora Extra costa +70€/h. La trasferta è gratuita entro 30 km da Adrano (Catania), con supplemento 40-60€ per destinazioni oltre. Per un preventivo personalizzato, contatta Salvo Piemonte al +39 344 232 2176.",
       },
     },
     {
@@ -108,7 +108,39 @@ export const FAQ_LD = {
       name: "Dove opera Gold Events by Salvo?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Sede operativa ad Adrano (Catania). Operatività su tutta la Sicilia Orientale: Catania, Taormina, Etna, Giardini Naxos, Letojanni, Bronte, Nicolosi. Trasferta gratuita entro 30 km da Adrano; supplemento 40-60€ per destinazioni oltre.",
+        text: "La sede operativa è ad Adrano (Catania), in Sicilia. Salvo Piemonte opera ovunque venga richiesto, non solo a Catania e provincia. Copre tutta la Sicilia Orientale (Catania, Taormina, Etna, Giardini Naxos, Letojanni, Bronte, Nicolosi) ed è disponibile per eventi in tutta Italia e all'estero. La trasferta è gratuita entro 30 km da Adrano; supplemento 40-60€ per destinazioni oltre.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Chi è Salvo Piemonte?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Salvo Piemonte è il fondatore e organizzatore di eventi di Gold Events by Salvo, con sede ad Adrano (Catania), Sicilia. È showman, presentatore e conducente di eventi di lusso. Gestisce matrimoni, battesimi, compleanni, feste aziendali e serate giochi in tutta la Sicilia e ovunque venga richiesto. Offre anche tecnologie esclusive come Air Mirror, 360 Video Booth Experience e Video Guest Book Phone Experience.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Cos'è l'Air Mirror di Gold Events?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "L'Air Mirror è lo specchio magico fotobooth di ultima generazione di Gold Events by Salvo. Include stampe fotografiche totalmente illimitate in tempo reale, kit gadget (occhiali, parrucche, cartelli), operatore dedicato, condivisione digitale tramite QR Code e grafiche personalizzate. Per i matrimoni è inclusa la regola della doppia copia: una stampa per gli sposi e una per gli ospiti. Il prezzo è su richiesta in abbinamento a una conduzione base.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Cos'è il 360 Video Booth Experience?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Il 360 Video Booth Experience è una pedana rotante professionale che permette agli ospiti di registrare video dinamici in slow motion con effetti cinematografici, musica personalizzata e grafiche dell'evento. I video vengono elaborati in pochi secondi e condivisi direttamente tramite smartphone su TikTok e Instagram. Capace fino a 4-5 persone per video, include operatore dedicato per tutta la serata. Prezzo su richiesta.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Cos'è il Video Guest Book Phone Experience?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Il Video Guest Book Phone Experience è una postazione scenografica con telefono vintage dotato di sistema di registrazione video e audio professionale. Gli ospiti sollevano la cornetta e registrano dediche, auguri e momenti spontanei. Al termine dell'evento, tutti i video vengono raccolti e consegnati in formato digitale. Ideale per matrimoni, compleanni, lauree, anniversari ed eventi aziendali. Prezzo su richiesta.",
       },
     },
     {
@@ -116,23 +148,23 @@ export const FAQ_LD = {
       name: "Cos'è Gold Events Sicily Experience?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Gold Events Sicily Experience è il circuito turistico internazionale di Salvo Piemonte. Non eroga direttamente i servizi (degustazioni, agriturismo, beach tour), ma fa da tramite curando la regia, la selezione dei partner territoriali (cantine, agriturismi, beach club, guide vulcanologiche) e la comunicazione bilingue con gli ospiti internazionali.",
+        text: "Gold Events Sicily Experience è il circuito turistico internazionale di Salvo Piemonte. Non eroga direttamente i servizi (degustazioni, agriturismo, beach tour), ma fa da tramite curando la regia, la selezione dei partner territoriali (cantine, agriturismi, beach club, guide vulcanologiche) e la comunicazione bilingue italiano/inglese con gli ospiti internazionali. Offre 4 esperienze: Etna Wine Tasting Premium, Etna Sunset Party, Sicilian Food & Agriturismo Experience, Luxury Beach & Coast Tours a Taormina e Giardini Naxos.",
       },
     },
     {
       "@type": "Question",
-      name: "Come posso richiedere un preventivo?",
+      name: "Come posso richiedere un preventivo per il mio evento?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Compila il modulo nella sezione Contatti del sito. Riceverai in automatico un messaggio pre-compilato da inviare via WhatsApp al +39 344 232 2176 o via email a goldeventssicilyexperience@outlook.com. Risposta garantita entro 24 ore.",
+        text: "Compila il modulo nella sezione Contatti del sito goldeventsbysalvo.vercel.app. Dopo l'invio, riceverai un messaggio pre-compilato da inviare via WhatsApp al +39 344 232 2176 o via email a goldeventssicilyexperience@outlook.com. Il messaggio include automaticamente nome, tipo di evento, data, location, numero ospiti e servizi desiderati. Risposta garantita entro 24 ore con proposta personalizzata da Salvo Piemonte.",
       },
     },
     {
       "@type": "Question",
-      name: "L'Air Mirror ha stampe illimitate?",
+      name: "L'Air Mirror ha stampe fotografiche illimitate?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Sì, le stampe fotografiche dell'Air Mirror sono totalmente illimitate per tutta la durata dell'evento. Per i matrimoni è inclusa la regola della doppia copia: una stampa per gli sposi, una per gli ospiti. Il costo in abbinamento a una conduzione base è di +250€ (invece di 450€ se preso singolarmente).",
+        text: "Sì, le stampe fotografiche dell'Air Mirror di Gold Events by Salvo sono totalmente illimitate per tutta la durata dell'evento. Per i matrimoni è inclusa la regola della doppia copia: una stampa per gli sposi e una per gli ospiti. Include anche kit gadget (occhiali, parrucche, cartelli), operatore dedicato, condivisione QR Code e grafiche personalizzate con nome sposi o festeggiato.",
       },
     },
     {
@@ -140,7 +172,23 @@ export const FAQ_LD = {
       name: "Posso diventare partner del circuito Sicily Experience?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Sì. Cantine vinicole, agriturismi, ristoranti, guide vulcanologiche e beach club possono candidarsi tramite il modulo 'Diventa Partner' nella sezione apposita del sito. Saranno ricontattati da Salvo per valutare la collaborazione B2B.",
+        text: "Sì. Cantine vinicole, agriturismi, ristoranti, guide vulcanologiche e beach club possono candidarsi tramite il modulo 'Diventa Partner' nel sito di Gold Events by Salvo. Saranno ricontattati da Salvo Piemonte per valutare la collaborazione B2B. I partner vengono inseriti nel circuito Gold Events Sicily Experience per offrire esperienze turistiche di lusso in Sicilia Orientale.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Quali sono i prezzi dei bundle di Gold Events by Salvo?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Gold Events by Salvo offre 3 bundle di conduzione: Party & Style (a partire da 350€ per feste private, 18esimi, lauree, compleanni adulti — durata flessibile), Family & Joy (a partire da 350€ per battesimi, comunioni, cresime — ideale per famiglie), Luxury Wedding (a partire da 600€ per matrimoni ed eventi aziendali di gala — il più richiesto). I prezzi degli extra tecnologici (Air Mirror, Video Booth 360, Video Guest Book Phone) sono personalizzati e su richiesta. Ora Extra: +70€/h. Trasferta gratuita entro 30km da Adrano.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Gold Events by Salvo fa eventi fuori dalla Sicilia?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sì, Salvo Piemonte opera ovunque venga richiesto. La sede operativa è ad Adrano (Catania), ma è disponibile per eventi in tutta Italia e all'estero. La trasferta è gratuita entro 30 km da Adrano; per destinazioni oltre (Taormina, Caltagirone, Ragusa, Noto) il supplemento è di 40-60€. Per eventi fuori Sicilia, il preventivo è personalizzato in base alla destinazione.",
       },
     },
   ],
