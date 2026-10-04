@@ -9,6 +9,7 @@ import { Bundles } from "@/components/site/bundles";
 import { Extras } from "@/components/site/extras";
 import { ContactForm } from "@/components/site/contact-form";
 import { ChatbotWidget } from "@/components/site/chatbot-widget";
+import { MediaDisplay } from "@/components/site/media-display";
 
 const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 
@@ -43,6 +44,7 @@ export default function GoldEventsPage() {
         <Services />
         <Bundles />
         <Extras />
+        <MediaDisplay />
         <ContactForm />
       </main>
       <Footer />

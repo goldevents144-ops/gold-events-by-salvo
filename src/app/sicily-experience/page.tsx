@@ -7,6 +7,7 @@ import { SicilyExperience } from "@/components/site/sicily-experience";
 import { ContactForm } from "@/components/site/contact-form";
 import { PartnerForm } from "@/components/site/partner-form";
 import { ChatbotWidget } from "@/components/site/chatbot-widget";
+import { MediaDisplay } from "@/components/site/media-display";
 
 const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 
@@ -38,6 +39,7 @@ export default function SicilyExperiencePage() {
         />
         <SicilyHero />
         <SicilyExperience />
+        <MediaDisplay />
         <ContactForm />
         <PartnerForm />
       </main>
