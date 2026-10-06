@@ -1,0 +1,322 @@
+================================================================
+  GOLD EVENTS BY SALVO — GUIDA COMPLETA DI AUTONOMIA
+  Tutto quello che serve per gestire il sito senza dipendere da nessuno
+================================================================
+
+Data: Ottobre 2026
+Sito: https://goldeventsbysalvo.vercel.app/
+Titolare: Salvo Piemonte
+
+================================================================
+  1. CREDENZIALI E ACCESSI
+================================================================
+
+SITO PUBBLICO:
+  URL: https://goldeventsbysalvo.vercel.app/
+
+PANNELLO ADMIN:
+  URL: https://goldeventsbysalvo.vercel.app/admin/login
+  Password: salvo2026
+  (Per cambiarla: Admin → Sicurezza → Cambia Password)
+
+VERCEL (hosting):
+  URL: https://vercel.com/dashboard
+  Email: (la tua email di registrazione)
+  Token deploy: vcp_7AN6dSCcuyoyCXrzdxtmCQAF4gBMa9pHsCXb3hpAtPsu7KgvOz3g6k62
+  Progetto: goldeventsbysalvo
+  Piano: Hobby (gratis per sempre)
+
+GOOGLE SEARCH CONSOLE:
+  URL: https://search.google.com/search-console
+  Proprietà verificata: https://goldeventsbysalvo.vercel.app
+  Codice verifica: 0xcRnn5VKF3NWe-AnkTPWfcmJk5QVoi3YFefWFMCcbk
+
+CONTATTI SITO:
+  WhatsApp: +39 344 232 2176
+  Email: goldeventssicilyexperience@outlook.com
+  Instagram: @goldeventsicily_experience
+  Sede: Adrano (Catania), Sicilia — opera ovunque
+
+================================================================
+  2. COME GESTIRE IL SITO DAL CELLULARE
+================================================================
+
+A. ACCEDERE AL PANNELLO:
+   1. Apri il browser sul telefono
+   2. Vai su: https://goldeventsbysalvo.vercel.app/admin/login
+   3. Inserisci password: salvo2026
+   4. Clicca "Accedi"
+
+B. VEDERE LE RICHIESTE DEI CLIENTI:
+   1. Clicca tab "Contatti"
+   2. Vedi tutte le richieste con nome, evento, data, ospiti
+   3. Cambia stato: new → read → contacted → archived
+   4. Contatta il cliente via WhatsApp o email
+
+C. VEDERE CANDIDATURE PARTNER:
+   1. Clicca tab "Partner"
+   2. Vedi cantine, agriturismi, ristoranti che vogliono collaborare
+
+D. CARICARE FOTO E VIDEO:
+   1. Clicca tab "Media & File"
+   2. Scegli dove mostrarlo (galleria, hero, servizio)
+   3. Clicca "Scatta foto" (apre fotocamera) o "Carica video"
+   4. Oppure incolla URL YouTube/Imgur
+   5. Vedi anteprima live
+   6. Clicca "Pubblica sul sito"
+   7. La foto/video appare IMMEDIATAMENTE sul sito pubblico
+
+E. USARE L'AI ASSISTANT:
+   1. Clicca tab "AI Assistant"
+   2. Scrivi: "prezzi" → elenco prezzi
+   3. Scrivi: "servizi" → elenco servizi
+   4. Scrivi: "contatti" → elenco contatti
+   5. Scrivi: "foto" → come aggiungere foto
+
+F. CHATBOT SITO PUBBLICO:
+   - Pulsante oro in basso a destra su ogni pagina
+   - Risponde a domande su prezzi, servizi, contatti
+   - Funziona in 15 lingue
+
+================================================================
+  3. COME RICEVERE LE RICHIESTE DEI CLIENTI
+================================================================
+
+QUANDO UN CLIENTE COMPILA IL FORM:
+   1. Il cliente va su /gold-events → scorri fino a "Contatti"
+   2. Compila: nome, tipo evento, data, location, ospiti, servizi
+   3. Clicca "Invia richiesta"
+   4. Appaiono 2 pulsanti:
+      - "Invia via WhatsApp" → apre WhatsApp con messaggio pre-compilato
+      - "Invia via Email" → apre email con subject + body pre-compilati
+   5. Il cliente clicca uno dei due → tu ricevi il messaggio
+
+DOVE VEDI LE RICHIESTE:
+   - Sul telefono: WhatsApp +39 344 232 2176
+   - Sull'email: goldeventssicilyexperience@outlook.com
+   - Nel pannello admin → tab "Contatti"
+
+================================================================
+  4. SISTEMA PREVENTIVI AUTOMATICO
+================================================================
+
+IL MESSAGGIO WHATSAPP PRE-COMPILATO CONTIENE:
+   *RICHIESTA PREVENTIVO — Gold Events by Salvo*
+
+   👤 Nome: [nome cliente]
+   🎉 Tipo di evento: [tipo]
+   📅 Data: [data]
+   📍 Location: [location]
+   👥 Ospiti: [numero]
+   ✨ Servizi desiderati:
+      • [servizi selezionati]
+   📝 Note: [note cliente]
+
+   — Inviato dal sito goldeventsbysalvo.vercel.app
+
+L'EMAIL PRE-COMPILATA CONTIENE:
+   Subject: Richiesta preventivo — [tipo evento]
+   Body: stesso messaggio del WhatsApp
+
+IL CLIENTE DEVE SOLO:
+   1. Compilare il form
+   2. Cliccare WhatsApp o Email
+   3. Premere "Invia"
+   Tu ricevi tutto già formattato.
+
+================================================================
+  5. BACKUP E SALVATAGGIO
+================================================================
+
+FILE DA SCARICARE E SALVARE SU GOOGLE DRIVE:
+
+1. Codice completo del sito:
+   download/gold-events-backup-FINAL-*.tar.gz (4.3MB)
+
+2. Database con i dati:
+   download/db-backup-FINAL-*.db (136KB)
+
+3. Questo file (guida):
+   download/GOLD-EVENTS-GUIDA-COMPLETA.txt
+
+4. Token Vercel (salvalo in un posto sicuro):
+   vcp_7AN6dSCcuyoyCXrzdxtmCQAF4gBMa9pHsCXb3hpAtPsu7KgvOz3g6k62
+
+IMPORTANTE: Scarica tutto OGGI e salvalo su Google Drive.
+Senza backup, se perdi l'accesso a Vercel, perdi il sito.
+
+================================================================
+  6. COME MODIFICARE IL SITO IN FUTURO
+================================================================
+
+LIVELLO 1 — MODIFICHE DAL PANNELLO (nessun codice):
+   - Cambiare prezzi: AI Assistant
+   - Aggiungere foto/video: Media & File
+   - Vedere richieste: Contatti
+   - Cambiare password: Sicurezza
+
+LIVELLO 2 — MODIFICHE AL CODICE (serve un programmatore):
+   Se vuoi cambiare testi, colori, aggiungere sezioni:
+   
+   1. Estrai gold-events-backup-FINAL-*.tar.gz sul computer
+   2. Apri con VS Code (gratis) o Cursor AI (gratis)
+   3. Modifica i file:
+      - Prezzi/testi: src/lib/site-content.ts
+      - Colori: src/app/globals.css
+      - Layout: src/components/site/
+   4. Deploya:
+      Apri terminale → scrivi: npx vercel deploy --prod
+   5. Sito aggiornato in 2 minuti
+
+LIVELLO 3 — DEPLOY DA ZERO (se tutto sparisce):
+   1. Estrai il backup
+   2. Installa Node.js (nodejs.org)
+   3. Apri terminale nella cartella
+   4. Scrivi: npm install
+   5. Scrivi: npx vercel deploy --prod --token vcp_7AN6dSCcuyoyCXrzdxtmCQAF4gBMa9pHsCXb3hpAtPsu7KgvOz3g6k62
+   6. Sito online
+
+================================================================
+  7. COSTI — TUTTO GRATIS
+================================================================
+
+  Hosting Vercel:        0€ (gratis per sempre, piano Hobby)
+  Dominio .vercel.app:  0€ (incluso)
+  Database:              0€ (in-memory + env vars)
+  Upload foto/video:     0€ (tmpfiles.org/0x0.st/catbox)
+  Chatbot:               0€ (keyword-based)
+  AI Assistant:          0€ (keyword-based)
+  SSL/HTTPS:             0€ (automatico Vercel)
+  CDN globale:          0€ (incluso Vercel)
+  SEO:                   0€ (Google Search Console)
+  PWA:                   0€ (manifest + service worker)
+  Google Search Console: 0€ (gratis)
+  ─────────────────────────────────────────────────
+  TOTALE:                0€ / mese — per sempre
+
+  UNICO COSTO OPZIONALE:
+  Dominio personalizzato goldeventsbysalvo.it: ~10€/anno
+  (da comprare su Namecheap/Aruba/GoDaddy, poi collegare su Vercel)
+
+================================================================
+  8. SEO — COME FAR COMPARIRE IL SITO SU GOOGLE
+================================================================
+
+GIÀ FATTO:
+   ✅ Google Search Console verificato
+   ✅ Sitemap inviata (3 URL × 15 lingue)
+   ✅ 13 FAQ structured data (JSON-LD)
+   ✅ 39 keyword strategiche
+   ✅ 15 lingue con hreflang
+   ✅ robots.txt ottimizzato
+   ✅ Sottoposto a Google, Bing, Yandex, DuckDuckGo
+   ✅ IndexNow attivo
+
+COME VERIFICARE INDICIZZAZIONE:
+   1. Cerca su Google: site:goldeventsbysalvo.vercel.app
+   2. Se appare il sito → indicizzato ✅
+   3. Se non appare → aspetta 3-7 giorni
+
+COME ACCELERARE:
+   1. Condividi il link su Instagram (@goldeventsicily_experience)
+   2. Metti il link nella bio Instagram
+   3. Cerca "Gold Events by Salvo" su Google ogni giorno
+   4. Su Google Search Console → "Richiedi indicizzazione"
+
+QUERY PER TROVARE IL SUO SUO GOOGLE:
+   - "Gold Events by Salvo"
+   - "Salvo Piemonte eventi Sicilia"
+   - "organizzatore eventi lusso Catania"
+   - "Air Mirror Video Booth 360 Sicilia"
+   - "destination wedding Sicilia Salvo"
+
+================================================================
+  9. CARATTERISTICHE TECNICHE DEL SITO
+================================================================
+
+TECNOLOGIE:
+   - Next.js 16 (App Router)
+   - TypeScript
+   - Tailwind CSS 4
+   - Vercel (hosting serverless)
+   - PWA (installabile come app)
+
+LINGUE (15):
+   IT, EN, FR, DE, ES, PT, NL, RU, AR (RTL), ZH, JA, KO, PL, TR, HI
+
+SEZIONI SITO:
+   / (home con bivio cinematografico)
+   /gold-events (eventi locali: 9 servizi, 3 bundle, 6 extra)
+   /sicily-experience (turismo: 4 esperienze, partnership)
+   /admin (pannello: 6 tab)
+
+PANNELLO ADMIN (6 TAB):
+   1. Dashboard (statistiche + guida)
+   2. Contatti (richieste clienti)
+   3. Partner (candidature B2B)
+   4. Media & File (upload foto/video dal telefono)
+   5. AI Assistant (info prezzi/servizi/contatti)
+   6. Audit Log (storico azioni)
+
+SICUREZZA:
+   - Password bcrypt 12 rounds
+   - 2FA TOTP pronto (da attivare)
+   - CSP strict, HSTS 2 anni, X-Frame-Options DENY
+   - Cookie httpOnly + secure + sameSite=strict
+   - Honeypot anti-bot nei form
+   - Rate limiting API
+   - Bot mitigation (sqlmap/nikto/nmap blocked)
+
+SEO:
+   - 10 JSON-LD structured data
+   - 13 FAQ per Google AI Overviews
+   - 39 keyword strategiche
+   - 15 hreflang languages
+   - Sitemap dinamica
+   - robots.txt con block AI scrapers
+   - security.txt responsible disclosure
+   - Google Search Console verificato
+
+================================================================
+  10. CONTATTI DI EMERGENZA
+================================================================
+
+Se il sito non funziona:
+
+1. Verifica su: https://vercel.com/dashboard
+   - Il progetto "goldeventsbysalvo" è attivo?
+   - Ci sono deploy in stato "Error"?
+
+2. Se Vercel ha problemi:
+   - Trasferisci su Netlify (gratis, stesso codice)
+   - Oppure Cloudflare Pages (gratis)
+
+3. Se hai bisogno di un programmatore:
+   - Dagli il file gold-events-backup-FINAL-*.tar.gz
+   - È codice Next.js standard, qualsiasi sviluppatore web sa lavorarci
+   - Deploy: npx vercel deploy --prod
+
+4. Se perdi la password admin:
+   - Vai su Vercel → Settings → Environment Variables
+   - Cambia ADMIN_PASSWORD con una nuova
+   - Redeploy
+
+5. Se perdi l'accesso a Vercel:
+   - Recupera password su vercel.com
+   - Email di registrazione: (la tua email)
+
+================================================================
+  FINE GUIDA
+================================================================
+
+  © 2026 Salvo Piemonte - Gold Events by Salvo
+  Sito: https://goldeventsbysalvo.vercel.app/
+  WhatsApp: +39 344 232 2176
+  Email: goldeventssicilyexperience@outlook.com
+  Instagram: @goldeventsicily_experience
+
+  Questa guida contiene tutto ciò che serve per gestire
+  il sito in autonomia, senza dipendere da nessuno.
+
+  Salva questo file su Google Drive o stampalo.
+================================================================
