@@ -1,0 +1,672 @@
+     1→"use client";
+     2→
+     3→import * as React from "react";
+     4→import { useRouter } from "next/navigation";
+     5→import { MediaTab } from "./media-tab";
+     6→import Link from "next/link";
+     7→import {
+     8→  LayoutDashboard,
+     9→  Users,
+    10→  Building2,
+    11→  Bot,
+    12→  ScrollText,
+    13→  LogOut,
+    14→  Loader2,
+    15→  ExternalLink,
+    16→  Sparkles,
+    17→  Shield,
+    18→  ImageIcon,
+    19→  Upload,
+    20→  Trash2,
+    21→  Copy,
+    22→  Check,
+    23→  FileText,
+    24→} from "lucide-react";
+    25→import { toast } from "sonner";
+    26→
+    27→const TABS = [
+    28→  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    29→  { id: "contatti", label: "Contatti", icon: Users },
+    30→  { id: "partner", label: "Partner", icon: Building2 },
+    31→  { id: "media", label: "Media & File", icon: ImageIcon },
+    32→  { id: "ai", label: "AI Assistant", icon: Bot },
+    33→  { id: "audit", label: "Audit Log", icon: ScrollText },
+    34→] as const;
+    35→
+    36→type TabId = (typeof TABS)[number]["id"];
+    37→
+    38→export default function AdminDashboardPage() {
+    39→  const router = useRouter();
+    40→  const [authed, setAuthed] = React.useState<boolean | null>(null);
+    41→  const [tab, setTab] = React.useState<TabId>("dashboard");
+    42→
+    43→  React.useEffect(() => {
+    44→    fetch("/api/admin/logout", { method: "GET" })
+    45→      .then((r) => r.json())
+    46→      .then((d) => setAuthed(!!d.authenticated))
+    47→      .catch(() => setAuthed(false));
+    48→  }, []);
+    49→
+    50→  const logout = async () => {
+    51→    await fetch("/api/admin/logout", { method: "POST" });
+    52→    router.push("/admin/login");
+    53→  };
+    54→
+    55→  if (authed === null) {
+    56→    return (
+    57→      <div className="flex min-h-screen items-center justify-center bg-[#0F0F0F]">
+    58→        <Loader2 className="size-6 animate-spin text-[#D4AF37]" />
+    59→      </div>
+    60→    );
+    61→  }
+    62→
+    63→  if (!authed) {
+    64→    router.push("/admin/login");
+    65→    return null;
+    66→  }
+    67→
+    68→  return (
+    69→    <div className="min-h-screen bg-[#0F0F0F] text-white">
+    70→      {/* Top bar */}
+    71→      <header className="sticky top-0 z-30 border-b border-white/8 bg-[#0F0F0F]/95 backdrop-blur-xl">
+    72→        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+    73→          <div className="flex items-center gap-3">
+    74→            <span className="inline-flex size-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+    75→              <Sparkles className="size-4" />
+    76→            </span>
+    77→            <div className="flex flex-col leading-tight">
+    78→              <span className="font-serif text-sm font-semibold">Gold Events</span>
+    79→              <span className="text-[10px] uppercase tracking-[0.24em] text-[#D4AF37]">
+    80→                Admin Panel
+    81→              </span>
+    82→            </div>
+    83→          </div>
+    84→          <div className="flex items-center gap-3">
+    85→            <Link
+    86→              href="/admin/security"
+    87→              className="inline-flex h-9 items-center gap-2 rounded-full border border-[#D4AF37]/40 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+    88→            >
+    89→              <Shield className="size-3.5" /> Sicurezza
+    90→            </Link>
+    91→            <Link
+    92→              href="/"
+    93→              target="_blank"
+    94→              className="hidden items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-[#A1A1A1] transition-colors hover:text-white sm:inline-flex"
+    95→            >
+    96→              Vedi sito <ExternalLink className="size-3.5" />
+    97→            </Link>
+    98→            <button
+    99→              type="button"
+   100→              onClick={logout}
+   101→              className="inline-flex h-9 items-center gap-2 rounded-full border border-white/12 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#A1A1A1] transition-colors hover:border-red-500/50 hover:text-red-300"
+   102→            >
+   103→              <LogOut className="size-3.5" /> Esci
+   104→            </button>
+   105→          </div>
+   106→        </div>
+   107→      </header>
+   108→
+   109→      {/* Tab nav */}
+   110→      <div className="border-b border-white/8 bg-[#0F0F0F]">
+   111→        <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 sm:px-6">
+   112→          {TABS.map((t) => {
+   113→            const Icon = t.icon;
+   114→            return (
+   115→              <button
+   116→                key={t.id}
+   117→                type="button"
+   118→                onClick={() => setTab(t.id)}
+   119→                className={`inline-flex items-center gap-2 whitespace-nowrap border-b-2 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] transition-colors ${
+   120→                  tab === t.id
+   121→                    ? "border-[#D4AF37] text-[#D4AF37]"
+   122→                    : "border-transparent text-[#A1A1A1] hover:text-white"
+   123→                }`}
+   124→              >
+   125→                <Icon className="size-3.5" />
+   126→                {t.label}
+   127→              </button>
+   128→            );
+   129→          })}
+   130→        </nav>
+   131→      </div>
+   132→
+   133→      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+   134→        {tab === "dashboard" && <DashboardTab />}
+   135→        {tab === "contatti" && <ContattiTab />}
+   136→        {tab === "partner" && <PartnerTab />}
+   137→        {tab === "ai" && <AiTab />}
+   138→        {tab === "audit" && <AuditTab />}
+   139→        {tab === "media" && <MediaTab />}
+   140→      </main>
+   141→    </div>
+   142→  );
+   143→}
+   144→
+   145→function DashboardTab() {
+   146→  const [counts, setCounts] = React.useState({
+   147→    newSubs: 0,
+   148→    newPartners: 0,
+   149→    chatSessions: 0,
+   150→  });
+   151→  React.useEffect(() => {
+   152→    Promise.all([
+   153→      fetch("/api/admin/submissions?status=new").then((r) => r.json()),
+   154→      fetch("/api/admin/partners").then((r) => r.json()),
+   155→    ]).then(([subs, parts]) => {
+   156→      setCounts({
+   157→        newSubs: subs.submissions?.length ?? 0,
+   158→        newPartners: parts.partners?.filter((p: any) => p.status === "new").length ?? 0,
+   159→        chatSessions: 0,
+   160→      });
+   161→    });
+   162→  }, []);
+   163→
+   164→  const cards = [
+   165→    { label: "Nuove richieste", value: counts.newSubs, hint: "Da leggere" },
+   166→    { label: "Nuovi partner", value: counts.newPartners, hint: "In attesa" },
+   167→    { label: "Sessioni chat", value: counts.chatSessions, hint: "Ultime 24h" },
+   168→  ];
+   169→  return (
+   170→    <div className="flex flex-col gap-6">
+   171→      {/* Stats cards */}
+   172→      <div className="grid gap-4 sm:grid-cols-3">
+   173→        {cards.map((c) => (
+   174→          <div
+   175→            key={c.label}
+   176→            className="relative overflow-hidden rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-5 sm:p-6"
+   177→          >
+   178→            {c.value > 0 && (
+   179→              <span className="absolute right-3 top-3 inline-flex size-2.5 animate-pulse rounded-full bg-[#D4AF37]" />
+   180→            )}
+   181→            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+   182→              {c.label}
+   183→            </p>
+   184→            <p className="mt-3 font-serif text-4xl font-bold text-white">
+   185→              {c.value}
+   186→            </p>
+   187→            <p className="mt-1 text-xs text-[#A1A1A1]">{c.hint}</p>
+   188→          </div>
+   189→        ))}
+   190→      </div>
+   191→
+   192→      {/* Notifiche recenti */}
+   193→      <NotificationsCard />
+   194→
+   195→      {/* Welcome + Guide */}
+   196→      <GuideCard />
+   197→    </div>
+   198→  );
+   199→}
+   200→
+   201→function NotificationsCard() {
+   202→  const [notifications, setNotifications] = React.useState<any[]>([]);
+   203→  const [loading, setLoading] = React.useState(true);
+   204→
+   205→  const loadNotifications = React.useCallback(() => {
+   206→    fetch("/api/admin/audit")
+   207→      .then((r) => r.json())
+   208→      .then((d) => {
+   209→        const notifs = (d.logs || [])
+   210→          .filter((l: any) =>
+   211→            l.action === "notification_new_request" ||
+   212→            l.action === "notification_new_partner"
+   213→          )
+   214→          .slice(0, 5);
+   215→        setNotifications(notifs);
+   216→      })
+   217→      .finally(() => setLoading(false));
+   218→  }, []);
+   219→
+   220→  React.useEffect(() => {
+   221→    loadNotifications();
+   222→    // Auto-refresh ogni 30 secondi per nuove notifiche
+   223→    const interval = setInterval(loadNotifications, 30_000);
+   224→    return () => clearInterval(interval);
+   225→  }, [loadNotifications]);
+   226→
+   227→  return (
+   228→    <div className="rounded-2xl border border-[#D4AF37]/30 bg-[#1C1C1C]/60 p-5 sm:p-6">
+   229→      <div className="mb-4 flex items-center justify-between gap-3">
+   230→        <div className="flex items-center gap-2">
+   231→          <span className="relative inline-flex size-2.5">
+   232→            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#D4AF37]/60" />
+   233→            <span className="relative inline-flex size-2.5 rounded-full bg-[#D4AF37]" />
+   234→          </span>
+   235→          <h3 className="font-serif text-base font-semibold text-white sm:text-lg">
+   236→            Notifiche recenti
+   237→          </h3>
+   238→        </div>
+   239→        <span className="text-[10px] uppercase tracking-[0.2em] text-[#6B6B6B]">
+   240→          Auto-refresh 30s
+   241→        </span>
+   242→      </div>
+   243→
+   244→      {loading ? (
+   245→        <p className="py-4 text-center text-sm text-[#A1A1A1]">Caricamento…</p>
+   246→      ) : notifications.length === 0 ? (
+   247→        <div className="py-6 text-center">
+   248→          <p className="text-sm text-[#A1A1A1]">Nessuna nuova richiesta.</p>
+   249→          <p className="mt-1 text-[11px] text-[#6B6B6B]">
+   250→            Quando un cliente compila il form, apparirà qui automaticamente.
+   251→          </p>
+   252→        </div>
+   253→      ) : (
+   254→        <ul className="space-y-2.5">
+   255→          {notifications.map((n) => {
+   256→            const meta = JSON.parse(n.meta || "{}");
+   257→            const isPartner = n.action === "notification_new_partner";
+   258→            return (
+   259→              <li
+   260→                key={n.id}
+   261→                className="flex items-start gap-3 rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-3"
+   262→              >
+   263→                <span
+   264→                  className={`mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg ${
+   265→                    isPartner
+   266→                      ? "border border-blue-500/30 bg-blue-500/10 text-blue-400"
+   267→                      : "border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-[#D4AF37]"
+   268→                  }`}
+   269→                >
+   270→                  {isPartner ? "🤝" : "📋"}
+   271→                </span>
+   272→                <div className="flex-1 text-sm">
+   273→                  <p className="font-medium text-white">
+   274→                    {isPartner
+   275→                      ? meta.businessName || "Nuovo partner"
+   276→                      : meta.fullName || "Nuova richiesta"}
+   277→                  </p>
+   278→                  <p className="text-xs text-[#A1A1A1]">
+   279→                    {isPartner
+   280→                      ? `${meta.activityType} · ${meta.location}`
+   281→                      : `${meta.eventType} · ${meta.eventDate} · ${meta.guests} ospiti · ${meta.location}`}
+   282→                  </p>
+   283→                  <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-[#6B6B6B]">
+   284→                    {new Date(n.createdAt).toLocaleString("it-IT")}
+   285→                  </p>
+   286→                </div>
+   287→              </li>
+   288→            );
+   289→          })}
+   290→        </ul>
+   291→      )}
+   292→    </div>
+   293→  );
+   294→}
+   295→
+   296→function GuideCard() {
+   297→  return (
+   298→    <div className="overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-br from-[#1C1C1C] to-[#0F0F0F]">
+   299→      <div className="border-b border-white/8 px-6 py-4">
+   300→        <h2 className="font-serif text-xl font-semibold text-white sm:text-2xl">
+   301→          Benvenuto, Salvo 👑
+   302→        </h2>
+   303→        <p className="mt-1 text-sm text-[#A1A1A1]">
+   304→          Questo è il tuo pannello di controllo privato. Da qui gestisci tutto il sito pubblico.
+   305→        </p>
+   306→      </div>
+   307→
+   308→      <div className="grid gap-5 p-6 sm:grid-cols-2">
+   309→        {/* Section 1 — Navigazione */}
+   310→        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5">
+   311→          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+   312→            <LayoutDashboard className="size-4" />
+   313→          </div>
+   314→          <h3 className="font-serif text-base font-semibold text-white">Le 5 sezioni</h3>
+   315→          <ul className="mt-3 space-y-2 text-xs leading-relaxed text-[#A1A1A1] sm:text-sm">
+   316→            <li>
+   317→              <span className="font-semibold text-[#D4AF37]">Dashboard</span> — questa pagina, riepilogo generale.
+   318→            </li>
+   319→            <li>
+   320→              <span className="font-semibold text-[#D4AF37]">Contatti</span> — tutte le richieste di preventivo dei clienti. Cambia stato (new → read → contacted → archived).
+   321→            </li>
+   322→            <li>
+   323→              <span className="font-semibold text-[#D4AF37]">Partner</span> — candidature B2B (cantine, agriturismi, beach club). Il tuo profilo è già approvato.
+   324→            </li>
+   325→            <li>
+   326→              <span className="font-semibold text-[#D4AF37]">AI Assistant</span> — chiedi all'AI di modificare il sito pubblico (prezzi, testi, immagini) e lei esegue direttamente.
+   327→            </li>
+   328→            <li>
+   329→              <span className="font-semibold text-[#D4AF37]">Audit Log</span> — storico di tutte le azioni fatte qui (per sicurezza).
+   330→            </li>
+   331→          </ul>
+   332→        </div>
+   333→
+   334→        {/* Section 2 — AI Assistant */}
+   335→        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5">
+   336→          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+   337→            <Bot className="size-4" />
+   338→          </div>
+   339→          <h3 className="font-serif text-base font-semibold text-white">Come usare l'AI Assistant</h3>
+   340→          <ol className="mt-3 space-y-2 text-xs leading-relaxed text-[#A1A1A1] sm:text-sm">
+   341→            <li>
+   342→              <span className="font-semibold text-white">1.</span> Clicca sul tab "AI Assistant" in alto.
+   343→            </li>
+   344→            <li>
+   345→              <span className="font-semibold text-white">2.</span> Scrivi in italiano cosa vuoi cambiare, es: <em className="text-[#D4AF37]">"Cambia il prezzo di Luxury Wedding a 700€"</em>.
+   346→            </li>
+   347→            <li>
+   348→              <span className="font-semibold text-white">3.</span> L'AI analizza la richiesta, propone la modifica e la <span className="font-semibold text-white">applica direttamente al sito pubblico</span>.
+   349→            </li>
+   350→            <li>
+   351→              <span className="font-semibold text-white">4.</span> Vedi il risultato immediatamente nel sito pubblico dopo refresh.
+   352→            </li>
+   353→          </ol>
+   354→          <p className="mt-3 text-[11px] text-[#6B6B6B]">
+   355→            Esempi: "Aggiungi un servizio per addii al nubilato", "Cambia la descrizione dell'Air Mirror", "Cambia il telefono nel footer".
+   356→          </p>
+   357→        </div>
+   358→
+   359→        {/* Section 3 — Gestione richieste */}
+   360→        <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-5 sm:col-span-2">
+   361→          <div className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+   362→            <Users className="size-4" />
+   363→          </div>
+   364→          <h3 className="font-serif text-base font-semibold text-white">Come gestire le richieste dei clienti</h3>
+   365→          <div className="mt-3 grid gap-3 text-xs leading-relaxed text-[#A1A1A1] sm:grid-cols-2 sm:text-sm">
+   366→            <p>
+   367→              <span className="font-semibold text-white">Quando arriva una richiesta:</span> appare nella tab "Contatti" con stato <span className="text-[#D4AF37]">new</span>.
+   368→              Clicca sulla riga per espandere e vedere tutti i dettagli (tipo evento, data, ospiti, servizi richiesti, note).
+   369→            </p>
+   370→            <p>
+   371→              <span className="font-semibold text-white">Dopo averla letta:</span> cambia stato in <span className="text-[#D4AF37]">read</span>.
+   372→              Quando contatti il cliente: <span className="text-[#D4AF37]">contacted</span>.
+   373→              Quando chiusa: <span className="text-[#D4AF37]">archived</span>.
+   374→            </p>
+   375→          </div>
+   376→        </div>
+   377→
+   378→        {/* Section 4 — Quick tips */}
+   379→        <div className="rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-5 sm:col-span-2">
+   380→          <h3 className="font-serif text-base font-semibold text-[#D4AF37]">⚡ Suggerimenti rapidi</h3>
+   381→          <ul className="mt-3 grid gap-2 text-xs leading-relaxed text-white/85 sm:grid-cols-2 sm:text-sm">
+   382→            <li>✓ Usa il pulsante "VEDI SITO" in alto per aprire il sito pubblico in una nuova scheda</li>
+   383→            <li>✓ Dopo ogni modifica, ricarica il sito pubblico per vedere le modifiche</li>
+   384→            <li>✓ Per sicurezza, premi "ESCI" quando hai finito</li>
+   385→            <li>✓ Tutte le tue azioni vengono registrate nell'Audit Log</li>
+   386→          </ul>
+   387→        </div>
+   388→      </div>
+   389→    </div>
+   390→  );
+   391→}
+   392→
+   393→function ContattiTab() {
+   394→  const [items, setItems] = React.useState<any[]>([]);
+   395→  const [loading, setLoading] = React.useState(true);
+   396→  const load = () => {
+   397→    setLoading(true);
+   398→    fetch("/api/admin/submissions")
+   399→      .then((r) => r.json())
+   400→      .then((d) => setItems(d.submissions ?? []))
+   401→      .finally(() => setLoading(false));
+   402→  };
+   403→  React.useEffect(load, []);
+   404→
+   405→  const updateStatus = async (id: string, status: string) => {
+   406→    await fetch(`/api/admin/submissions/${id}`, {
+   407→      method: "PATCH",
+   408→      headers: { "Content-Type": "application/json" },
+   409→      body: JSON.stringify({ status }),
+   410→    });
+   411→    load();
+   412→  };
+   413→
+   414→  if (loading) {
+   415→    return <Loader2 className="size-6 animate-spin text-[#D4AF37]" />;
+   416→  }
+   417→  if (items.length === 0) {
+   418→    return (
+   419→      <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
+   420→        Nessuna richiesta ancora. Le nuove richieste del form appariranno qui.
+   421→      </p>
+   422→    );
+   423→  }
+   424→  return (
+   425→    <div className="flex flex-col gap-3">
+   426→      {items.map((s) => (
+   427→        <details
+   428→          key={s.id}
+   429→          className="group rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4 transition-colors hover:border-[#D4AF37]/30"
+   430→        >
+   431→          <summary className="cursor-pointer list-none">
+   432→            <div className="flex flex-wrap items-center justify-between gap-3">
+   433→              <div>
+   434→                <p className="font-semibold text-white">{s.fullName}</p>
+   435→                <p className="text-xs text-[#A1A1A1]">
+   436→                  {s.eventType} · {new Date(s.createdAt).toLocaleString("it-IT")}
+   437→                </p>
+   438→              </div>
+   439→              <span className="rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF37]">
+   440→                {s.status}
+   441→              </span>
+   442→            </div>
+   443→          </summary>
+   444→          <div className="mt-4 grid gap-3 border-t border-white/8 pt-4 text-sm sm:grid-cols-2">
+   445→            <Field label="Data evento" value={s.eventDate} />
+   446→            <Field label="Location" value={s.location} />
+   447→            <Field label="Ospiti" value={String(s.guests)} />
+   448→            <Field label="Servizi" value={s.services} />
+   449→            {s.notes && <Field label="Note" value={s.notes} />}
+   450→            <div className="sm:col-span-2 flex flex-wrap gap-2 pt-2">
+   451→              {["new", "read", "contacted", "archived"].map((st) => (
+   452→                <button
+   453→                  key={st}
+   454→                  type="button"
+   455→                  onClick={() => updateStatus(s.id, st)}
+   456→                  className={`rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+   457→                    s.status === st
+   458→                      ? "bg-[#D4AF37] text-[#0F0F0F]"
+   459→                      : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
+   460→                  }`}
+   461→                >
+   462→                  {st}
+   463→                </button>
+   464→              ))}
+   465→            </div>
+   466→          </div>
+   467→        </details>
+   468→      ))}
+   469→    </div>
+   470→  );
+   471→}
+   472→
+   473→function PartnerTab() {
+   474→  const [items, setItems] = React.useState<any[]>([]);
+   475→  const [loading, setLoading] = React.useState(true);
+   476→  React.useEffect(() => {
+   477→    fetch("/api/admin/partners")
+   478→      .then((r) => r.json())
+   479→      .then((d) => setItems(d.partners ?? []))
+   480→      .finally(() => setLoading(false));
+   481→  }, []);
+   482→
+   483→  if (loading) return <Loader2 className="size-6 animate-spin text-[#D4AF37]" />;
+   484→  if (items.length === 0) {
+   485→    return (
+   486→      <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
+   487→        Nessuna candidatura partner ancora.
+   488→      </p>
+   489→    );
+   490→  }
+   491→  return (
+   492→    <div className="flex flex-col gap-3">
+   493→      {items.map((p) => (
+   494→        <div
+   495→          key={p.id}
+   496→          className="rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4"
+   497→        >
+   498→          <div className="flex flex-wrap items-center justify-between gap-3">
+   499→            <div>
+   500→              <p className="font-semibold text-white">{p.businessName}</p>
+   501→              <p className="text-xs text-[#A1A1A1]">
+   502→                {p.activityType} · {p.location}
+   503→              </p>
+   504→            </div>
+   505→            <span className="rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF37]">
+   506→              {p.status}
+   507→            </span>
+   508→          </div>
+   509→          <div className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+   510→            <Field label="Referente" value={`${p.referentName} · ${p.referentPhone}`} />
+   511→            <Field label="Email" value={p.referentEmail} />
+   512→            <Field label="Capacità" value={p.capacity ?? "—"} />
+   513→            <Field label="Allaccio elettrico" value={p.hasPower} />
+   514→            {p.b2bRates && <Field label="Tariffe B2B" value={p.b2bRates} />}
+   515→          </div>
+   516→        </div>
+   517→      ))}
+   518→    </div>
+   519→  );
+   520→}
+   521→
+   522→function AiTab() {
+   523→  const [input, setInput] = React.useState("");
+   524→  const [messages, setMessages] = React.useState<
+   525→    Array<{ role: "user" | "assistant"; content: string }>
+   526→  >([]);
+   527→  const [loading, setLoading] = React.useState(false);
+   528→
+   529→  const send = async () => {
+   530→    const text = input.trim();
+   531→    if (!text || loading) return;
+   532→    setInput("");
+   533→    setMessages((m) => [...m, { role: "user", content: text }]);
+   534→    setLoading(true);
+   535→    try {
+   536→      const res = await fetch("/api/admin/ai", {
+   537→        method: "POST",
+   538→        headers: { "Content-Type": "application/json" },
+   539→        body: JSON.stringify({ question: text }),
+   540→      });
+   541→      const data = await res.json();
+   542→      setMessages((m) => [
+   543→        ...m,
+   544→        { role: "assistant", content: data.reply || "(errore)" },
+   545→      ]);
+   546→    } catch {
+   547→      setMessages((m) => [
+   548→        ...m,
+   549→        { role: "assistant", content: "Errore di connessione." },
+   550→      ]);
+   551→    } finally {
+   552→      setLoading(false);
+   553→    }
+   554→  };
+   555→
+   556→  return (
+   557→    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+   558→      <div className="rounded-2xl border border-[#D4AF37]/20 bg-[#1C1C1C]/40 p-5">
+   559→        <h2 className="font-serif text-lg font-semibold text-white">
+   560→          Assistente AI
+   561→        </h2>
+   562→        <p className="mt-1 text-sm text-[#A1A1A1]">
+   563→          Chiedimi come modificare il sito, quali prezzi aggiornare, come gestire i contenuti.
+   564→          Ti darò suggerimenti — ogni modifica deve essere confermata manualmente.
+   565→        </p>
+   566→      </div>
+   567→      <div className="flex max-h-[400px] min-h-[200px] flex-col gap-2 overflow-y-auto rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4">
+   568→        {messages.length === 0 && (
+   569→          <p className="text-center text-sm text-[#A1A1A1]">
+   570→            Es: "Come posso aggiornare il prezzo di Luxury Wedding?"
+   571→          </p>
+   572→        )}
+   573→        {messages.map((m, i) => (
+   574→          <div
+   575→            key={i}
+   576→            className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+   577→          >
+   578→            <div
+   579→              className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+   580→                m.role === "user"
+   581→                  ? "bg-[#D4AF37] text-[#0F0F0F]"
+   582→                  : "border border-white/8 bg-[#0F0F0F] text-white/90"
+   583→              }`}
+   584→            >
+   585→              {m.content}
+   586→            </div>
+   587→          </div>
+   588→        ))}
+   589→        {loading && (
+   590→          <div className="flex justify-start">
+   591→            <div className="inline-flex items-center gap-2 rounded-2xl border border-white/8 bg-[#0F0F0F] px-3.5 py-2.5 text-sm text-[#A1A1A1]">
+   592→              <Loader2 className="size-3.5 animate-spin text-[#D4AF37]" />
+   593→              Sto pensando…
+   594→            </div>
+   595→          </div>
+   596→        )}
+   597→      </div>
+   598→      <div className="flex gap-2">
+   599→        <input
+   600→          type="text"
+   601→          value={input}
+   602→          onChange={(e) => setInput(e.target.value)}
+   603→          onKeyDown={(e) => {
+   604→            if (e.key === "Enter") {
+   605→              e.preventDefault();
+   606→              send();
+   607→            }
+   608→          }}
+   609→          placeholder="Scrivi una domanda…"
+   610→          className="h-11 flex-1 rounded-full border border-white/12 bg-[#1C1C1C] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+   611→        />
+   612→        <button
+   613→          type="button"
+   614→          onClick={send}
+   615→          disabled={!input.trim() || loading}
+   616→          className="inline-flex h-11 items-center justify-center rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0F0F0F] disabled:opacity-40"
+   617→        >
+   618→          Invia
+   619→        </button>
+   620→      </div>
+   621→    </div>
+   622→  );
+   623→}
+   624→
+   625→function AuditTab() {
+   626→  const [logs, setLogs] = React.useState<any[]>([]);
+   627→  React.useEffect(() => {
+   628→    fetch("/api/admin/audit")
+   629→      .then((r) => r.json())
+   630→      .then((d) => setLogs(d.logs ?? []));
+   631→  }, []);
+   632→  return (
+   633→    <div className="rounded-2xl border border-white/8 bg-[#1C1C1C]/40 p-4">
+   634→      {logs.length === 0 ? (
+   635→        <p className="text-center text-sm text-[#A1A1A1]">Nessun log ancora.</p>
+   636→      ) : (
+   637→        <ul className="flex flex-col gap-2 text-xs">
+   638→          {logs.map((l) => (
+   639→            <li
+   640→              key={l.id}
+   641→              className="flex flex-wrap items-center gap-3 border-b border-white/5 pb-2"
+   642→            >
+   643→              <span className="font-mono text-[#A1A1A1]">
+   644→                {new Date(l.createdAt).toLocaleString("it-IT")}
+   645→              </span>
+   646→              <span className="rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-[#D4AF37]">
+   647→                {l.action}
+   648→              </span>
+   649→              {l.target && (
+   650→                <span className="text-[#A1A1A1]">→ {l.target}</span>
+   651→              )}
+   652→            </li>
+   653→          ))}
+   654→        </ul>
+   655→      )}
+   656→    </div>
+   657→  );
+   658→}
+   659→
+   660→function Field({ label, value }: { label: string; value: string }) {
+   661→  return (
+   662→    <div className="flex flex-col">
+   663→      <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A1A1A1]">
+   664→        {label}
+   665→      </dt>
+   666→      <dd className="mt-0.5 text-sm text-white/90">{value}</dd>
+   667→    </div>
+   668→  );
+   669→}
+   670→
+   671→// Media & File Tab — upload and manage images/files
+   672→

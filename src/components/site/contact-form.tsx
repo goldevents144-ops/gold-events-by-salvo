@@ -40,6 +40,16 @@ const formSchema = z.object({
   fullName: z
     .string()
     .min(2, "Inserisci il tuo nome o la ragione sociale."),
+  email: z
+    .string()
+    .email("Email non valida.")
+    .optional()
+    .or(z.literal("")),
+  phone: z
+    .string()
+    .min(6, "Inserisci un telefono valido (minimo 6 cifre).")
+    .optional()
+    .or(z.literal("")),
   eventType: z.string({ required_error: "Seleziona il tipo di evento." }),
   eventDate: z.string({ required_error: "Seleziona una data." }),
   location: z
@@ -53,6 +63,9 @@ const formSchema = z.object({
     .array(z.string())
     .min(1, "Seleziona almeno un servizio desiderato."),
   notes: z.string().optional(),
+}).refine((data) => data.email || data.phone, {
+  message: "Inserisci almeno un recapito (email o telefono).",
+  path: ["phone"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -77,6 +90,8 @@ export function ContactForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: "",
+      email: "",
+      phone: "",
       eventType: undefined,
       eventDate: "",
       location: "",
@@ -207,6 +222,48 @@ export function ContactForm() {
                             {...field}
                             placeholder="Mario Rossi / Azienda S.r.l."
                             className={fieldClasses(!!errors.fullName)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">
+                          Email <span className="text-[#A1A1A1]">(se non lasci il telefono)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="email"
+                            placeholder="mario.rossi@email.com"
+                            className={cn(fieldClasses(!!errors.email), "h-11")}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-white">
+                          Telefono / WhatsApp <span className="text-[#A1A1A1]">(se non lasci l'email)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="tel"
+                            placeholder="+39 333 1234567"
+                            className={cn(fieldClasses(!!errors.phone), "h-11")}
                           />
                         </FormControl>
                         <FormMessage />
@@ -497,6 +554,8 @@ function buildMessage(values: FormValues): string {
   lines.push("*RICHIESTA PREVENTIVO — Gold Events by Salvo*");
   lines.push("");
   lines.push(`👤 *Nome:* ${values.fullName}`);
+  if (values.email) lines.push(`✉️ *Email:* ${values.email}`);
+  if (values.phone) lines.push(`📞 *Telefono:* ${values.phone}`);
   lines.push(`🎉 *Tipo di evento:* ${values.eventType}`);
   lines.push(`📅 *Data:* ${values.eventDate}`);
   lines.push(`📍 *Location:* ${values.location}`);

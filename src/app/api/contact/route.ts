@@ -23,6 +23,8 @@ export async function POST(req: NextRequest) {
     const eventDate = clean(body.eventDate, MAX_LENGTHS.eventDate);
     const location = clean(body.location, MAX_LENGTHS.location);
     const notes = clean(body.notes, MAX_LENGTHS.notes);
+    const email = clean(body.email, 200);
+    const phone = clean(body.phone, 50);
 
     if (!fullName || fullName.length < 2) {
       return NextResponse.json({ error: "Nome non valido" }, { status: 400 });
@@ -50,8 +52,26 @@ export async function POST(req: NextRequest) {
         services = JSON.stringify(body.services.filter((s: any) => typeof s === "string").slice(0, 20));
       }
       await db.contactSubmission.create({
-        data: { fullName, eventType, eventDate, location, guests, services, notes: notes || null, status: "new" },
+        data: {
+          fullName, eventType, eventDate, location, guests, services,
+          notes: notes || null,
+          email: email || null,
+          phone: phone || null,
+          status: "new",
+        },
       });
+
+      // Try to log audit notification
+      try {
+        const { logAudit } = await import("@/lib/admin-auth");
+        const fakeReq = { headers: req.headers } as any;
+        await logAudit(
+          "notification_new_request",
+          fullName,
+          { fullName, eventType, eventDate, location, guests, services, notes: notes || "" },
+          fakeReq,
+        );
+      } catch {}
     } catch {
       // DB not available on Vercel — form works anyway (WhatsApp/email CTAs)
     }

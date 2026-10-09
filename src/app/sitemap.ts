@@ -23,6 +23,10 @@ const SECTIONS = [
   { path: "/", priority: 1.0, changeFreq: "weekly" as const },
   { path: "/gold-events", priority: 0.95, changeFreq: "weekly" as const },
   { path: "/sicily-experience", priority: 0.95, changeFreq: "weekly" as const },
+  { path: "/dove-opero", priority: 0.9, changeFreq: "monthly" as const },
+  { path: "/prezzi", priority: 0.9, changeFreq: "monthly" as const },
+  { path: "/recensioni", priority: 0.85, changeFreq: "monthly" as const },
+  { path: "/faq", priority: 0.85, changeFreq: "monthly" as const },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

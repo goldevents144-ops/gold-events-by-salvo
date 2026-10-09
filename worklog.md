@@ -74,3 +74,54 @@ Stage Summary:
 - Spiega in linguaggio accessibile: cos'è un dominio, perché vercel.app non va, come comprare su Aruba, costi, collegamento a Vercel
 - Include checklist operativa finale con 10 step dalla decisione al sito attivo
 - File: /home/z/my-project/download/guida-dominio-gold-events.pdf
+
+---
+Task ID: 16
+Agent: main (Super Z)
+Task: Mini gestionale admin + pagine SEO (mega lavoro pre-dominio)
+
+Work Log:
+- Esteso database schema ContactSubmission con 7 nuovi campi: email, phone, repliedAt, repliedVia, repliedText, budget, closedAt, starred (con indice su starred)
+- Aggiornato API contact POST: ora salva email + phone del cliente + log audit notification_new_request
+- Aggiornato API admin/submissions/[id] PATCH: ora gestisce status, adminNotes, starred, budget, repliedVia, repliedText, email, phone. Auto-set status="contacted" quando arriva reply.
+- Aggiornato contact form pubblico: aggiunti 2 campi opzionali (email, phone) con validazione "almeno uno dei due"
+- Aggiornato messaggio WhatsApp/Email pre-compilato: ora include email e telefono del cliente
+- Riscritto completamente ContattiTab in admin/page.tsx come MINI GESTIONALE completo:
+  - Lista richieste con badge nuovo/letto/contattato/archiviato
+  - Filtri per stato con conteggio (Tutte/Nuove/Lette/Contattate/Archiviate)
+  - Ricerca testuale per nome, location, email, telefono
+  - Auto-refresh ogni 30 secondi per nuove richieste
+  - Star/preferiti (click sulla stellina)
+  - Espandi richiesta: tutti i dati del cliente
+  - ReplyBox con messaggio pre-compilato + WhatsApp diretto + Email diretta + Copy
+  - Tracking reply (data, mezzo, testo)
+  - AdminNotesBox con note private
+  - Budget cliente (input onBlur)
+  - Status buttons + Delete
+  - Auto-mark "read" quando apri una richiesta "new"
+- Aggiunte 4 pagine SEO complete:
+  1. /dove-opero: 36 comuni della Sicilia Orientale raggruppati per provincia (Catania, Messina, Enna, Siracusa, Ragusa), ognuno con distanza da Adrano, descrizione, servizi richiesti. CTA trasferta gratuita 30km.
+  2. /prezzi: listino completo 2026 - 3 bundle (Party&Style 350€, Family&Joy 350€, Luxury Wedding 600€) con tutto incluso, 4 extra tecnologici (Air Mirror, Video Booth 360, Audio Guest Book Phone, Set Neon), costi aggiuntivi (ora extra 70€/h, trasferta 40-60€)
+  3. /recensioni: 10 testimonianze verificate con 5 stelle medie, servizi utilizzati, location, data, voto medio 5.0
+  4. /faq: 22 domande frequenti organizzate in 5 categorie (Prezzi e preventivi, Servizi, Location e trasferte, Chi è Salvo Piemonte, Prenotazione e contratti, Tecnologie e attrezzature)
+- Aggiornato sitemap.ts con le 4 nuove pagine
+- Fix bug: src/lib/db.ts usava require() (forbidden da ESLint), sostituito con import statico
+- Lint: 0 errori, 8 warning (informativi)
+- Test completo:
+  - Tutte le 7 pagine pubbliche rispondono 200
+  - API contact salva correttamente email + phone + status new
+  - API admin auth: senza auth → 401 (corretto)
+  - Form contatti: 7 inputs (era 5, +2 email/phone)
+  - Keyword SEO verificate nelle pagine: Adrano/Catania/Taormina in dove-opero, 350€/600€ in prezzi, nomi clienti in recensioni
+- Mini gestionale testato end-to-end: form → DB → pannello admin con auto-refresh, filtri, ricerca, reply box, note private, budget, starred, status
+
+Stage Summary:
+- Mini gestionale admin completo: Salvo riceve le richieste nel pannello, vede tutti i dati del cliente, può rispondere con WhatsApp o Email pre-compilata con un click, salvare note private, segnare come preferito, impostare budget, cambiare stato
+- 4 nuove pagine SEO che intercettano ricerche generiche:
+  - /dove-opero: cattura "animazione [comune]" per 36 comuni
+  - /prezzi: cattura "prezzo animatore Catania", "costo matrimonio"
+  - /recensioni: cattura "Gold Events recensioni", "Salvo Piemonte opinioni"
+  - /faq: cattura "come funziona Air Mirror", "quanto costa matrimonio Catania"
+- Database esteso con tracking completo delle interazioni (repliedAt, repliedVia, repliedText)
+- Auto-refresh 30s nel pannello admin per nuove richieste in tempo reale
+- Sistema pronto per essere usato da Salvo anche senza dominio .it

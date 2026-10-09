@@ -1,21 +1,22 @@
 // Vercel-safe database client
 // On Vercel serverless, SQLite is not persistent, so we handle errors gracefully
 
+import { PrismaClient } from "@prisma/client";
+
 let dbClient: any = null;
 let initFailed = false;
 
 try {
-  // Only import Prisma if not on Vercel, or if DATABASE_URL is set
+  // Only init Prisma if not on Vercel, or if DATABASE_URL is set
   if (!process.env.VERCEL || process.env.DATABASE_URL) {
-    const { PrismaClient } = require('@prisma/client');
     const globalForPrisma = globalThis as unknown as {
-      prisma: PrismaClient | undefined
-    }
-    dbClient = globalForPrisma.prisma ?? new PrismaClient()
-    if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = dbClient
+      prisma: PrismaClient | undefined;
+    };
+    dbClient = globalForPrisma.prisma ?? new PrismaClient();
+    if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = dbClient;
   }
 } catch (e) {
-  console.warn('DB init failed (expected on Vercel serverless):', e);
+  console.warn("DB init failed (expected on Vercel serverless):", e);
   initFailed = true;
 }
 

@@ -21,6 +21,8 @@ import {
   Copy,
   Check,
   FileText,
+  MessageCircle,
+  Mail,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -393,79 +395,414 @@ function GuideCard() {
 function ContattiTab() {
   const [items, setItems] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const load = () => {
-    setLoading(true);
+  const [filter, setFilter] = React.useState<string>("all");
+  const [search, setSearch] = React.useState("");
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+
+  const load = React.useCallback(() => {
     fetch("/api/admin/submissions")
       .then((r) => r.json())
       .then((d) => setItems(d.submissions ?? []))
       .finally(() => setLoading(false));
-  };
-  React.useEffect(load, []);
+  }, []);
 
-  const updateStatus = async (id: string, status: string) => {
+  React.useEffect(() => {
+    load();
+    // Auto-refresh ogni 30 secondi per nuove richieste
+    const interval = setInterval(load, 30_000);
+    return () => clearInterval(interval);
+  }, [load]);
+
+  const updateField = async (id: string, fields: Record<string, unknown>) => {
     await fetch(`/api/admin/submissions/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
+      body: JSON.stringify(fields),
     });
     load();
   };
 
+  const filtered = items
+    .filter((s) => (filter === "all" ? true : s.status === filter))
+    .filter((s) => {
+      if (!search.trim()) return true;
+      const q = search.toLowerCase();
+      return (
+        s.fullName?.toLowerCase().includes(q) ||
+        s.eventType?.toLowerCase().includes(q) ||
+        s.location?.toLowerCase().includes(q) ||
+        s.email?.toLowerCase().includes(q) ||
+        s.phone?.toLowerCase().includes(q)
+      );
+    });
+
+  const counts = {
+    all: items.length,
+    new: items.filter((s) => s.status === "new").length,
+    read: items.filter((s) => s.status === "read").length,
+    contacted: items.filter((s) => s.status === "contacted").length,
+    archived: items.filter((s) => s.status === "archived").length,
+  };
+
   if (loading) {
-    return <Loader2 className="size-6 animate-spin text-[#D4AF37]" />;
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="size-6 animate-spin text-[#D4AF37]" />
+      </div>
+    );
   }
+
   if (items.length === 0) {
     return (
       <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
-        Nessuna richiesta ancora. Le nuove richieste del form appariranno qui.
+        Nessuna richiesta ancora. Le nuove richieste del form appariranno qui automaticamente (auto-refresh ogni 30s).
       </p>
     );
   }
+
+  const selected = selectedId ? items.find((s) => s.id === selectedId) : null;
+
   return (
-    <div className="flex flex-col gap-3">
-      {items.map((s) => (
-        <details
-          key={s.id}
-          className="group rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4 transition-colors hover:border-[#D4AF37]/30"
+    <div className="flex flex-col gap-4">
+      {/* Filtri + ricerca */}
+      <div className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2">
+          {[
+            { id: "all", label: "Tutte", n: counts.all },
+            { id: "new", label: "Nuove", n: counts.new },
+            { id: "read", label: "Lette", n: counts.read },
+            { id: "contacted", label: "Contattate", n: counts.contacted },
+            { id: "archived", label: "Archiviate", n: counts.archived },
+          ].map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                filter === f.id
+                  ? "bg-[#D4AF37] text-[#0F0F0F]"
+                  : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
+              }`}
+            >
+              {f.label}
+              {f.n > 0 && (
+                <span className={`rounded-full px-1.5 text-[9px] ${filter === f.id ? "bg-[#0F0F0F] text-[#D4AF37]" : "bg-white/10 text-white"}`}>
+                  {f.n}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Cerca per nome, location, email, tel…"
+          className="h-9 flex-1 rounded-full border border-white/12 bg-[#0F0F0F] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+        />
+      </div>
+
+      {/* Lista richieste */}
+      {filtered.length === 0 ? (
+        <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
+          Nessuna richiesta corrisponde ai filtri.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {filtered.map((s) => {
+            const isSelected = selectedId === s.id;
+            return (
+              <article
+                key={s.id}
+                className={`rounded-2xl border p-4 transition-colors ${
+                  isSelected
+                    ? "border-[#D4AF37] bg-[#1C1C1C]/80"
+                    : "border-white/8 bg-[#1C1C1C]/60 hover:border-[#D4AF37]/30"
+                } ${s.status === "new" ? "ring-1 ring-[#D4AF37]/40" : ""}`}
+              >
+                {/* Header row */}
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(isSelected ? null : s.id);
+                      if (s.status === "new") updateField(s.id, { status: "read" });
+                    }}
+                    className="text-left flex-1"
+                  >
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateField(s.id, { starred: !s.starred });
+                        }}
+                        className={`inline-flex size-6 items-center justify-center rounded-full transition-colors ${s.starred ? "text-[#D4AF37]" : "text-white/30 hover:text-white/60"}`}
+                        aria-label="Preferito"
+                      >
+                        ★
+                      </button>
+                      <p className="font-semibold text-white">{s.fullName}</p>
+                      {s.starred && (
+                        <span className="rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.14em] text-[#D4AF37]">
+                          Preferito
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs text-[#A1A1A1]">
+                      {s.eventType} · {new Date(s.createdAt).toLocaleString("it-IT")}
+                    </p>
+                  </button>
+                  <span
+                    className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${
+                      s.status === "new"
+                        ? "border-[#D4AF37]/40 bg-[#D4AF37]/15 text-[#D4AF37]"
+                        : s.status === "contacted"
+                        ? "border-green-500/30 bg-green-500/10 text-green-400"
+                        : s.status === "archived"
+                        ? "border-white/12 bg-white/5 text-[#A1A1A1]"
+                        : "border-white/12 bg-white/5 text-[#A1A1A1]"
+                    }`}
+                  >
+                    {s.status === "new" ? "Nuova" : s.status === "read" ? "Letta" : s.status === "contacted" ? "Contattata" : "Archiviata"}
+                  </span>
+                </div>
+
+                {/* Dettagli */}
+                {isSelected && (
+                  <div className="mt-4 space-y-4 border-t border-white/8 pt-4">
+                    {/* Dati cliente */}
+                    <div className="grid gap-3 text-sm sm:grid-cols-2">
+                      <Field label="Data evento" value={s.eventDate} />
+                      <Field label="Location" value={s.location} />
+                      <Field label="Ospiti" value={String(s.guests)} />
+                      <Field label="Tipo evento" value={s.eventType} />
+                      {s.email && <Field label="Email cliente" value={s.email} />}
+                      {s.phone && <Field label="Telefono" value={s.phone} />}
+                      <Field
+                        label="Servizi richiesti"
+                        value={formatServices(s.services)}
+                      />
+                      {s.notes && <Field label="Note cliente" value={s.notes} />}
+                    </div>
+
+                    {/* Reply box — Risposta rapida */}
+                    <ReplyBox
+                      submission={s}
+                      onReplied={(via, text) => {
+                        updateField(s.id, {
+                          repliedVia: via,
+                          repliedText: text,
+                          status: "contacted",
+                        });
+                      }}
+                    />
+
+                    {/* Track history */}
+                    {s.repliedAt && (
+                      <div className="rounded-xl border border-green-500/20 bg-green-500/5 p-3 text-xs">
+                        <p className="font-semibold text-green-400">
+                          ✓ Risposto via {s.repliedVia} il {new Date(s.repliedAt).toLocaleString("it-IT")}
+                        </p>
+                        {s.repliedText && (
+                          <p className="mt-1 whitespace-pre-wrap text-[#A1A1A1]">
+                            {s.repliedText}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Note admin (private) */}
+                    <AdminNotesBox
+                      submission={s}
+                      onSave={(text) => updateField(s.id, { adminNotes: text })}
+                    />
+
+                    {/* Budget */}
+                    <div className="flex items-center gap-3">
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A1A1A1]">
+                        Budget cliente
+                      </label>
+                      <input
+                        type="text"
+                        defaultValue={s.budget ?? ""}
+                        onBlur={(e) => updateField(s.id, { budget: e.target.value })}
+                        placeholder="es. 600€"
+                        className="h-9 flex-1 rounded-full border border-white/12 bg-[#0F0F0F] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Status buttons */}
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "new", label: "Nuova" },
+                        { id: "read", label: "Letta" },
+                        { id: "contacted", label: "Contattata" },
+                        { id: "archived", label: "Archiviata" },
+                      ].map((st) => (
+                        <button
+                          key={st.id}
+                          type="button"
+                          onClick={() => updateField(s.id, { status: st.id })}
+                          className={`rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                            s.status === st.id
+                              ? "bg-[#D4AF37] text-[#0F0F0F]"
+                              : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
+                          }`}
+                        >
+                          {st.label}
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if (confirm("Eliminare definitivamente questa richiesta?")) {
+                            await fetch(`/api/admin/submissions/${s.id}`, { method: "DELETE" });
+                            setSelectedId(null);
+                            load();
+                          }
+                        }}
+                        className="ml-auto rounded-full border border-red-500/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-red-400 transition-colors hover:bg-red-500/10"
+                      >
+                        Elimina
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function formatServices(services: string): string {
+  try {
+    const arr = JSON.parse(services);
+    if (Array.isArray(arr)) return arr.join(", ");
+  } catch {}
+  return services;
+}
+
+function ReplyBox({
+  submission,
+  onReplied,
+}: {
+  submission: any;
+  onReplied: (via: string, text: string) => void;
+}) {
+  const [text, setText] = React.useState(
+    `Ciao ${submission.fullName?.split(" ")[0] ?? ""},\n\nGrazie per la richiesta! Ho ricevuto i tuoi dati per l'evento del ${submission.eventDate} a ${submission.location}. Ti contatto per fissare un appuntamento e proporti una soluzione personalizzata.\n\nA presto,\nSalvo Piemonte — Gold Events by Salvo`,
+  );
+
+  const whatsappNumber = submission.phone?.replace(/[^0-9]/g, "") ?? "";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+  const emailSubject = `Preventivo ${submission.eventType} — Gold Events by Salvo`;
+  const emailUrl = `mailto:${submission.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(text)}`;
+
+  const hasWhatsapp = whatsappNumber.length >= 6;
+  const hasEmail = !!submission.email;
+
+  return (
+    <div className="rounded-xl border border-[#D4AF37]/30 bg-[#D4AF37]/5 p-4">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D4AF37]">
+          ✉️ Rispondi al cliente
+        </p>
+        <span className="text-[10px] uppercase tracking-[0.14em] text-[#A1A1A1]">
+          Modifica il messaggio prima di inviare
+        </span>
+      </div>
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        rows={6}
+        className="w-full rounded-lg border border-white/12 bg-[#0F0F0F] p-3 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+        placeholder="Scrivi qui la risposta…"
+      />
+      <div className="mt-3 flex flex-wrap gap-2">
+        {hasWhatsapp ? (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => onReplied("whatsapp", text)}
+            className="inline-flex h-10 items-center gap-2 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A]"
+          >
+            <MessageCircle className="size-3.5" /> Invia su WhatsApp
+          </a>
+        ) : (
+          <span className="inline-flex h-10 cursor-not-allowed items-center gap-2 rounded-full border border-white/12 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#6B6B6B]">
+            <MessageCircle className="size-3.5" /> WhatsApp (no tel.)
+          </span>
+        )}
+        {hasEmail ? (
+          <a
+            href={emailUrl}
+            onClick={() => onReplied("email", text)}
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-[#D4AF37]/60 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+          >
+            <Mail className="size-3.5" /> Invia via Email
+          </a>
+        ) : (
+          <span className="inline-flex h-10 cursor-not-allowed items-center gap-2 rounded-full border border-white/12 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#6B6B6B]">
+            <Mail className="size-3.5" /> Email (no email)
+          </span>
+        )}
+        <button
+          type="button"
+          onClick={() => navigator.clipboard.writeText(text)}
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-white/12 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#A1A1A1] transition-colors hover:border-[#D4AF37]/50 hover:text-white"
         >
-          <summary className="cursor-pointer list-none">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="font-semibold text-white">{s.fullName}</p>
-                <p className="text-xs text-[#A1A1A1]">
-                  {s.eventType} · {new Date(s.createdAt).toLocaleString("it-IT")}
-                </p>
-              </div>
-              <span className="rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#D4AF37]">
-                {s.status}
-              </span>
-            </div>
-          </summary>
-          <div className="mt-4 grid gap-3 border-t border-white/8 pt-4 text-sm sm:grid-cols-2">
-            <Field label="Data evento" value={s.eventDate} />
-            <Field label="Location" value={s.location} />
-            <Field label="Ospiti" value={String(s.guests)} />
-            <Field label="Servizi" value={s.services} />
-            {s.notes && <Field label="Note" value={s.notes} />}
-            <div className="sm:col-span-2 flex flex-wrap gap-2 pt-2">
-              {["new", "read", "contacted", "archived"].map((st) => (
-                <button
-                  key={st}
-                  type="button"
-                  onClick={() => updateStatus(s.id, st)}
-                  className={`rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
-                    s.status === st
-                      ? "bg-[#D4AF37] text-[#0F0F0F]"
-                      : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
-                  }`}
-                >
-                  {st}
-                </button>
-              ))}
-            </div>
-          </div>
-        </details>
-      ))}
+          <Copy className="size-3.5" /> Copia testo
+        </button>
+      </div>
+      {!hasWhatsapp && !hasEmail && (
+        <p className="mt-3 text-xs text-red-400">
+          ⚠️ Il cliente non ha lasciato né telefono né email. Rispondi tramite WhatsApp generale al +39 344 232 2176.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function AdminNotesBox({
+  submission,
+  onSave,
+}: {
+  submission: any;
+  onSave: (text: string) => void;
+}) {
+  const [text, setText] = React.useState(submission.adminNotes ?? "");
+
+  React.useEffect(() => {
+    setText(submission.adminNotes ?? "");
+  }, [submission.adminNotes]);
+
+  return (
+    <div className="rounded-xl border border-white/8 bg-[#0F0F0F]/60 p-4">
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#A1A1A1]">
+        📋 Note private (solo tu le vedi)
+      </p>
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        rows={3}
+        placeholder="Es. Cliente indeciso su data. Richiama mercoledì. Ha chiesto sconto per 100+ ospiti…"
+        className="w-full rounded-lg border border-white/12 bg-[#1C1C1C] p-3 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          onSave(text);
+          toast.success("Note salvate");
+        }}
+        className="mt-2 inline-flex h-9 items-center gap-2 rounded-full border border-[#D4AF37]/40 px-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+      >
+        <Check className="size-3.5" /> Salva note
+      </button>
     </div>
   );
 }

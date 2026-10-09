@@ -26,20 +26,29 @@ model Post {
 }
 
 model ContactSubmission {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  fullName    String
-  eventType   String
-  eventDate   String
-  location    String
-  guests      Int
-  services    String
-  notes       String?
-  status      String   @default("new")
-  adminNotes  String?
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  fullName     String
+  email        String?
+  phone        String?
+  eventType    String
+  eventDate    String
+  location     String
+  guests       Int
+  services     String
+  notes        String?
+  status       String   @default("new")
+  adminNotes   String?
+  repliedAt    DateTime?
+  repliedVia   String?  // "whatsapp" | "email" | "phone"
+  repliedText  String?
+  budget       String?
+  closedAt     DateTime?
+  starred      Boolean  @default(false)
   @@index([createdAt])
   @@index([status])
+  @@index([starred])
 }
 
 model PartnerSubmission {
