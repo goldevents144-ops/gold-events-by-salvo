@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Headphones, Bot } from "lucide-react";
 import { toast } from "sonner";
 
 import { useLang } from "@/lib/i18n/use-lang";
 import { cn } from "@/lib/utils";
+import { HumanChatWidget } from "./human-chat-widget";
 
 interface Message {
   role: "user" | "assistant";
@@ -32,6 +33,7 @@ export function ChatbotWidget() {
   const [loading, setLoading] = React.useState(false);
   const [sessionId, setSessionId] = React.useState<string | null>(null);
   const [hasInteracted, setHasInteracted] = React.useState(false);
+  const [mode, setMode] = React.useState<"ai" | "human">("ai");
 
   const { lang } = useLang();
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -162,99 +164,117 @@ export function ChatbotWidget() {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="fixed bottom-24 right-3 z-50 flex h-[520px] w-[calc(100vw-1.5rem)] max-w-[400px] flex-col overflow-hidden rounded-2xl border border-[#D4AF37]/30 bg-[#0F0F0F] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] sm:bottom-28 sm:right-6"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-white/8 bg-gradient-to-r from-[#1C1C1C] to-[#0F0F0F] px-4 py-3.5">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex size-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
-                  <MessageCircle className="size-4" strokeWidth={2} />
-                </span>
-                <div className="flex flex-col leading-tight">
-                  <span className="text-sm font-semibold text-white">
-                    Assistente Gold Events
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-[#D4AF37]/80">
-                    <span className="size-1.5 animate-pulse rounded-full bg-green-400" />
-                    Online
-                  </span>
+            {mode === "human" ? (
+              <HumanChatWidget onBackToBot={() => setMode("ai")} />
+            ) : (
+              <>
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/8 bg-gradient-to-r from-[#1C1C1C] to-[#0F0F0F] px-4 py-3.5">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex size-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]">
+                      <Bot className="size-4" strokeWidth={2} />
+                    </span>
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-sm font-semibold text-white">
+                        Assistente Gold Events
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-[#D4AF37]/80">
+                        <span className="size-1.5 animate-pulse rounded-full bg-green-400" />
+                        Online
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setMode("human")}
+                      aria-label="Parla con Salvo"
+                      title="Parla con Salvo (chat umana)"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
+                    >
+                      <Headphones className="size-3" />
+                      Salvo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      aria-label="Chiudi"
+                      className="rounded-full p-1.5 text-white/60 transition-colors hover:bg-white/5 hover:text-white"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Chiudi"
-                className="rounded-full p-1.5 text-white/60 transition-colors hover:bg-white/5 hover:text-white"
-              >
-                <X className="size-4" />
-              </button>
-            </div>
 
-            {/* Messages */}
-            <div
-              ref={scrollRef}
-              className="gold-scroll flex-1 space-y-3 overflow-y-auto p-4"
-            >
-              {messages.map((m, idx) => (
+                {/* Messages */}
                 <div
-                  key={idx}
-                  className={cn(
-                    "flex",
-                    m.role === "user" ? "justify-end" : "justify-start",
+                  ref={scrollRef}
+                  className="gold-scroll flex-1 space-y-3 overflow-y-auto p-4"
+                >
+                  {messages.map((m, idx) => (
+                    <div
+                      key={idx}
+                      className={cn(
+                        "flex",
+                        m.role === "user" ? "justify-end" : "justify-start",
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
+                          m.role === "user"
+                            ? "rounded-br-md bg-[#D4AF37] text-[#0F0F0F]"
+                            : "rounded-bl-md border border-white/8 bg-[#1C1C1C] text-white/90",
+                        )}
+                      >
+                        {m.content}
+                      </div>
+                    </div>
+                  ))}
+                  {loading && (
+                    <div className="flex justify-start">
+                      <div className="inline-flex items-center gap-2 rounded-2xl rounded-bl-md border border-white/8 bg-[#1C1C1C] px-3.5 py-2.5 text-sm text-[#A1A1A1]">
+                        <Loader2 className="size-3.5 animate-spin text-[#D4AF37]" />
+                        <span>Sto pensando…</span>
+                      </div>
+                    </div>
                   )}
-                >
-                  <div
-                    className={cn(
-                      "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
-                      m.role === "user"
-                        ? "rounded-br-md bg-[#D4AF37] text-[#0F0F0F]"
-                        : "rounded-bl-md border border-white/8 bg-[#1C1C1C] text-white/90",
-                    )}
-                  >
-                    {m.content}
-                  </div>
                 </div>
-              ))}
-              {loading && (
-                <div className="flex justify-start">
-                  <div className="inline-flex items-center gap-2 rounded-2xl rounded-bl-md border border-white/8 bg-[#1C1C1C] px-3.5 py-2.5 text-sm text-[#A1A1A1]">
-                    <Loader2 className="size-3.5 animate-spin text-[#D4AF37]" />
-                    <span>Sto pensando…</span>
-                  </div>
-                </div>
-              )}
-            </div>
 
-            {/* Input */}
-            <div className="border-t border-white/8 bg-[#0F0F0F] p-3">
-              <div className="flex items-center gap-2">
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      send();
-                    }
-                  }}
-                  placeholder="Scrivi un messaggio…"
-                  maxLength={500}
-                  className="h-10 flex-1 rounded-full border border-white/12 bg-[#1C1C1C] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none focus:ring-0"
-                />
-                <button
-                  type="button"
-                  onClick={send}
-                  disabled={!input.trim() || loading}
-                  aria-label="Invia"
-                  className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-[#D4AF37] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A] disabled:opacity-40 disabled:hover:bg-[#D4AF37]"
-                >
-                  <Send className="size-4" strokeWidth={2.2} />
-                </button>
-              </div>
-              <p className="mt-2 text-center text-[10px] text-[#6B6B6B]">
-                Assistente AI · Powered by Gold Events
-              </p>
-            </div>
+                {/* Input */}
+                <div className="border-t border-white/8 bg-[#0F0F0F] p-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          send();
+                        }
+                      }}
+                      placeholder="Scrivi un messaggio…"
+                      maxLength={500}
+                      className="h-10 flex-1 rounded-full border border-white/12 bg-[#1C1C1C] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none focus:ring-0"
+                    />
+                    <button
+                      type="button"
+                      onClick={send}
+                      disabled={!input.trim() || loading}
+                      aria-label="Invia"
+                      className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-[#D4AF37] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A] disabled:opacity-40 disabled:hover:bg-[#D4AF37]"
+                    >
+                      <Send className="size-4" strokeWidth={2.2} />
+                    </button>
+                  </div>
+                  <p className="mt-2 text-center text-[10px] text-[#6B6B6B]">
+                    Assistente AI · Per parlare con Salvo clicca "Salvo"
+                  </p>
+                </div>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -117,3 +117,35 @@ model SiteContent {
   updatedAt DateTime @updatedAt
   @@index([id])
 }
+
+model ChatConversation {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  visitorName  String?
+  visitorEmail String?
+  visitorPhone String?
+  visitorIp    String?
+  userAgent    String?
+  status       String   @default("active") // active | waiting | closed
+  lastMessageAt DateTime?
+  unreadByAdmin  Int @default(0)
+  unreadByVisitor Int @default(0)
+  messages     ChatMessage[]
+  @@index([createdAt])
+  @@index([status])
+  @@index([lastMessageAt])
+}
+
+model ChatMessage {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now())
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String   // "visitor" | "admin" | "system"
+  text           String
+  readAt         DateTime?
+  @@index([conversationId])
+  @@index([createdAt])
+  @@index([role])
+}

@@ -23,12 +23,14 @@ import {
   FileText,
   MessageCircle,
   Mail,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 
 const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "contatti", label: "Contatti", icon: Users },
+  { id: "chat", label: "Chat", icon: MessageCircle },
   { id: "partner", label: "Partner", icon: Building2 },
   { id: "media", label: "Media & File", icon: ImageIcon },
   { id: "ai", label: "AI Assistant", icon: Bot },
@@ -135,6 +137,7 @@ export default function AdminDashboardPage() {
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {tab === "dashboard" && <DashboardTab />}
         {tab === "contatti" && <ContattiTab />}
+        {tab === "chat" && <ChatTab />}
         {tab === "partner" && <PartnerTab />}
         {tab === "ai" && <AiTab />}
         {tab === "audit" && <AuditTab />}
@@ -149,16 +152,19 @@ function DashboardTab() {
     newSubs: 0,
     newPartners: 0,
     chatSessions: 0,
+    waitingChats: 0,
   });
   React.useEffect(() => {
     Promise.all([
       fetch("/api/admin/submissions?status=new").then((r) => r.json()),
       fetch("/api/admin/partners").then((r) => r.json()),
-    ]).then(([subs, parts]) => {
+      fetch("/api/admin/chat/conversations?status=waiting").then((r) => r.json()),
+    ]).then(([subs, parts, chats]) => {
       setCounts({
         newSubs: subs.submissions?.length ?? 0,
         newPartners: parts.partners?.filter((p: any) => p.status === "new").length ?? 0,
         chatSessions: 0,
+        waitingChats: chats.conversations?.length ?? 0,
       });
     });
   }, []);
@@ -166,12 +172,13 @@ function DashboardTab() {
   const cards = [
     { label: "Nuove richieste", value: counts.newSubs, hint: "Da leggere" },
     { label: "Nuovi partner", value: counts.newPartners, hint: "In attesa" },
+    { label: "Chat in attesa", value: counts.waitingChats, hint: "Da rispondere" },
     { label: "Sessioni chat", value: counts.chatSessions, hint: "Ultime 24h" },
   ];
   return (
     <div className="flex flex-col gap-6">
       {/* Stats cards */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-4">
         {cards.map((c) => (
           <div
             key={c.label}
@@ -803,6 +810,317 @@ function AdminNotesBox({
       >
         <Check className="size-3.5" /> Salva note
       </button>
+    </div>
+  );
+}
+
+function ChatTab() {
+  const [conversations, setConversations] = React.useState<any[]>([]);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+  const [selected, setSelected] = React.useState<any | null>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [replyText, setReplyText] = React.useState("");
+  const [sending, setSending] = React.useState(false);
+  const [filter, setFilter] = React.useState<string>("all");
+
+  const loadList = React.useCallback(() => {
+    fetch(`/api/admin/chat/conversations${filter !== "all" ? `?status=${filter}` : ""}`)
+      .then((r) => r.json())
+      .then((d) => setConversations(d.conversations ?? []))
+      .finally(() => setLoading(false));
+  }, [filter]);
+
+  const loadSelected = React.useCallback(() => {
+    if (!selectedId) return;
+    fetch(`/api/admin/chat/conversations/${selectedId}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.conversation) setSelected(d.conversation);
+      })
+      .catch(() => {});
+  }, [selectedId]);
+
+  React.useEffect(() => {
+    loadList();
+    const interval = setInterval(loadList, 15_000); // refresh lista ogni 15s
+    return () => clearInterval(interval);
+  }, [loadList]);
+
+  React.useEffect(() => {
+    loadSelected();
+    const interval = setInterval(loadSelected, 8_000); // refresh conv ogni 8s
+    return () => clearInterval(interval);
+  }, [loadSelected]);
+
+  const sendReply = async () => {
+    const text = replyText.trim();
+    if (!text || !selectedId || sending) return;
+    setSending(true);
+    try {
+      const res = await fetch(
+        `/api/admin/chat/conversations/${selectedId}/messages`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        },
+      );
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      if (data.message) {
+        setSelected((s: any) => ({
+          ...s,
+          messages: [...(s?.messages ?? []), data.message],
+        }));
+        setReplyText("");
+        // Refresh lista per aggiornare last message
+        loadList();
+      }
+    } catch {
+      toast.error("Errore invio messaggio");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const closeConversation = async () => {
+    if (!selectedId) return;
+    if (!confirm("Chiudere questa conversazione? Il visitatore non potrà più scrivere.")) return;
+    await fetch(`/api/admin/chat/conversations/${selectedId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "closed" }),
+    });
+    loadSelected();
+    loadList();
+  };
+
+  const filteredCount = (status: string) =>
+    status === "all"
+      ? conversations.length
+      : conversations.filter((c) => c.status === status).length;
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Loader2 className="size-6 animate-spin text-[#D4AF37]" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+      {/* Lista conversazioni */}
+      <div className="w-full lg:w-96 lg:flex-shrink-0">
+        <div className="mb-3 flex flex-wrap gap-2">
+          {[
+            { id: "all", label: "Tutte" },
+            { id: "waiting", label: "In attesa" },
+            { id: "active", label: "Attive" },
+            { id: "closed", label: "Chiuse" },
+          ].map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                filter === f.id
+                  ? "bg-[#D4AF37] text-[#0F0F0F]"
+                  : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
+              }`}
+            >
+              {f.label}
+              {filteredCount(f.id) > 0 && (
+                <span className={`rounded-full px-1.5 text-[9px] ${filter === f.id ? "bg-[#0F0F0F] text-[#D4AF37]" : "bg-white/10 text-white"}`}>
+                  {filteredCount(f.id)}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {conversations.length === 0 ? (
+          <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
+            Nessuna conversazione ancora. Quando un cliente apre la chat dal sito, apparirà qui.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {conversations.map((c) => {
+              const lastMsg = c.messages?.[0];
+              const isSelected = selectedId === c.id;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => setSelectedId(c.id)}
+                  className={`rounded-2xl border p-3 text-left transition-colors ${
+                    isSelected
+                      ? "border-[#D4AF37] bg-[#1C1C1C]/80"
+                      : "border-white/8 bg-[#1C1C1C]/60 hover:border-[#D4AF37]/30"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-semibold text-white">
+                        {c.visitorName || "Visitatore anonimo"}
+                      </p>
+                      <p className="mt-0.5 truncate text-xs text-[#A1A1A1]">
+                        {lastMsg?.text || "(nessun messaggio)"}
+                      </p>
+                    </div>
+                    {c.unreadByAdmin > 0 && (
+                      <span className="inline-flex size-5 items-center justify-center rounded-full bg-[#D4AF37] text-[10px] font-bold text-[#0F0F0F]">
+                        {c.unreadByAdmin}
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-2 flex items-center gap-2 text-[10px] text-[#6B6B6B]">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] uppercase tracking-[0.14em] ${
+                      c.status === "waiting"
+                        ? "border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]"
+                        : c.status === "active"
+                        ? "border border-green-500/30 bg-green-500/10 text-green-400"
+                        : "border border-white/12 text-[#A1A1A1]"
+                    }`}>
+                      {c.status === "waiting" ? "In attesa" : c.status === "active" ? "Attiva" : "Chiusa"}
+                    </span>
+                    {lastMsg?.createdAt && (
+                      <span>
+                        {new Date(lastMsg.createdAt).toLocaleString("it-IT", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Dettaglio conversazione */}
+      <div className="flex-1">
+        {!selected ? (
+          <div className="rounded-2xl border border-white/8 bg-[#1C1C1C]/40 p-12 text-center">
+            <MessageCircle className="mx-auto size-8 text-white/20" />
+            <p className="mt-3 text-sm text-[#A1A1A1]">
+              Seleziona una conversazione dalla lista per visualizzarla e rispondere
+            </p>
+          </div>
+        ) : (
+          <div className="flex h-[600px] flex-col rounded-2xl border border-white/8 bg-[#1C1C1C]/60">
+            {/* Header conv */}
+            <div className="flex items-center justify-between border-b border-white/8 px-5 py-3">
+              <div>
+                <p className="font-serif text-base font-semibold text-white">
+                  {selected.visitorName || "Visitatore anonimo"}
+                </p>
+                <p className="text-xs text-[#A1A1A1]">
+                  {selected.visitorEmail || selected.visitorPhone || "Nessun recapito"} · {selected.status}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${
+                  selected.status === "waiting"
+                    ? "border border-[#D4AF37]/40 bg-[#D4AF37]/10 text-[#D4AF37]"
+                    : selected.status === "active"
+                    ? "border border-green-500/30 bg-green-500/10 text-green-400"
+                    : "border border-white/12 text-[#A1A1A1]"
+                }`}>
+                  {selected.status === "waiting" ? "In attesa di risposta" : selected.status === "active" ? "Attiva" : "Chiusa"}
+                </span>
+                {selected.status !== "closed" && (
+                  <button
+                    type="button"
+                    onClick={closeConversation}
+                    className="rounded-full border border-red-500/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-red-400 transition-colors hover:bg-red-500/10"
+                  >
+                    Chiudi
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div
+              ref={(el) => {
+                if (el) el.scrollTop = el.scrollHeight;
+              }}
+              className="flex-1 space-y-2 overflow-y-auto p-4"
+            >
+              {(selected.messages ?? []).map((m: any) => (
+                <div
+                  key={m.id}
+                  className={`flex ${m.role === "visitor" ? "justify-start" : m.role === "admin" ? "justify-end" : "justify-center"}`}
+                >
+                  {m.role === "system" ? (
+                    <span className="rounded-full border border-white/8 bg-[#0F0F0F] px-3 py-1 text-[10px] italic text-[#A1A1A1]">
+                      {m.text}
+                    </span>
+                  ) : (
+                    <div
+                      className={`max-w-[75%] rounded-2xl px-3.5 py-2.5 text-sm ${
+                        m.role === "visitor"
+                          ? "rounded-bl-md border border-white/8 bg-[#0F0F0F] text-white/90"
+                          : "rounded-br-md bg-[#D4AF37] text-[#0F0F0F]"
+                      }`}
+                    >
+                      <p className="whitespace-pre-wrap break-words">{m.text}</p>
+                      <p className={`mt-1 text-[9px] uppercase ${m.role === "visitor" ? "text-[#6B6B6B]" : "text-[#0F0F0F]/60"}`}>
+                        {new Date(m.createdAt).toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" })}
+                        {m.readAt && m.role === "visitor" && " · Letto"}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Reply input */}
+            {selected.status !== "closed" ? (
+              <div className="border-t border-white/8 p-3">
+                <div className="flex items-end gap-2">
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        sendReply();
+                      }
+                    }}
+                    placeholder="Scrivi una risposta al cliente…"
+                    rows={2}
+                    className="flex-1 resize-none rounded-xl border border-white/12 bg-[#0F0F0F] px-3 py-2 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={sendReply}
+                    disabled={!replyText.trim() || sending}
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.16em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A] disabled:opacity-40"
+                  >
+                    {sending ? <Loader2 className="size-3.5 animate-spin" /> : <Send className="size-3.5" />}
+                    Invia
+                  </button>
+                </div>
+                <p className="mt-1 text-center text-[10px] text-[#6B6B6B]">
+                  Premere Invio per spedire · Shift+Invio per andare a capo
+                </p>
+              </div>
+            ) : (
+              <div className="border-t border-white/8 p-4 text-center">
+                <p className="text-sm text-[#A1A1A1]">
+                  Conversazione chiusa. Il cliente non può più inviare messaggi.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
