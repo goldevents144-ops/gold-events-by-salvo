@@ -219,6 +219,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Use Node.js runtime instead of Edge (required for anonymous Vercel deploys)
+  runtime: "nodejs",
   // Run on all routes except Next.js internals and static assets
   matcher: [
     // Match everything EXCEPT Next internals and hashed static assets
