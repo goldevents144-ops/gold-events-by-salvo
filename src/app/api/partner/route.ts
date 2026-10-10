@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createPartnerSubmission, logAuditEntry, kvAvailable } from "@/lib/kv-store";
 
 const MAX_LENGTHS = {
   businessName: 200, activityType: 50, location: 200,
@@ -42,18 +43,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Telefono non valido" }, { status: 400 });
     }
 
-    try {
-      const { db } = await import("@/lib/db");
-      await db.partnerSubmission.create({
-        data: { businessName, activityType, location, referentName, referentPhone, referentEmail,
-          capacity: capacity || null, hasPower, b2bRates: b2bRates || null, status: "new" },
-      });
-    } catch {
-      // DB unavailable
+    if (kvAvailable) {
+      try {
+        await createPartnerSubmission({
+          businessName, activityType, location,
+          referentName, referentPhone, referentEmail,
+          capacity: capacity || null, hasPower,
+          b2bRates: b2bRates || null,
+        });
+        await logAuditEntry(
+          "notification_new_partner",
+          businessName,
+          { businessName, activityType, location },
+          { headers: req.headers },
+        );
+      } catch (e) {
+        console.warn("KV save partner failed:", e);
+      }
     }
 
     return NextResponse.json({ ok: true });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ ok: true });
   }
 }

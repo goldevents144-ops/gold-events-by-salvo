@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { cookies } from "next/headers";
+import { getConversation, addMessage, updateConversation, kvAvailable } from "@/lib/kv-store";
 
 const MAX_TEXT = 2000;
 
@@ -17,6 +17,13 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  if (!kvAvailable) {
+    return NextResponse.json(
+      { error: "Chat non disponibile" },
+      { status: 503 },
+    );
+  }
+
   try {
     const { id } = await params;
     const body = await req.json().catch(() => ({}));
@@ -33,44 +40,40 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Verifica che la conversazione sia attiva
-    const conv = await db.chatConversation.findUnique({ where: { id } });
+    const conv = await getConversation(id);
     if (!conv || conv.status === "closed") {
       return NextResponse.json(
-        { error: "Conversazione chiusa" },
+        { error: "Conversazione chiusa o non trovata" },
         { status: 400 },
       );
     }
 
     // Aggiorna metadati visitatore se forniti (su primo messaggio reale)
-    const updateData: Record<string, unknown> = {
-      lastMessageAt: new Date(),
-      unreadByAdmin: { increment: 1 },
+    const updates: Record<string, unknown> = {
+      lastMessageAt: new Date().toISOString(),
+      unreadByAdmin: conv.unreadByAdmin + 1,
     };
     if (body.visitorName && !conv.visitorName) {
-      updateData.visitorName = clean(body.visitorName, 100);
+      updates.visitorName = clean(body.visitorName, 100);
     }
     if (body.visitorEmail && !conv.visitorEmail) {
-      updateData.visitorEmail = clean(body.visitorEmail, 200);
+      updates.visitorEmail = clean(body.visitorEmail, 200);
     }
     if (body.visitorPhone && !conv.visitorPhone) {
-      updateData.visitorPhone = clean(body.visitorPhone, 50);
+      updates.visitorPhone = clean(body.visitorPhone, 50);
     }
+    // Primo messaggio del visitatore - marca come "waiting" per Salvo
     if (conv.status === "active" && conv.unreadByAdmin === 0) {
-      // Primo messaggio del visitatore - marca come "waiting" per Salvo
-      updateData.status = "waiting";
+      updates.status = "waiting";
     }
 
-    await db.chatConversation.update({ where: { id }, data: updateData });
+    await updateConversation(id, updates);
 
     // Crea il messaggio
-    const msg = await db.chatMessage.create({
-      data: {
-        conversationId: id,
-        role: "visitor",
-        text,
-      },
-    });
+    const msg = await addMessage(id, { role: "visitor", text });
+    if (!msg) {
+      return NextResponse.json({ error: "Errore salvataggio" }, { status: 500 });
+    }
 
     return NextResponse.json({ message: msg });
   } catch (error: any) {

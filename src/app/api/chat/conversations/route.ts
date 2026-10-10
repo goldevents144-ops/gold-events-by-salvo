@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, dbAvailable } from "@/lib/db";
 import { cookies } from "next/headers";
-
-const MAX_TEXT = 2000;
+import {
+  createConversation,
+  getConversationWithMessages,
+  getMessages,
+  updateConversation,
+  markMessagesRead,
+  kvAvailable,
+} from "@/lib/kv-store";
 
 function clean(s: unknown, max: number): string {
   if (typeof s !== "string") return "";
@@ -14,8 +19,7 @@ function clean(s: unknown, max: number): string {
  * Crea una nuova conversazione per il visitatore (o restituisce quella esistente via cookie)
  */
 export async function POST(req: NextRequest) {
-  // Check DB availability first
-  if (!dbAvailable) {
+  if (!kvAvailable) {
     return NextResponse.json(
       {
         error: "Chat non disponibile in questa preview. Contatta Salvo su WhatsApp +39 344 232 2176.",
@@ -24,55 +28,47 @@ export async function POST(req: NextRequest) {
       { status: 503 },
     );
   }
+
   try {
     const body = await req.json().catch(() => ({}));
     const visitorName = clean(body.visitorName, 100);
     const visitorEmail = clean(body.visitorEmail, 200);
     const visitorPhone = clean(body.visitorPhone, 50);
 
-    // IP hash per sicurezza (no PII grezza)
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
     const userAgent = req.headers.get("user-agent") || "";
 
     const cookieStore = await cookies();
     const existingConvId = cookieStore.get("chat_conv_id")?.value;
 
-    // Se ha già una conversazione, restituiscila
+    // Se ha già una conversazione attiva, restituiscila
     if (existingConvId) {
-      try {
-        const conv = await db.chatConversation.findUnique({
-          where: { id: existingConvId },
-          include: { messages: { orderBy: { createdAt: "asc" }, take: 100 } },
-        });
-        if (conv && conv.status !== "closed") {
-          return NextResponse.json({ conversation: conv });
-        }
-      } catch {}
+      const existing = await getConversationWithMessages(existingConvId);
+      if (existing && existing.conversation.status !== "closed") {
+        return NextResponse.json({ conversation: existing.conversation, messages: existing.messages });
+      }
     }
 
     // Crea nuova conversazione
-    const conv = await db.chatConversation.create({
-      data: {
+    const conv = await createConversation(
+      {
         visitorName: visitorName || null,
         visitorEmail: visitorEmail || null,
         visitorPhone: visitorPhone || null,
         visitorIp: String(ip).slice(0, 100),
         userAgent: userAgent.slice(0, 200),
         status: "active",
-        lastMessageAt: new Date(),
-        unreadByAdmin: 0,
-        unreadByVisitor: 0,
-        messages: {
-          create: {
-            role: "system",
-            text: "Conversazione iniziata. Salvo ti risponderà appena possibile.",
-          },
-        },
       },
-      include: { messages: { orderBy: { createdAt: "asc" } } },
-    });
+      "Conversazione iniziata. Salvo ti risponderà appena possibile.",
+    );
 
-    const res = NextResponse.json({ conversation: conv });
+    if (!conv) {
+      return NextResponse.json({ error: "Errore creazione conversazione" }, { status: 500 });
+    }
+
+    const messages = await getMessages(conv.id);
+
+    const res = NextResponse.json({ conversation: conv, messages });
     res.cookies.set("chat_conv_id", conv.id, {
       httpOnly: true,
       sameSite: "lax",
@@ -93,7 +89,7 @@ export async function POST(req: NextRequest) {
  * Recupera la conversazione del visitatore (via cookie)
  */
 export async function GET(req: NextRequest) {
-  if (!dbAvailable) {
+  if (!kvAvailable) {
     return NextResponse.json({ conversation: null, dbUnavailable: true });
   }
   try {
@@ -102,37 +98,21 @@ export async function GET(req: NextRequest) {
     if (!convId) {
       return NextResponse.json({ conversation: null });
     }
-    const conv = await db.chatConversation.findUnique({
-      where: { id: convId },
-      include: {
-        messages: {
-          orderBy: { createdAt: "asc" },
-          take: 200,
-        },
-      },
-    });
-    if (!conv) {
+    const result = await getConversationWithMessages(convId);
+    if (!result) {
       return NextResponse.json({ conversation: null });
     }
 
     // Reset unreadByVisitor quando il visitatore legge
-    if (conv.unreadByVisitor > 0) {
-      await db.chatConversation.update({
-        where: { id: conv.id },
-        data: { unreadByVisitor: 0 },
-      });
-      // Marca messaggi admin come letti
-      await db.chatMessage.updateMany({
-        where: {
-          conversationId: conv.id,
-          role: "admin",
-          readAt: null,
-        },
-        data: { readAt: new Date() },
-      });
+    if (result.conversation.unreadByVisitor > 0) {
+      await updateConversation(convId, { unreadByVisitor: 0 });
+      await markMessagesRead(convId, "admin");
     }
 
-    return NextResponse.json({ conversation: conv });
+    return NextResponse.json({
+      conversation: result.conversation,
+      messages: result.messages,
+    });
   } catch {
     return NextResponse.json({ conversation: null });
   }

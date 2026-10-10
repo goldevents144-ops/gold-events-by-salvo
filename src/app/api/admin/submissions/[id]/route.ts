@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { authenticate, logAudit } from "@/lib/admin-auth";
+import {
+  getSubmission,
+  updateSubmission,
+  deleteSubmission,
+  logAuditEntry,
+  kvAvailable,
+} from "@/lib/kv-store";
+import { authenticate } from "@/lib/admin-auth";
 
 export async function GET(
   req: NextRequest,
@@ -9,14 +15,13 @@ export async function GET(
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { id } = await params;
-  try {
-    const sub = await db.contactSubmission.findUnique({ where: { id } });
-    if (!sub) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    return NextResponse.json({ submission: sub });
-  } catch {
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+  if (!kvAvailable) {
+    return NextResponse.json({ submission: null });
   }
+  const { id } = await params;
+  const sub = await getSubmission(id);
+  if (!sub) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ submission: sub });
 }
 
 export async function PATCH(
@@ -26,70 +31,42 @@ export async function PATCH(
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if (!kvAvailable) {
+    return NextResponse.json({ error: "KV not available" }, { status: 503 });
+  }
   const { id } = await params;
   const body = await req.json();
-  const {
-    status,
-    adminNotes,
-    starred,
-    budget,
-    repliedVia,
-    repliedText,
-    email,
-    phone,
-  } = body as {
-    status?: string;
-    adminNotes?: string;
-    starred?: boolean;
-    budget?: string;
-    repliedVia?: string;
-    repliedText?: string;
-    email?: string;
-    phone?: string;
-  };
+  const updates: Record<string, unknown> = {};
 
-  try {
-    const data: Record<string, unknown> = {};
-    if (status !== undefined) data.status = status;
-    if (adminNotes !== undefined) data.adminNotes = adminNotes;
-    if (starred !== undefined) data.starred = starred;
-    if (budget !== undefined) data.budget = budget;
-    if (email !== undefined) data.email = email;
-    if (phone !== undefined) data.phone = phone;
+  if (body.status !== undefined) updates.status = body.status;
+  if (body.adminNotes !== undefined) updates.adminNotes = body.adminNotes;
+  if (body.starred !== undefined) updates.starred = body.starred;
+  if (body.budget !== undefined) updates.budget = body.budget;
+  if (body.email !== undefined) updates.email = body.email;
+  if (body.phone !== undefined) updates.phone = body.phone;
 
-    // Handle reply tracking
-    if (repliedVia !== undefined) {
-      data.repliedVia = repliedVia;
-      data.repliedAt = new Date();
-      if (repliedText !== undefined) data.repliedText = repliedText;
-      // Auto-update status to "contacted" when reply is sent
-      if (status === undefined) data.status = "contacted";
-    }
-
-    const updated = await db.contactSubmission.update({
-      where: { id },
-      data,
-    });
-
-    await logAudit(
-      "update_submission",
-      id,
-      {
-        status,
-        starred,
-        repliedVia,
-        budget,
-      },
-      req,
-    );
-
-    return NextResponse.json({ submission: updated });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: error?.message || "DB error" },
-      { status: 500 },
-    );
+  // Handle reply tracking
+  if (body.repliedVia !== undefined) {
+    updates.repliedVia = body.repliedVia;
+    updates.repliedAt = new Date().toISOString();
+    if (body.repliedText !== undefined) updates.repliedText = body.repliedText;
+    // Auto-update status to "contacted" when reply is sent
+    if (body.status === undefined) updates.status = "contacted";
   }
+
+  const updated = await updateSubmission(id, updates);
+  if (!updated) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  await logAuditEntry("update_submission", id, {
+    status: body.status,
+    starred: body.starred,
+    repliedVia: body.repliedVia,
+    budget: body.budget,
+  }, { headers: req.headers });
+
+  return NextResponse.json({ submission: updated });
 }
 
 export async function DELETE(
@@ -99,12 +76,11 @@ export async function DELETE(
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { id } = await params;
-  try {
-    await db.contactSubmission.delete({ where: { id } });
-    await logAudit("delete_submission", id, undefined, req);
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+  if (!kvAvailable) {
+    return NextResponse.json({ error: "KV not available" }, { status: 503 });
   }
+  const { id } = await params;
+  await deleteSubmission(id);
+  await logAuditEntry("delete_submission", id, null, { headers: req.headers });
+  return NextResponse.json({ ok: true });
 }

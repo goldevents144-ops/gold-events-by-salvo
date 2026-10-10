@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
+import { logAuditEntry, kvAvailable } from "@/lib/kv-store";
 
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "salvo2026";
-
-function hash(s: string): string {
-  return crypto.createHash("sha256").update(s).digest("hex");
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,23 +29,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create session token (stateless, no DB needed)
+    // Create session token (stateless)
     const token = crypto.randomBytes(32).toString("hex");
     const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
 
-    // Try to save session in DB (optional, won't fail if DB unavailable)
-    try {
-      const { db } = await import("@/lib/db");
-      const tokenHash = hash(token);
-      await db.adminSession.create({
-        data: {
-          tokenHash,
-          expiresAt,
-          userAgent: req.headers.get("user-agent") ?? null,
-        },
-      });
-    } catch {
-      // DB not available (Vercel serverless) — session is stateless
+    // Log audit entry (only if KV available)
+    if (kvAvailable) {
+      try {
+        await logAuditEntry("admin_login", null, { expiresAt: expiresAt.toISOString() }, { headers: req.headers });
+      } catch {}
     }
 
     const response = NextResponse.json({ ok: true });

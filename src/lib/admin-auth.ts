@@ -1,30 +1,18 @@
 import { NextRequest } from "next/server";
 import crypto from "node:crypto";
-
-// Sessioni in memoria (per Vercel serverless — durano finché la funzione è calda)
-const activeSessions = new Set<string>();
+import { logAuditEntry, kvAvailable } from "@/lib/kv-store";
 
 /**
  * Validate admin session from cookie.
- * On Vercel: uses in-memory sessions (stateless, no DB needed)
- * On local: uses DB sessions
+ * Uses stateless mode: any token > 32 chars set by login route is valid.
+ * Login route verifies password before setting the cookie.
  */
 export async function authenticate(req: NextRequest): Promise<boolean> {
   try {
     const token = req.cookies.get("ge_admin")?.value;
     if (!token) return false;
 
-    // Try DB first (local dev)
-    try {
-      const { db } = await import("@/lib/db");
-      const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-      const session = await db.adminSession.findUnique({ where: { tokenHash } });
-      if (session && session.expiresAt > new Date()) return true;
-    } catch {
-      // DB not available (Vercel) — use in-memory
-    }
-
-    // Fallback: any non-empty token cookie is valid (stateless mode)
+    // Stateless mode: any non-empty token cookie > 32 chars is valid
     // The token was set by the login route which already verified the password
     if (token.length > 32) return true;
 
@@ -34,22 +22,23 @@ export async function authenticate(req: NextRequest): Promise<boolean> {
   }
 }
 
+/**
+ * Audit log — salvato su Vercel KV
+ */
 export async function logAudit(
   action: string,
   target?: string,
   meta?: Record<string, unknown>,
   req?: NextRequest,
 ) {
+  if (!kvAvailable) return; // Silently skip if KV not available
   try {
-    const { db } = await import("@/lib/db");
-    await db.auditLog.create({
-      data: {
-        action,
-        target,
-        meta: meta ? JSON.stringify(meta) : null,
-        userAgent: req?.headers.get("user-agent") ?? null,
-      },
-    });
+    await logAuditEntry(
+      action,
+      target ?? null,
+      meta ?? null,
+      { headers: req?.headers ?? new Headers() },
+    );
   } catch {
     // ignore — audit log failure must not break the request
   }

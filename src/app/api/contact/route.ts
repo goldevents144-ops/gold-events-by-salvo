@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createSubmission, logAuditEntry, kvAvailable } from "@/lib/kv-store";
 
 const MAX_LENGTHS = {
   fullName: 200, eventType: 50, eventDate: 20,
@@ -14,6 +15,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
+    // Honeypot check — if filled, silently pretend success
     if (body.website && typeof body.website === "string" && body.website.length > 0) {
       return NextResponse.json({ ok: true });
     }
@@ -29,55 +31,42 @@ export async function POST(req: NextRequest) {
     if (!fullName || fullName.length < 2) {
       return NextResponse.json({ error: "Nome non valido" }, { status: 400 });
     }
-    if (!eventType) {
-      return NextResponse.json({ error: "Tipo di evento obbligatorio" }, { status: 400 });
-    }
-    if (!eventDate) {
-      return NextResponse.json({ error: "Data obbligatoria" }, { status: 400 });
-    }
-    if (!location) {
-      return NextResponse.json({ error: "Location obbligatoria" }, { status: 400 });
-    }
+    if (!eventType) return NextResponse.json({ error: "Tipo di evento obbligatorio" }, { status: 400 });
+    if (!eventDate) return NextResponse.json({ error: "Data obbligatoria" }, { status: 400 });
+    if (!location) return NextResponse.json({ error: "Location obbligatoria" }, { status: 400 });
 
     const guests = Number(body.guests);
     if (!Number.isFinite(guests) || guests < 1 || guests > MAX_LENGTHS.guests) {
       return NextResponse.json({ error: "Ospiti non validi" }, { status: 400 });
     }
 
-    // Try to save in DB, fallback to success
-    try {
-      const { db } = await import("@/lib/db");
-      let services = "[]";
-      if (Array.isArray(body.services)) {
-        services = JSON.stringify(body.services.filter((s: any) => typeof s === "string").slice(0, 20));
-      }
-      await db.contactSubmission.create({
-        data: {
-          fullName, eventType, eventDate, location, guests, services,
-          notes: notes || null,
-          email: email || null,
-          phone: phone || null,
-          status: "new",
-        },
-      });
+    let services = "[]";
+    if (Array.isArray(body.services)) {
+      services = JSON.stringify(body.services.filter((s: any) => typeof s === "string").slice(0, 20));
+    }
 
-      // Try to log audit notification
+    // Save to Vercel KV
+    if (kvAvailable) {
       try {
-        const { logAudit } = await import("@/lib/admin-auth");
-        const fakeReq = { headers: req.headers } as any;
-        await logAudit(
+        await createSubmission({
+          fullName, email: email || null, phone: phone || null,
+          eventType, eventDate, location, guests, services, notes: notes || null,
+        });
+        // Log audit
+        await logAuditEntry(
           "notification_new_request",
           fullName,
           { fullName, eventType, eventDate, location, guests, services, notes: notes || "" },
-          fakeReq,
+          { headers: req.headers },
         );
-      } catch {}
-    } catch {
-      // DB not available on Vercel — form works anyway (WhatsApp/email CTAs)
+      } catch (e) {
+        console.warn("KV save failed:", e);
+      }
     }
+    // Form works even without DB (WhatsApp/email CTAs)
 
     return NextResponse.json({ ok: true });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ ok: true });
   }
 }

@@ -1,18 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticate } from "@/lib/admin-auth";
+import { listAuditLogs, kvAvailable } from "@/lib/kv-store";
 
 export async function GET(req: NextRequest) {
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  try {
-    const { db } = await import("@/lib/db");
-    const logs = await db.auditLog.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 200,
-    });
-    return NextResponse.json({ logs });
-  } catch {
+  if (!kvAvailable) {
     return NextResponse.json({ logs: [] });
+  }
+  try {
+    const logs = await listAuditLogs(200);
+    return NextResponse.json({ logs });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: error?.message || "Server error" },
+      { status: 500 },
+    );
   }
 }

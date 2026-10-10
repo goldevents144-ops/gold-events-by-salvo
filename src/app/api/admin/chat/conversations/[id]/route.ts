@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { authenticate, logAudit } from "@/lib/admin-auth";
+import {
+  getConversation,
+  getMessages,
+  updateConversation,
+  markMessagesRead,
+  logAuditEntry,
+  kvAvailable,
+} from "@/lib/kv-store";
+import { authenticate } from "@/lib/admin-auth";
 
 /**
  * GET /api/admin/chat/conversations/[id]
- * Dettaglio conversazione con tutti i messaggi
  */
 export async function GET(
   req: NextRequest,
@@ -13,41 +19,30 @@ export async function GET(
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if (!kvAvailable) {
+    return NextResponse.json({ conversation: null });
+  }
   try {
     const { id } = await params;
-    const conv = await db.chatConversation.findUnique({
-      where: { id },
-      include: {
-        messages: {
-          orderBy: { createdAt: "asc" },
-          take: 500,
-        },
-      },
-    });
+    const conv = await getConversation(id);
     if (!conv) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
+    const messages = await getMessages(id, 500);
 
     // Marca messaggi visitatore come letti dall'admin
     if (conv.unreadByAdmin > 0) {
-      await db.chatConversation.update({
-        where: { id },
-        data: { unreadByAdmin: 0 },
-      });
-      await db.chatMessage.updateMany({
-        where: {
-          conversationId: id,
-          role: "visitor",
-          readAt: null,
-        },
-        data: { readAt: new Date() },
-      });
+      await updateConversation(id, { unreadByAdmin: 0 });
+      await markMessagesRead(id, "visitor");
     }
 
-    return NextResponse.json({ conversation: conv });
+    return NextResponse.json({
+      conversation: { ...conv, unreadByAdmin: 0 },
+      messages,
+    });
   } catch (error: any) {
     return NextResponse.json(
-      { error: error?.message || "DB error" },
+      { error: error?.message || "Server error" },
       { status: 500 },
     );
   }
@@ -55,7 +50,6 @@ export async function GET(
 
 /**
  * PATCH /api/admin/chat/conversations/[id]
- * Aggiorna status conversazione (active/waiting/closed) o metadati visitatore
  */
 export async function PATCH(
   req: NextRequest,
@@ -64,26 +58,25 @@ export async function PATCH(
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if (!kvAvailable) {
+    return NextResponse.json({ error: "KV not available" }, { status: 503 });
+  }
   try {
     const { id } = await params;
     const body = await req.json();
-    const data: Record<string, unknown> = {};
-    if (body.status !== undefined) data.status = body.status;
-    if (body.visitorName !== undefined) data.visitorName = body.visitorName;
-    if (body.visitorEmail !== undefined) data.visitorEmail = body.visitorEmail;
-    if (body.visitorPhone !== undefined) data.visitorPhone = body.visitorPhone;
+    const updates: Record<string, unknown> = {};
+    if (body.status !== undefined) updates.status = body.status;
+    if (body.visitorName !== undefined) updates.visitorName = body.visitorName;
+    if (body.visitorEmail !== undefined) updates.visitorEmail = body.visitorEmail;
+    if (body.visitorPhone !== undefined) updates.visitorPhone = body.visitorPhone;
 
-    const updated = await db.chatConversation.update({
-      where: { id },
-      data,
-    });
-
-    await logAudit("update_chat_conversation", id, data, req);
+    const updated = await updateConversation(id, updates);
+    await logAuditEntry("update_chat_conversation", id, updates, { headers: req.headers });
 
     return NextResponse.json({ conversation: updated });
   } catch (error: any) {
     return NextResponse.json(
-      { error: error?.message || "DB error" },
+      { error: error?.message || "Server error" },
       { status: 500 },
     );
   }
