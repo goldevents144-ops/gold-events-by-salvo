@@ -1,0 +1,745 @@
+DOMINIO .IT — SPIEGAZIONE COMPLETA E DETTAGLIATA
+Per Gold Events by Salvo · Ottobre 2026
+
+══════════════════════════════════════════════════════════════════
+INDICE
+══════════════════════════════════════════════════════════════════
+
+PARTE 1 — COS'È UN DOMINIO (concetto base)
+PARTE 2 — PERCHÉ SERVE A GOLD EVENTS (motivazione)
+PARTE 3 — PERCHÉ VERCEL.APP NON BASTA (i 5 problemi)
+PARTE 4 — DOCUMENTI NECESSARI PER ACQUISTARLO
+PARTE 5 — QUANTO COSTA NEL DETTAGLIO
+PARTE 6 — DOVE SI COMPRA (confronto registrar)
+PARTE 7 — PROCEDURA COMPLETA SU ARUBA (passo per passo)
+PARTE 8 — COSA SUCCEDE DOPO L'ACQUISTO
+PARTE 9 — COME SI COLLEGA AL SITO (3 modalità)
+PARTE 10 — COSA FACCIO IO DOPO CHE SALVO MI HA DATO IL DOMINIO
+PARTE 11 — COSA SUCCEDE SE NON SI RINNOVA
+PARTE 12 — DOMANDE FREQUENTI
+PARTE 13 — RIASSUNTO FINALE
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 1 — COS'È UN DOMINIO (concetto base)
+══════════════════════════════════════════════════════════════════
+
+Immagina che internet sia una città enorme con miliardi di edifici. Ogni edificio è un sito web. Per trovare un edificio specifico serve un indirizzo univoco, come "Via Roma 42, Adrano".
+
+Il DOMINIO è esattamente questo: l'indirizzo pubblico del tuo sito web. È quella stringa di testo che le persone digitano nella barra del browser per raggiungerti. Ad esempio:
+- google.com è un dominio
+- amazon.it è un dominio
+- facebook.com è un dominio
+
+Senza un dominio, il tuo sito esiste ma nessuno sa come raggiungerlo. Esisterebbe solo con un indirizzo numerico (chiamato indirizzo IP) tipo 76.76.21.21 — impossibile da ricordare per un essere umano.
+
+Il sistema che traduce i nomi di dominio (goldeventsbysalvo.it) in indirizzi numerici (76.76.21.21) si chiama DNS (Domain Name System). Funziona come un elenco telefonico: tu chiedi "Mario Rossi" e il DNS ti dà il suo numero. Tu digiti "goldeventsbysalvo.it" e il DNS ti dice qual è il computer dove risiede il sito. Tutto questo avviene in millisecondi, in modo invisibile all'utente.
+
+Un dominio è composto da 3 parti:
+- SOTTODOMINIO (opzionale, tipo "www")
+- NOME DI SECONDO LIVELLO (la parte personalizzabile, tipo "goldeventsbysalvo")
+- TOP LEVEL DOMAIN o TLD (il finale, tipo ".it", ".com", ".net")
+
+Nel caso del tuo sito attuale:
+- goldeventsbysalvo.vercel.app
+- "goldeventsbysalvo" è un sottodominio di terzo livello
+- "vercel" è il nome di secondo livello
+- "app" è il TLD
+
+In pratica stai usando un indirizzo regalato da Vercel. Non è tuo. È in prestito.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 2 — PERCHÉ SERVE A GOLD EVENTS (motivazione)
+══════════════════════════════════════════════════════════════════
+
+Gold Events by Salvo è un'attività che opera nel settore eventi di lusso: matrimoni da 80+ ospiti, battesimi, comunioni, feste private, eventi aziendali. I clienti che contattano Salvo sono persone che stanno per spendere centinaia o migliaia di euro per un servizio, e valutano il fornitore anche in base a dettagli apparentemente minori: come risponde al telefono, come è fatto il biglietto da visita, quanto tempo ci mette a rispondere su WhatsApp, e soprattutto: che indirizzo web ha.
+
+Quando un potenziale cliente riceve da Salvo un link al sito per vedere i servizi offerti, e quel link è:
+- goldeventsbysalvo.vercel.app
+
+...cosa pensa? Pensa: "Questo signore non ha nemmeno investito 10 euro per darsi un indirizzo suo. È uno che sta provando, non uno serio". È un giudizio istintivo, non ragionato. Ma in un settore dove la fiducia è tutto, questo istinto conta.
+
+Se invece il link è:
+- goldeventsbysalvo.it
+
+...il messaggio è: "Questo signore ha investito nella sua immagine, ha un dominio suo, ha un brand riconoscibile". È un dettaglio piccolo, ma fa la differenza soprattutto nel segmento lusso, dove i clienti sono i più esigenti.
+
+Oltre all'immagine, ci sono motivi tecnici e pratici:
+- Il dominio permette di avere email professionali tipo salvo@goldeventsbysalvo.it invece di goldeventssicilyexperience@outlook.com (lungo, non brandizzato, workaround evidente)
+- Google indicizza meglio i domini di prima livello rispetto ai sottodomini gratuiti
+- Il dominio è di proprietà di Salvo: se domani Vercel chiude o cambia regole, Salvo perde l'indirizzo ma non il dominio, che può puntare altrove
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 3 — PERCHÉ VERCEL.APP NON BASTA (i 5 problemi)
+══════════════════════════════════════════════════════════════════
+
+PROBLEMA 1 — IMMAGINE PROFESSIONALE
+
+L'URL goldeventsbysalvo.vercel.app, quando viene condiviso con un cliente, comunica esattamente l'idea sbagliata: progetto amatoriale, prototipo, sito di prova, gestito da qualcuno che non ha investito nemmeno 10 euro per dare un'identità propria al proprio marchio.
+
+Per un'attività di eventi di lusso, dove i clienti pagano migliaia di euro per un matrimonio o un evento aziendale, questa prima impressione conta moltissimo. I clienti giudicano anche dai dettagli: dominio, email, grafica, tempi di risposta. Veder comparire "vercel.app" fa calare immediatamente la percezione di affidabilità.
+
+Immagina due biglietti da visita stampati:
+- Primo: "Salvo Piemonte — Gold Events by Salvo — goldeventsbysalvo.vercel.app"
+- Secondo: "Salvo Piemonte — Gold Events by Salvo — goldeventsbysalvo.it"
+
+Il primo fa pensare a un hobbista. Il secondo fa pensare a un professionista strutturato. La differenza di costo tra i due: 7 euro all'anno.
+
+PROBLEMA 2 — MEMORABILITÀ
+
+goldeventsbysalvo.it è facile da ricordare e da digitare: 22 caratteri, una sola parola chiave, il finale italiano riconoscibile.
+
+goldeventsbysalvo.vercel.app è lungo 32 caratteri, contiene un punto in mezzo, richiede di ricordare la parola "vercel" (che per un italiano non ha significato immediato). Su un biglietto da visita stampato in piccolo, su un volantino, su un cartello esposto a un evento, su un post Instagram: la differenza è enorme.
+
+Una persona che sente il nome "Gold Events by Salvo" a una festa deve poter ricostruire l'indirizzo a memoria. Se sente "cerca gold events by salvo punto it" lo ricostruisce. Se sente "cerca gold events by salvo punto vercel punto app" si perde.
+
+PROBLEMA 3 — SEO (visibilità su Google)
+
+Google indicizza anche i sottodomini vercel.app, ma li tratta come entità di secondo piano rispetto ai domini di prima livello. Questo significa che quando un potenziale cliente cerca su Google:
+- "animazione eventi adrano"
+- "matrimonio lusso catania"
+- "feste private sicilia orientale"
+- "gold events salvo"
+
+...il sito si posiziona peggio nei risultati di ricerca rispetto a un sito equivalente con dominio .it dedicato. La differenza può essere di diverse posizioni in pagina 1, oppure il sito potrebbe finire in pagina 2 (dove quasi nessuno clicca).
+
+Con un dominio .it dedicato, indicizzato e curato, il sito scala più facilmente nelle posizioni di prima pagina. Questo si traduce in più visite organiche, più contatti, più clienti.
+
+PROBLEMA 4 — EMAIL PROFESSIONALE
+
+Con un dominio .it di proprietà, si possono creare caselle email illimitate personalizzate sul dominio:
+- salvo@goldeventsbysalvo.it (principale)
+- info@goldeventsbysalvo.it (generale)
+- eventi@goldeventsbysalvo.it (per richieste)
+- partner@goldeventsbysalvo.it (per i partner B2B)
+
+Queste caselle si configurano su Outlook, Gmail, Apple Mail, o qualsiasi client. Si percepiscono come email professionali, brandizzate, riconoscibili.
+
+Attualmente l'email è goldeventssicilyexperience@outlook.com. È lunga, non brandizzata sul dominio principale (goldeventsbysalvo), è evidentemente un workaround perché non c'era un dominio. Quando un cliente la riceve, percepisce la provvisorietà.
+
+PROBLEMA 5 — RISCHIO DI PERDITA
+
+Vercel è un'azienda solida e affermata, ma è pur sempre un'azienda privata statunitense. Le condizioni di servizio possono cambiare, i piani gratuiti possono essere dismessi, i sottodomini possono essere revocati, l'azienda stessa può essere acquisita o cambiare modello di business.
+
+Se domani Vercel decidesse di:
+- chiudere i sottodomini gratuiti
+- cambiare la regola di denominazione (es. da vercel.app a vercel.io)
+- limitare il traffico sui piani gratuiti
+- essere acquisita da un'altra azienda con policy diverse
+
+...Salvo si troverebbe da un giorno all'altro senza indirizzo web. Il sito esisterebbe ancora (i file sono su un server), ma l'indirizzo pubblico per raggiungerlo sparirebbe. Tutti i biglietti da visita stampati, i link condivisi su WhatsApp, i post sui social che puntano a quel sito diventerebbero obsoleti.
+
+Con un dominio .it intestato a Salvo, l'indirizzo rimane di sua proprietà fino al rinnovo annuale, indipendentemente da cosa accade a Vercel, al provider di hosting, o alle tecnologie sottostanti. Se Vercel chiude, Salvo può spostare il sito su un altro provider (Netlify, Cloudflare Pages, un hosting tradizionale) e il dominio continua a funzionare puntando al nuovo server.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 4 — DOCUMENTI NECESSARI PER ACQUISTARLO
+══════════════════════════════════════════════════════════════════
+
+Il registro italiano dei domini .it è gestito dal NIC (Registro del .it) presso il CNR di Pisa. Le regole di registrazione dipendono dalla natura del richiedente.
+
+CASO A — PRIVATO CITTADINO (Salvo senza partita IVA)
+
+Documenti necessari:
+- Codice fiscale di Salvo
+- Documento d'identità (carta d'identità o passaporto) in formato PDF o foto nitida
+
+Quando lo usi:
+- Per uso personale (blog, portfolio, sito amatoriale)
+- Per attività commerciale minore senza partita IVA
+- Per testare un'idea prima di aprire partita IVA
+
+Note:
+- La fattura del dominio NON è deducibile fiscalmente
+- Il dominio è intestato a Salvo come persona fisica, non a un'azienda
+- Non ci sono limitazioni sulle attività che possono essere fatte sul sito
+
+CASO B — DITTA INDIVIDUALE (Salvo con partita IVA)
+
+Documenti necessari:
+- Partita IVA di Salvo
+- Codice fiscale di Salvo (come titolare)
+- Documento d'identità di Salvo
+
+Quando lo usi:
+- Per un'attività commerciale ufficiale
+- Per fatturare ai clienti
+- Per dedurre il costo del dominio come spesa aziendale
+
+Note:
+- La fattura è intestata alla ditta individuale
+- Il costo è deducibile ai fini fiscali
+- Il dominio è un asset aziendale
+
+CASO C — SOCIETÀ (SRL, SAS, SNC)
+
+Documenti necessari:
+- Partita IVA della società
+- Codice fiscale del legale rappresentante
+- Visura camerale (a volte richiesta)
+- Documento d'identità del legale rappresentante
+
+Note:
+- Il dominio è intestato alla società
+- È un asset societario
+
+PER SALVO NELLO SPECIFICO
+
+Se Salvo ha già una partita IVA per la sua attività di animazione eventi (consigliato vista la natura commerciale del servizio), il dominio va intestato alla partita IVA. Questo permette di:
+- Scaricare la fattura del dominio (6,99€ primo anno, 9,99€ rinnovo) come costo aziendale
+- Avere il dominio come asset ufficiale dell'attività
+- Essere in regola con il fisco
+
+Se Salvo non ha partita IVA, può comunque registrare il dominio come privato cittadino. Il registrar (Aruba) non fa controlli sull'abbinamento dominio-attività: la maggior parte delle persone che compra un dominio lo fa come privato. Ma attenzione:
+- La fattura non sarà deducibile
+- Se l'attività è commerciale e fatturata, la mancanza di P.IVA è un problema fiscale separato dal dominio (va risolto comunque)
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 5 — QUANTO COSTA NEL DETTAGLIO
+══════════════════════════════════════════════════════════════════
+
+Il dominio .it ha un costo annuale ricorrente. Non è un acquisto una tantum: ogni anno va rinnovato, altrimenti il dominio torna disponibile sul mercato e qualcun altro potrebbe comprarlo.
+
+COSTI SU ARUBA
+
+- Primo anno: 6,99€ (prezzo promozionale di lancio)
+- Rinnovo annuale: 9,99€ (prezzo standard, stabile negli anni)
+- Costo medio a lungo termine: ~9,70€ all'anno
+
+COSTO NEL TEMPO
+
+- Anno 1: 6,99€
+- Anno 2: 9,99€
+- Anno 3: 9,99€
+- Anno 4: 9,99€
+- Anno 5: 9,99€
+- Totale 5 anni: 46,94€ (media 9,39€/anno)
+- Totale 10 anni: 96,89€ (media 9,69€/anno)
+
+COSA INCLUDE IL COSTO
+
+- Il dominio per 12 mesi
+- Gestione DNS (poter cambiare i record DNS quando vuoi)
+- Redirect email opzionali (es. info@goldeventsbysalvo.it inoltrata a outlook)
+- Certificato SSL NON incluso (ma Vercel lo fornisce gratis)
+- Supporto clienti Aruba (telefonico, in italiano)
+
+COSA NON INCLUDE (e NON serve comprare)
+
+- Hosting: NON serve, il sito è su Vercel gratis
+- Caselle email: opzionali, si possono configurare dopo
+- SSL: NON serve, lo fornisce Vercel gratis
+- Backup: NON serve, il codice è backuppato separatamente
+- Costruzione sito: NON serve, il sito è già fatto
+
+COSTO TOTALE DEL SITO NEL TEMPO
+
+| Voce                            | Costo annuo | Fornitore    |
+|---------------------------------|-------------|--------------|
+| Hosting Vercel (piano gratuito) | 0€          | Vercel       |
+| Dominio .it                     | 9,99€       | Aruba        |
+| SSL                             | 0€          | Vercel auto  |
+| CDN                             | 0€          | Vercel auto  |
+| TOTALE                          | 9,99€/anno  |              |
+
+In pratica: per meno di 10 euro all'anno, Salvo ha un sito professionale completo, brandizzato, con dominio suo, HTTPS, CDN, hosting veloce, e tutto il necessario.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 6 — DOVE SI COMPRA (confronto registrar)
+══════════════════════════════════════════════════════════════════
+
+Il registrar è l'azienda autorizzata a vendere domini. Ce ne sono decine in Italia e all'estero. Tutti vendono lo stesso prodotto (il dominio .it è unico, è il NIC a gestirlo), ma cambiano:
+- Prezzo
+- Qualità del pannello di gestione
+- Supporto clienti
+- Lingua dell'interfaccia
+- Servizi inclusi
+
+CONFRONTO DEI PRINCIPALI REGISTRAR
+
+1. ARUBA.IT (CONSIGLIATO)
+   - Costo 1° anno: 6,99€
+   - Rinnovo: 9,99€
+   - Supporto: italiano, telefonico
+   - Pannello: italiano, semplice
+   - Pro: facile, supporto in italiano, diffuso in Italia
+   - Contro: cerca di venderti servizi extra (da ignorare)
+
+2. REGISTER.IT
+   - Costo 1° anno: 9,90€
+   - Rinnovo: 12,90€
+   - Supporto: italiano, telefonico
+   - Pro: buono per aziende con più domini
+   - Contro: più caro di Aruba
+
+3. CLOUDFLARE
+   - Costo 1° anno: 8,03€
+   - Rinnovo: 8,03€ (prezzo fisso, il più economico nel lungo termine)
+   - Supporto: inglese, ticket
+   - Pro: DNS veloci, prezzo stabile
+   - Contro: pannello in inglese, serve familiarità tecnica
+
+4. NAMECHEAP
+   - Costo 1° anno: 8,50€
+   - Rinnovo: 10,50€
+   - Supporto: inglese, chat
+   - Pro: interfaccia pulita
+   - Contro: in inglese
+
+5. GODADDY (SCONSIGLIATO)
+   - Costo 1° anno: 0,99€ (promozione)
+   - Rinnovo: 14,99€ (caro)
+   - Supporto: inglese, telefonico
+   - Pro: prezzo basso il primo anno
+   - Contro: rincari pesanti dal secondo anno, upsell aggressivo
+
+IL MIO CONSIGLIO: ARUBA
+
+Perché:
+- È il registrar italiano più diffuso (milioni di clienti)
+- Ha un pannello di gestione in italiano
+- Ha supporto telefonico in italiano (numero verde)
+- Le procedure sono semplificate per chi non è tecnico
+- Il primo anno costa pochissimo (6,99€)
+- È affidabile e sul mercato da oltre 20 anni
+
+Cloudflare è più economico nel lungo termine (8,03€ fissi), ma:
+- Il pannello è in inglese
+- Serve maggiore familiarità con DNS e termini tecnici
+- Il supporto è solo via ticket, non telefonico
+
+Per Salvo, che non è un tecnico, Aruba è la scelta migliore.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 7 — PROCEDURA COMPLETA SU ARUBA (passo per passo)
+══════════════════════════════════════════════════════════════════
+
+Tempo richiesto: 10-15 minuti
+Costo: 6,99€
+Documento necessario: codice fiscale + documento d'identità
+
+PASSO 1 — VERIFICA DISPONIBILITÀ DEL DOMINIO
+
+1. Apri il browser e vai su www.aruba.it
+2. In home page c'è un box di ricerca grande con scritto "Verifica dominio"
+3. Digita nella casella: goldeventsbysalvo.it (SENZA www davanti)
+4. Clicca sul pulsante "Verifica"
+5. Aruba ti dice in pochi secondi se il dominio è disponibile
+
+Se è DISPONIBILE: prosegui al passo 2.
+Se è GIÀ OCCUPATO:
+- Prova varianti: goldeventssalvo.it, eventibysalvo.it, salvopiemonte.it, gold-events-salvo.it
+- Oppure prova altri TLD: goldeventsbysalvo.com, goldeventsbysalvo.net
+- Se proprio non trovi nulla, contattami per scegliere insieme un'alternativa
+
+PASSO 2 — AGGIUNGI AL CARRELLO (SOLO DOMINIO NUDO)
+
+1. Se il dominio è disponibile, Aruba ti mostra una pagina con varie opzioni
+2. Seleziona SOLO "Registrazione dominio .it" (di solito già spuntato)
+3. DURATA: seleziona 1 anno (non serve registrare per 5 o 10 anni)
+4. TOGLI TUTTE LE ALTRE SPUNTE:
+   - Hosting: NO
+   - Email: NO
+   - SSL: NO
+   - Backup: NO
+   - Costruisci sito: NO
+   - Privacy protection: può restare (di solito è gratis o pochi euro)
+5. Clicca "Aggiungi al carrello"
+6. Controlla il carrello: deve esserci SOLO il dominio a 6,99€. Nessun extra.
+
+PASSO 3 — CREAZIONE ACCOUNT ARUBA
+
+Se hai già un account Aruba, salta al passo 4.
+
+1. Alla cassa ti viene chiesto di accedere o creare un account
+2. Clicca "Crea nuovo account"
+3. Inserisci:
+   - Nome (come da documento d'identità)
+   - Cognome (come da documento d'identità)
+   - Email (USARNE UNA CHE CONTROLLI SPESSO — qui arriveranno tutte le comunicazioni)
+   - Ripeti email
+   - Indirizzo completo (via, civico, CAP, città, provincia)
+   - Telefono (cellulare preferibilmente)
+   - Codice fiscale
+4. Scegli una password:
+   - Almeno 8 caratteri
+   - Almeno una maiuscola, una minuscola, un numero
+   - NON usare la stessa password di altre cose importanti
+5. Accetta le condizioni di servizio
+6. Clicca "Crea account"
+
+IMPORTANTE: conservare email e password in un posto sicuro (password manager, appunti cifrati, o carta in cassetta di sicurezza). Senza queste credenziali non è più possibile gestire il dominio.
+
+PASSO 4 — INSERIMENTO DATI INTESTATARIO
+
+1. Aruba ti chiede chi è l'intestatario del dominio (chi risulta come proprietario ufficiale)
+2. Per PRIVATO:
+   - Nome e cognome (come da documento)
+   - Codice fiscale (deve corrispondere al documento)
+   - Data e luogo di nascita
+   - Indirizzo completo
+3. Per DITTA INDIVIDUALE:
+   - Ragione sociale (es. "Salvo Piemonte")
+   - Partita IVA
+   - Sede legale
+   - Codice fiscale del titolare
+4. Aruba richiede di caricare il documento d'identità:
+   - Carta d'identità (fronte/retro) OPPURE passaporto
+   - Formato: PDF o immagine (JPG, PNG)
+   - Deve essere leggibile
+   - Carica entrambi i lati se carta d'identità
+
+QUESTO PASSO È OBBLIGATORIO: il NIC italiano richiede la verifica dell'identità di chi registra un dominio .it. Senza documento, il dominio non viene attivato.
+
+PASSO 5 — PAGAMENTO
+
+1. Rivedi l'ordine: deve esserci SOLO "Registrazione dominio .it per 1 anno — 6,99€"
+2. Scegli metodo di pagamento:
+   - CARTA DI CREDITO (consigliato, attivazione immediata)
+   - PAYPAL (consigliato, attivazione immediata)
+   - BONIFICO (sconsigliato, attivazione in 3-5 giorni lavorativi)
+3. Inserisci i dati di pagamento
+4. Conferma il pagamento
+5. Aruba emette immediatamente la fattura (scaricabile dal pannello cliente)
+
+PASSO 6 — ATTIVAZIONE DEL DOMINIO
+
+1. Subito dopo il pagamento, Aruba invia una email di conferma all'indirizzo usato in fase di registrazione
+2. L'email contiene un link di attivazione
+3. Clicca sul link
+4. Aruba verifica l'identità (confronto con il documento caricato)
+5. Il dominio viene attivato entro:
+   - 1-2 ore (nella maggior parte dei casi)
+   - 24 ore massimo (in casi rari)
+
+6. Riceverai una seconda email di conferma attivazione con:
+   - Codice cliente Aruba
+   - Link al pannello di gestione (clientes.aruba.it)
+   - Istruzioni per il primo accesso
+
+PASSO 7 — ATTIVAZIONE RINNOVO AUTOMATICO (FONDAMENTALE)
+
+Una volta attivato il dominio, entra nel pannello clienti Aruba e attiva il rinnovo automatico:
+
+1. Vai su clientes.aruba.it
+2. Inserisci username e password scelti al passo 3
+3. Trova il dominio nell'elenco "I tuoi domini"
+4. Clicca su "Impostazioni" o "Gestione rinnovo"
+5. Attiva "Rinnovo automatico"
+6. Inserisci i dati della carta di credito da usare per il rinnovo annuale
+
+Perché è fondamentale: senza rinnovo automatico, se Salvo dimentica di rinnovare, il dominio scade e torna sul mercato. Qualcun altro potrebbe comprare "goldeventsbysalvo.it" e Salvo non potrebbe più riaverlo (o dovrebbe ricomprarlo a prezzo maggiorato, anche centinaia di euro).
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 8 — COSA SUCCEDE DOPO L'ACQUISTO
+══════════════════════════════════════════════════════════════════
+
+Dopo che Salvo ha comprato il dominio, ha in mano:
+- Un pannello di gestione Aruba accessibile da clientes.aruba.it
+- Username e password
+- Codice cliente
+- Il dominio attivo ma NON collegato al sito (ancora)
+
+Il dominio esiste ma è "vuoto": se qualcuno digita goldeventsbysalvo.it nel browser, vede una pagina di errore o una pagina placeholder di Aruba.
+
+Per collegare il dominio al sito (che è su Vercel), servono due cose:
+1. Configurare i DNS del dominio per puntare a Vercel
+2. Aggiungere il dominio nel pannello Vercel
+
+La prima operazione la fa Salvo (o la faccio io se Salvo mi dà accesso). La seconda la faccio io.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 9 — COME SI COLLEGA AL SITO (3 modalità)
+══════════════════════════════════════════════════════════════════
+
+Ci sono 3 modalità per collegare il dominio al sito. Dalla più semplice alla più tecnica.
+
+MODALITÀ A — ACCESSO TOTALE (consigliata, 5 minuti)
+
+Salvo mi dà le credenziali del pannello Aruba:
+- Sito: clientes.aruba.it
+- Username (o email usata in registrazione)
+- Password
+
+Io entro nel pannello:
+1. Trovo il dominio goldeventsbysalvo.it
+2. Vado su "Gestione DNS"
+3. Aggiungo 2 record DNS che puntano a Vercel (li vedo nel pannello Vercel)
+4. Salvo le modifiche
+5. Esco
+
+Poi Salvo cambia la password per sicurezza.
+
+Vantaggi:
+- Zero lavoro tecnico per Salvo
+- Configurazione precisa
+- Tempo totale: 5 minuti
+
+Svantaggi:
+- Salvo deve fidarsi a darmi le credenzici temporaneamente
+- Si risolve con: cambio password dopo che ho finito
+
+MODALITÀ B — CONFIGURAZIONE DNS GUIDATA (10 minuti)
+
+Salvo entra da solo nel pannello Aruba (clientes.aruba.it) e mi chiede i valori esatti da inserire. Io gli scrivo i 2 record DNS:
+
+Record 1:
+- Tipo: A
+- Nome/Host: @ (significa "dominio nudo", cioè goldeventsbysalvo.it senza www)
+- Valore: 76.76.21.21 (indirizzo IP dei server Vercel)
+- TTL: 3600 (default, lascia così)
+
+Record 2:
+- Tipo: CNAME
+- Nome/Host: www (significa "sottodominio www")
+- Valore: cname.vercel-dns.com
+- TTL: 3600
+
+Procedura per Salvo:
+1. Entra in clientes.aruba.it
+2. Clicca sul dominio goldeventsbysalvo.it
+3. Trova la sezione "Gestione DNS" o "Impostazioni DNS"
+4. Clicca "Aggiungi record" o "Modifica DNS"
+5. Inserisci i 2 record sopra (copiando esattamente i valori)
+6. Salva le modifiche
+
+Vantaggi:
+- Nessuna condivisione di credenziali
+- Salvo mantiene il controllo totale
+- Procedura trasparente
+
+Svantaggi:
+- 10 minuti di lavoro in più per Salvo
+- Richiede un minimo di dimestichezza con i pannelli web
+
+MODALITÀ C — CAMBIO NAMESERVER (più pulita, 24-48h)
+
+Nel pannello Aruba, Salvo cambia i nameserver del dominio da quelli di Aruba a quelli di Vercel:
+
+Nameserver attuali (Aruba):
+- ns1.aruba.it
+- ns2.aruba.it
+
+Nuovi nameserver (Vercel):
+- ns1.vercel-dns.com
+- ns2.vercel-dns.com
+
+Procedura per Salvo:
+1. Entra in clientes.aruba.it
+2. Clicca sul dominio goldeventsbysalvo.it
+3. Trova "Impostazioni nameserver" o "Cambia nameserver"
+4. Sostituisci i 2 valori di Aruba con quelli di Vercel
+5. Salva
+
+Da quel momento Vercel gestisce tutto automaticamente: DNS, SSL, redirect.
+
+Vantaggi:
+- Configurazione totalmente automatica lato Vercel
+- Niente record DNS da configurare manualmente
+
+Svantaggi:
+- Propagazione DNS più lenta: 24-48 ore (contro i 15 minuti delle modalità A e B)
+- Durante la propagazione, il dominio potrebbe essere intermittente
+
+QUALE SCEGLIERE
+
+Se Salvo si fida a darmi le credenziali temporaneamente: MODALITÀ A.
+Se Salvo non vuole darmi le credenziali: MODALITÀ B.
+Se Salvo vuole la soluzione più pulita e ha tempo di aspettare 24-48h: MODALITÀ C.
+
+Il mio consiglio: MODALITÀ A. 5 minuti di lavoro, configurazione perfetta, zero rischi.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 10 — COSA FACCIO IO DOPO CHE SALVO MI HA DATO IL DOMINIO
+══════════════════════════════════════════════════════════════════
+
+Una volta che Salvo ha configurato i DNS (o mi ha dato accesso), io faccio le seguenti operazioni:
+
+1. AGGIUNGO IL DOMINIO NEL PANNELLO VERCEL (2 minuti)
+   - Entro nel pannello Vercel del progetto Gold Events
+   - Vado su Settings → Domains
+   - Aggiungo goldeventsbysalvo.it
+   - Vercel mi dà i record DNS da inserire (se non li ho già messi)
+   - Vercel verifica che i DNS puntino correttamente
+
+2. CERTIFICATO SSL/HTTPS (5 minuti, automatico)
+   - Vercel genera automaticamente il certificato SSL
+   - Il sito diventa raggiungibile in HTTPS (lucchetto verde nel browser)
+   - Non c'è nulla da configurare manualmente
+   - Avviene entro 5-10 minuti dalla corretta configurazione DNS
+
+3. REDIRECT WWW → DOMINIO NUDO (2 minuti)
+   - Configuro il redirect da www.goldeventsbysalvo.it a goldeventsbysalvo.it
+   - Così chiunque digiti l'uno o l'altro arriva allo stesso sito
+   - Vercel fa questo automaticamente quando aggiungi il dominio
+
+4. AGGIORNO TUTTI I LINK NEL CODICE (10 minuti)
+   - Metadata SEO nel file layout.tsx
+   - Sitemap.xml (file sitemap.ts)
+   - Dati strutturati JSON-LD per Google
+   - URL hreflang per le versioni multilingua
+   - Link interni nel file site-content.ts
+   - Messaggi WhatsApp/Email nel contact-form.tsx (cambio "Inviato dal sito goldeventsbysalvo.vercel.app" in "Inviato dal sito goldeventsbysalvo.it")
+   - Middleware di routing
+   - robots.txt
+
+5. TEST FINALE END-TO-END (5 minuti)
+   - Digito goldeventsbysalvo.it nel browser
+   - Verifico che carichi il sito corretto
+   - Verifico HTTPS verde
+   - Verifico che il form di contatto funzioni
+   - Verifico che i bottoni WhatsApp/Email funzionino
+   - Verifico il redirect www → nudo
+   - Faccio uno screenshot di verifica
+
+TEMPO TOTALE MIO: 20-25 minuti
+
+Dopo questo, il sito è ufficialmente live su goldeventsbysalvo.it. Il vecchio indirizzo goldeventsbysalvo.vercel.app continua a funzionare in parallelo come backup, ma non va più pubblicizzato.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 11 — COSA SUCCEDE SE NON SI RINNOVA
+══════════════════════════════════════════════════════════════════
+
+Se il dominio non viene rinnovato entro la data di scadenza, segue questo percorso di degrado:
+
+GIORNO 0 — SCADENZA
+- Il dominio smette di funzionare immediatamente
+- Chi digita goldeventsbysalvo.it vede una pagina di errore del browser
+- Le email aziendali (salvo@goldeventsbysalvo.it) smettono di ricevere messaggi
+- I QR code stampati su biglietti da visita o volantini puntano a una pagina morta
+- Tutti i link condivisi su WhatsApp/social negli anni precedenti diventano non funzionanti
+
+GIORNI 0-30 — FASE DI REDENZIONE (REDEMPTION PERIOD)
+- Il dominio è sospeso ma ancora recuperabile
+- Per recuperarlo bisogna pagare una penale (20-30€) oltre al rinnovo normale (9,99€)
+- Totale recupero: ~35-40€ invece di 9,99€
+- La procedura richiede 3-5 giorni lavorativi
+- Durante questo periodo il dominio resta non funzionante
+
+GIORNI 30-60 — PENDING DELETE
+- Il dominio entra in coda per essere cancellato definitivamente
+- Recupero ancora possibile ma costoso (50-100€ di penale)
+- Procedura lunga (5-10 giorni)
+- Il dominio è sempre non funzionante
+
+DOPO 60 GIORNI — RILASCIO DEFINITIVO
+- Il dominio torna disponibile pubblicamente sul mercato
+- Chiunque può comprarlo al prezzo standard (6,99€ primo anno)
+- Se un competitor, un cybersquatter, o chiunque altro lo registra prima di Salvo, il dominio è perso per sempre
+- Per riaverlo bisognerebbe contattare il nuovo proprietario e comprarlo a prezzo maggiorato (spesso centinaia o migliaia di euro)
+
+COME EVITARE TUTTO QUESTO
+
+1. Attivare il RINNOVO AUTOMATICO nel pannello Aruba
+   - Addebito automatico su carta di credito ogni anno
+   - Il dominio non scade mai
+   - Opzione gratuita
+
+2. In alternativa, Aruba invia 3 email di promemoria:
+   - 60 giorni prima della scadenza
+   - 30 giorni prima della scadenza
+   - 7 giorni prima della scadenza
+   - Basta rispondere a una di queste per rinnovare manualmente
+
+3. Tenere traccia della data di scadenza
+   - È visibile nel pannello Aruba
+   - Si può segnare su calendario
+   - Si può registrare il dominio per più anni (es. 5 anni = 47€ una tantum)
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 12 — DOMANDE FREQUENTI
+══════════════════════════════════════════════════════════════════
+
+D: Salvo non ha la partita IVA. Può comunque comprare il dominio?
+R: Sì, certamente. Può registrare il dominio come privato cittadino usando il codice fiscale. Il registrar non fa controlli sull'abbinamento dominio-attività. Attenzione però: la fattura del dominio NON sarà deducibile fiscalmente. Inoltre, se Salvo sta facendo attività commerciale (eventi a pagamento), dovrebbe avere partita IVA a prescindere dal dominio.
+
+D: Il dominio si può registrare per più anni?
+R: Sì, Aruba permette di registrare il dominio per 1, 2, 3, 5, o 10 anni pagando in anticipo. Il costo si aggira sempre sui 9-10€ all'anno. Registrazione multi-anno è utile per chi vuole bloccare il dominio a lungo e dimenticarsene.
+
+D: Cosa succede se qualcuno ha già comprato goldeventsbysalvo.it?
+R: Si può provare una variante: goldeventssalvo.it, eventibysalvo.it, salvopiemonte.it, gold-events.it. Oppure un altro TLD: goldeventsbysalvo.com, goldeventsbysalvo.net. Verrebbe da chiedere: se è già occupato, posso comprare il dominio da chi lo ha? Sì, ma costa molto di più (spesso centinaia o migliaia di euro), e dipende dalla disponibilità del proprietario attuale.
+
+D: Salvo deve avere un hosting per il dominio?
+R: No, assolutamente. Il dominio è solo l'indirizzo. L'hosting (dove risiedono i file del sito) è già su Vercel, gratuito. Salvo non deve comprare nessun hosting aggiuntivo, da Aruba o da altri.
+
+D: Devo pagare qualcuno per il certificato SSL (HTTPS)?
+R: No, è gratuito e automatico. Vercel genera il certificato SSL non appena i DNS puntano correttamente. Lucchetto verde nel browser garantito.
+
+D: Posso avere la casella email salvo@goldeventsbysalvo.it?
+R: Sì, ma richiede un servizio aggiuntivo. Le opzioni sono:
+   - Aruba Mail: ~1€/anno per casella da 1GB. Si configura su Outlook, Gmail, qualsiasi client.
+   - Google Workspace: 6€/mese per casella da 30GB con tutta la suite Google.
+   - Microsoft 365: 5€/mese per casella con Office incluso.
+   - Forwarding gratuito (DNS): si può far inoltrare salvo@goldeventsbysalvo.it automaticamente a goldeventssicilyexperience@outlook.com, così Salvo riceve tutto in una sola casella.
+   Per iniziare, il forwarding gratuito è la soluzione più economica. Si può passare a una casella professionale vera in un secondo momento.
+
+D: Cosa devo fare se Salvo vuole cambiare dominio in futuro?
+R: Si compra il nuovo dominio (sempre su Aruba, stessa procedura), si configura il DNS per puntare a Vercel, e si aggiornano i link nel codice. Il vecchio dominio si può tenere come redirect al nuovo, così chi lo digita viene automaticamente rimandato al nuovo indirizzo. Costo aggiuntivo: solo il prezzo del nuovo dominio (9,99€/anno).
+
+D: Salvo deve pagare qualche tassa o canone annuale al NIC?
+R: No, il costo del dominio (6,99€ primo anno, 9,99€ rinnovo) include tutto. Non ci sono tasse aggiuntive. Il NIC viene pagato dal registrar (Aruba) con una quota del prezzo di registrazione.
+
+D: Posso trasferire il dominio da Aruba a un altro registrar in futuro?
+R: Sì, in qualsiasi momento. Si chiama "trasferimento dominio" e di solito è gratuito (il nuovo registrar richiede il rinnovo di 1 anno al prezzo standard). Si fa dal pannello del nuovo registrar. Il dominio rimane di proprietà di Salvo, cambia solo chi lo gestisce tecnicamente.
+
+
+══════════════════════════════════════════════════════════════════
+PARTE 13 — RIASSUNTO FINALE
+══════════════════════════════════════════════════════════════════
+
+COSA DEVE FARE SALVO (3 COSE SOLO):
+
+1. COMPRARE IL DOMINIO SU ARUBA
+   - Vai su www.aruba.it
+   - Cerca goldeventsbysalvo.it
+   - Solo dominio nudo, 6,99€, togli tutti gli extra
+   - Inserisci codice fiscale + documento d'identità
+   - Paga con carta o PayPal
+
+2. ATTIVARE IL RINNOVO AUTOMATICO
+   - Entra nel pannello clientes.aruba.it
+   - Vai su Impostazioni del dominio
+   - Attiva rinnovo automatico
+   - Inserisci i dati della carta di credito
+
+3. COMUNICARMI CHE IL DOMINIO È PRONTO
+   - "Dominio comprato, ti mando le credenziali" → MODALITÀ A
+   - "Dominio comprato, dimmi cosa inserire nel DNS" → MODALITÀ B
+   - "Dominio comprato, cambio i nameserver" → MODALITÀ C
+
+COSA FACCIO IO DOPO (20 minuti):
+
+1. Configuro i DNS per puntare a Vercel
+2. Vercel genera il certificato SSL automaticamente
+3. Configuro redirect www → dominio nudo
+4. Aggiorno tutti i link nel codice del sito
+5. Test finale: digito goldeventsbysalvo.it e verifico tutto
+
+RISULTATO FINALE:
+
+Il sito è raggiungibile a goldeventsbysalvo.it, con HTTPS verde, brandizzato, professionale, di proprietà di Salvo. Il vecchio indirizzo vercel.app continua a funzionare come backup ma non va più pubblicizzato.
+
+COSTO TOTALE PER SALVO:
+
+- Primo anno: 6,99€
+- Dal secondo anno: 9,99€/anno (rinnovo automatico)
+- Tutto incluso: dominio + DNS + redirect + SSL + HTTPS
+- Nessun costo aggiuntivo nascosto
+
+TEMPO TOTALE:
+
+- Salvo: 10-15 minuti per l'acquisto + 5 minuti per attivare il rinnovo automatico + 5 minuti per comunicarmi il dominio = 20-25 minuti
+- Io: 20-25 minuti per la configurazione tecnica
+- DNS propagation: 15 minuti - 24 ore (gradualmente il nuovo indirizzo diventa raggiungibile worldwide)
+
+FINE DEL DOCUMENTO
