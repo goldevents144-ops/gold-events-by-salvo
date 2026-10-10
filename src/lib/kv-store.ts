@@ -13,7 +13,7 @@
  * - Per ordinamento uso timestamp nel filename + sorting lato client
  */
 
-import { put, head, list, del } from "@vercel/blob";
+import { put, head, get, list, del } from "@vercel/blob";
 
 export const blobAvailable = !!process.env.BLOB_READ_WRITE_TOKEN;
 
@@ -117,12 +117,10 @@ async function safePut<T>(pathname: string, data: T): Promise<boolean> {
 async function safeGet<T>(pathname: string): Promise<T | null> {
   if (!blobAvailable) return null;
   try {
-    const result = await head(pathname);
+    // Use get() which handles private blobs correctly (returns blob content directly)
+    const result = await get(pathname);
     if (!result) return null;
-    // Fetch the actual content
-    const res = await fetch(result.url);
-    if (!res.ok) return null;
-    const text = await res.text();
+    const text = await result.text();
     return JSON.parse(text) as T;
   } catch {
     return null;
