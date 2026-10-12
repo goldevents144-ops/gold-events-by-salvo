@@ -24,35 +24,55 @@ const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 const LANGS = ["it", "en", "fr", "de", "es", "pt", "nl", "ru", "ar", "zh", "ja", "ko", "pl", "tr", "hi"];
 
 // SEO-optimized title with primary keywords + brand + location
+// Targeting: "Gold Eventi", "Salvo Piemonte", "Gold Events by Salvo"
 const SEO_TITLE =
-  "Gold Events by Salvo · Matrimoni, Feste & Eventi di Lusso in Sicilia | Adrano, Catania, Taormina, Etna";
+  "Salvo Piemonte · Gold Eventi & Matrimoni di Lusso in Sicilia | Adrano, Catania, Taormina";
 
 // 155-char optimized meta description
+// Includes: "Salvo Piemonte", "Gold Eventi", "Gold Events", services, location
 const SEO_DESCRIPTION =
-  "Showman, presentatore e servizi esclusivi per matrimoni, feste private ed eventi aziendali a Adrano, Catania, Taormina e sull'Etna. Air Mirror, Video Booth 360, Dj Set, destination wedding Sicilia. Conduzione di Salvo Piemonte.";
+  "Salvo Piemonte — showman e organizzatore di Gold Eventi in Sicilia. Matrimoni, feste private, eventi aziendali a Adrano, Catania, Taormina, Etna. Air Mirror, Video Booth 360, Dj Set, destination wedding Sicilia. Gold Events by Salvo: conduzione, animazione e tecnologie esclusive.";
 
 const SEO_KEYWORDS = [
-  // Brand
+  // Brand primari — devono comparire per nome
+  "Salvo Piemonte",
+  "Gold Eventi",
+  "Gold Events",
   "Gold Events by Salvo",
   "Gold Events Sicily Experience",
-  "Salvo Piemonte",
+  "Salvo Piemonte eventi",
+  "Salvo Piemonte animatore",
+  "Salvo Piemonte showman",
+  "Salvo Piemonte Catania",
+  "Salvo Piemonte Adrano",
+  "Gold Eventi Sicilia",
+  "Gold Eventi Catania",
+  "Gold Eventi Adrano",
+  "Gold Eventi Salvo",
   // Wedding planner
   "wedding planner Catania",
   "wedding planner Sicilia",
+  "wedding planner Adrano",
   "destination wedding Sicilia",
   "matrimonio Catania",
   "matrimonio Taormina",
   "matrimonio Etna",
+  "matrimonio Adrano",
   "organizzatore eventi Sicilia",
+  "organizzatore matrimonio Sicilia",
   // Showman / animazione
   "showman Catania",
   "showman Sicilia",
+  "showman Adrano",
   "animazione eventi Catania",
+  "animazione eventi Adrano",
+  "animazione matrimonio Sicilia",
   "presentatore eventi",
   "DJ set Catania",
   "DJ matrimonio Sicilia",
   // Servizi specifici
   "Air Mirror Catania",
+  "Air Mirror Sicilia",
   "Video Booth 360 Sicilia",
   "photobooth matrimonio",
   "specchio magico fotobooth",
@@ -60,24 +80,71 @@ const SEO_KEYWORDS = [
   "set scenografico neon",
   // Eventi
   "organizzazione battesimi",
+  "organizzazione battesimi Catania",
+  "organizzazione comunioni",
+  "organizzazione cresime",
   "organizzazione compleanni Catania",
+  "compleanni Adrano",
   "feste aziendali Sicilia",
+  "feste aziendali Catania",
   "team building Sicilia",
   "feste a tema Catania",
   "serate giochi eventi",
+  "laurea festa Catania",
   // Turismo Sicily Experience
   "Etna wine tasting",
   "degustazione vini Etna DOC",
   "agriturismo Sicilia",
   "tour Taormina",
   "esperienze Sicilia Orientale",
-  // Geo
+  "destination wedding Taormina",
+  // Geo - tutti i comuni serviti
   "eventi Adrano",
   "eventi Catania provincia",
+  "eventi Catania",
+  "eventi Taormina",
+  "eventi Bronte",
+  "eventi Nicolosi",
+  "eventi Acireale",
+  "eventi Paternò",
+  "eventi Belpasso",
+  "eventi Pedara",
+  "eventi Zafferana Etnea",
+  "eventi Giarre",
+  "eventi Riposto",
+  "eventi Mascali",
+  "eventi Giardini Naxos",
+  "eventi Letojanni",
+  "eventi Linguaglossa",
+  "eventi Randazzo",
+  "eventi Castiglione di Sicilia",
+  "eventi Maniace",
+  "eventi Caltagirone",
+  "eventi Piazza Armerina",
+  "eventi Ragusa",
+  "eventi Noto",
+  "eventi Siracusa",
   "Taormina matrimonio",
   "Giardini Naxos eventi",
   "Bronte agriturismo",
   "Nicolosi Etna",
+  "Paternò eventi",
+  "Belpasso eventi",
+  "Acireale eventi",
+  // Lingue
+  "Salvo Piemonte wedding planner",
+  "Salvo Piemonte matrimoni",
+  "Salvo Piemonte eventi",
+  "Salvo Piemonte animazione",
+  "Salvo Piemonte Air Mirror",
+  "Gold Events Salvo Piemonte",
+  "Gold Eventi Salvo",
+  // English keywords (per ricerca internazionale)
+  "Salvo Piemonte wedding planner Sicily",
+  "Gold Events Sicily",
+  "Sicily wedding planner",
+  "Catania events organizer",
+  "Etna destination wedding",
 ];
 
 export const metadata: Metadata = {
