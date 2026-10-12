@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticate } from "@/lib/admin-auth";
-import { listSubmissions, kvAvailable } from "@/lib/kv-store";
+import { listSubmissions } from "@/lib/kv-store";
 
 export async function GET(req: NextRequest) {
   if (!(await authenticate(req))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  if (!kvAvailable) {
-    return NextResponse.json({ submissions: [], dbUnavailable: true });
   }
   try {
     const status = req.nextUrl.searchParams.get("status") || undefined;

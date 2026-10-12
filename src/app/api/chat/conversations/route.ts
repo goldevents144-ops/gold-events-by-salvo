@@ -19,16 +19,6 @@ function clean(s: unknown, max: number): string {
  * Crea una nuova conversazione per il visitatore (o restituisce quella esistente via cookie)
  */
 export async function POST(req: NextRequest) {
-  if (!kvAvailable) {
-    return NextResponse.json(
-      {
-        error: "Chat non disponibile in questa preview. Contatta Salvo su WhatsApp +39 344 232 2176.",
-        dbUnavailable: true,
-      },
-      { status: 503 },
-    );
-  }
-
   try {
     const body = await req.json().catch(() => ({}));
     const visitorName = clean(body.visitorName, 100);
@@ -89,9 +79,6 @@ export async function POST(req: NextRequest) {
  * Recupera la conversazione del visitatore (via cookie)
  */
 export async function GET(req: NextRequest) {
-  if (!kvAvailable) {
-    return NextResponse.json({ conversation: null, dbUnavailable: true });
-  }
   try {
     const cookieStore = await cookies();
     const convId = cookieStore.get("chat_conv_id")?.value;

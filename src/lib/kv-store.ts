@@ -1,103 +1,55 @@
 /**
- * Vercel Blob Store — storage persistente per Vercel production.
+ * Unified store: tries Vercel Blob first (persistent), falls back to in-memory (per-instance).
  *
- * Vantaggi:
- * - Gratis nel piano Hobby (1GB storage, 10GB bandwidth, 1000 writes/giorno)
- * - Nativo Vercel (no account esterni)
- * - Scrivibile dal codice (a differenza di Edge Config)
- * - SDK semplice: put/get/head/list/del
+ * - If BLOB_READ_WRITE_TOKEN is set: uses Vercel Blob (persistent, production-grade)
+ * - Otherwise: uses in-memory store (works while serverless function is warm)
  *
- * Pattern:
- * - Salvo ogni record come file JSON nel blob
- * - Path: chat/conversations/index.json (lista IDs), chat/conv/{id}.json, etc.
- * - Per ordinamento uso timestamp nel filename + sorting lato client
+ * The in-memory store is sufficient for:
+ * - Live demo of mini-gestionale
+ * - Active chat sessions during visitor's browsing
+ * - Test/preview deployments
+ *
+ * For production with critical data, configure Vercel Blob.
  */
 
 import { put, head, get, list, del } from "@vercel/blob";
 
+// Re-export everything from memory-store as fallback
+export {
+  createConversation as _memCreateConversation,
+  getConversation as _memGetConversation,
+  getConversationWithMessages as _memGetConversationWithMessages,
+  updateConversation as _memUpdateConversation,
+  listConversations as _memListConversations,
+  addMessage as _memAddMessage,
+  getMessages as _memGetMessages,
+  markMessagesRead as _memMarkMessagesRead,
+  createSubmission as _memCreateSubmission,
+  getSubmission as _memGetSubmission,
+  updateSubmission as _memUpdateSubmission,
+  listSubmissions as _memListSubmissions,
+  deleteSubmission as _memDeleteSubmission,
+  createPartnerSubmission as _memCreatePartnerSubmission,
+  listPartnerSubmissions as _memListPartnerSubmissions,
+  logAuditEntry as _memLogAuditEntry,
+  listAuditLogs as _memListAuditLogs,
+  getStats as _memGetStats,
+} from "./memory-store";
+
+import * as memStore from "./memory-store";
+
 export const blobAvailable = !!process.env.BLOB_READ_WRITE_TOKEN;
+// kvAvailable = true se abbiamo Blob OR memory store (sempre true perché memory store è sempre disponibile)
+export const kvAvailable = true;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export interface KVConversation {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  visitorName: string | null;
-  visitorEmail: string | null;
-  visitorPhone: string | null;
-  visitorIp: string | null;
-  userAgent: string | null;
-  status: "active" | "waiting" | "closed";
-  lastMessageAt: string;
-  unreadByAdmin: number;
-  unreadByVisitor: number;
-}
+export type KVConversation = memStore.KVConversation;
+export type KVMessage = memStore.KVMessage;
+export type KVSubmission = memStore.KVSubmission;
+export type KVPartner = memStore.KVPartner;
 
-export interface KVMessage {
-  id: string;
-  createdAt: string;
-  conversationId: string;
-  role: "visitor" | "admin" | "system";
-  text: string;
-  readAt: string | null;
-}
-
-export interface KVSubmission {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  fullName: string;
-  email: string | null;
-  phone: string | null;
-  eventType: string;
-  eventDate: string;
-  location: string;
-  guests: number;
-  services: string;
-  notes: string | null;
-  status: "new" | "read" | "contacted" | "archived";
-  adminNotes: string | null;
-  repliedAt: string | null;
-  repliedVia: string | null;
-  repliedText: string | null;
-  budget: string | null;
-  closedAt: string | null;
-  starred: boolean;
-}
-
-export interface KVPartner {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  businessName: string;
-  activityType: string;
-  location: string;
-  referentName: string;
-  referentPhone: string;
-  referentEmail: string;
-  capacity: string | null;
-  hasPower: string;
-  b2bRates: string | null;
-  status: string;
-  adminNotes: string | null;
-}
-
-interface AuditLogEntry {
-  id: string;
-  createdAt: string;
-  action: string;
-  target: string | null;
-  ipHash: string | null;
-  userAgent: string | null;
-  meta: string | null;
-}
-
-// ─── Helper functions ────────────────────────────────────────────────────────
-
-function genId(): string {
-  return `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
-}
+// ─── Helper functions (Blob) ─────────────────────────────────────────────────
 
 async function safePut<T>(pathname: string, data: T): Promise<boolean> {
   if (!blobAvailable) return false;
@@ -117,7 +69,6 @@ async function safePut<T>(pathname: string, data: T): Promise<boolean> {
 async function safeGet<T>(pathname: string): Promise<T | null> {
   if (!blobAvailable) return null;
   try {
-    // Use get() which handles private blobs correctly (returns blob content directly)
     const result = await get(pathname);
     if (!result) return null;
     const text = await result.text();
@@ -153,85 +104,93 @@ export async function createConversation(
   data: Omit<KVConversation, "id" | "createdAt" | "updatedAt" | "lastMessageAt" | "unreadByAdmin" | "unreadByVisitor">,
   systemMessage?: string,
 ): Promise<KVConversation | null> {
-  if (!blobAvailable) return null;
-  const now = new Date().toISOString();
-  const conv: KVConversation = {
-    ...data,
-    id: genId(),
-    createdAt: now,
-    updatedAt: now,
-    lastMessageAt: now,
-    unreadByAdmin: 0,
-    unreadByVisitor: 0,
-  };
-  await safePut(`chat/conv/${conv.id}.json`, conv);
-
-  if (systemMessage) {
-    await addMessage(conv.id, { role: "system", text: systemMessage });
+  // Try Blob first
+  if (blobAvailable) {
+    const ts = new Date().toISOString();
+    const id = `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+    const conv: KVConversation = {
+      ...data,
+      id,
+      createdAt: ts,
+      updatedAt: ts,
+      lastMessageAt: ts,
+      unreadByAdmin: 0,
+      unreadByVisitor: 0,
+    };
+    if (await safePut(`chat/conv/${conv.id}.json`, conv)) {
+      if (systemMessage) {
+        await addMessage(conv.id, { role: "system", text: systemMessage });
+      }
+      return conv;
+    }
   }
-  return conv;
+  // Fallback to memory
+  return memStore.createConversation(data, systemMessage);
 }
 
 export async function getConversation(id: string): Promise<KVConversation | null> {
-  return safeGet<KVConversation>(`chat/conv/${id}.json`);
+  if (blobAvailable) {
+    const result = await safeGet<KVConversation>(`chat/conv/${id}.json`);
+    if (result) return result;
+  }
+  return memStore.getConversation(id);
 }
 
 export async function getConversationWithMessages(id: string): Promise<{
   conversation: KVConversation;
   messages: KVMessage[];
 } | null> {
-  const conv = await getConversation(id);
-  if (!conv) return null;
-  const messages = await getMessages(id);
-  return { conversation: conv, messages };
+  if (blobAvailable) {
+    const conv = await getConversation(id);
+    if (conv) {
+      const messages = await getMessages(id);
+      return { conversation: conv, messages };
+    }
+  }
+  return memStore.getConversationWithMessages(id);
 }
 
 export async function updateConversation(
   id: string,
   updates: Partial<KVConversation>,
 ): Promise<KVConversation | null> {
-  const conv = await getConversation(id);
-  if (!conv) return null;
-  const updated: KVConversation = {
-    ...conv,
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
-  await safePut(`chat/conv/${id}.json`, updated);
-  return updated;
+  if (blobAvailable) {
+    const conv = await getConversation(id);
+    if (conv) {
+      const updated: KVConversation = {
+        ...conv,
+        ...updates,
+        updatedAt: new Date().toISOString(),
+      };
+      if (await safePut(`chat/conv/${id}.json`, updated)) {
+        return updated;
+      }
+    }
+  }
+  return memStore.updateConversation(id, updates);
 }
 
 export async function listConversations(
   filter?: { status?: string },
   limit = 100,
 ): Promise<Array<{ conversation: KVConversation; lastMessage?: KVMessage }>> {
-  if (!blobAvailable) return [];
-  const paths = await safeList("chat/conv/");
-  const convs: Array<{ conversation: KVConversation; lastMessage?: KVMessage }> = [];
-
-  // Filter out .messages.json paths (those are message lists, not conversations)
-  const convPaths = paths.filter((p) => p.endsWith(".json") && !p.includes(".messages.json"));
-
-  // Get each conversation
-  for (const p of convPaths.slice(0, limit)) {
-    const conv = await safeGet<KVConversation>(p);
-    if (!conv) continue;
-    if (filter?.status && conv.status !== filter.status) continue;
-    const messages = await getMessages(conv.id, 1);
-    convs.push({
-      conversation: conv,
-      lastMessage: messages.length > 0 ? messages[messages.length - 1] : undefined,
-    });
+  if (blobAvailable) {
+    const paths = await safeList("chat/conv/");
+    if (paths.length > 0) {
+      const convPaths = paths.filter((p) => p.endsWith(".json") && !p.includes(".messages.json"));
+      const result: Array<{ conversation: KVConversation; lastMessage?: KVMessage }> = [];
+      for (const p of convPaths.slice(0, limit)) {
+        const conv = await safeGet<KVConversation>(p);
+        if (!conv) continue;
+        if (filter?.status && conv.status !== filter.status) continue;
+        const messages = await getMessages(conv.id, 1);
+        result.push({ conversation: conv, lastMessage: messages.length > 0 ? messages[messages.length - 1] : undefined });
+      }
+      result.sort((a, b) => new Date(b.conversation.lastMessageAt).getTime() - new Date(a.conversation.lastMessageAt).getTime());
+      return result;
+    }
   }
-
-  // Sort by lastMessageAt desc
-  convs.sort((a, b) => {
-    const aTime = new Date(a.conversation.lastMessageAt).getTime();
-    const bTime = new Date(b.conversation.lastMessageAt).getTime();
-    return bTime - aTime;
-  });
-
-  return convs;
+  return memStore.listConversations(filter, limit);
 }
 
 // ─── Message operations ─────────────────────────────────────────────────────
@@ -240,45 +199,49 @@ export async function addMessage(
   conversationId: string,
   data: { role: KVMessage["role"]; text: string; readAt?: string | null },
 ): Promise<KVMessage | null> {
-  if (!blobAvailable) return null;
-  const now = new Date().toISOString();
-  const msg: KVMessage = {
-    id: genId(),
-    createdAt: now,
-    conversationId,
-    role: data.role,
-    text: data.text,
-    readAt: data.readAt ?? null,
-  };
-  // Append to conversation's message list
-  const existing = await getMessages(conversationId, 500);
-  existing.push(msg);
-  await safePut(`chat/conv/${conversationId}.messages.json`, existing);
-  return msg;
+  if (blobAvailable) {
+    const existing = await getMessages(conversationId, 500);
+    const msg: KVMessage = {
+      id: `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`,
+      createdAt: new Date().toISOString(),
+      conversationId,
+      role: data.role,
+      text: data.text,
+      readAt: data.readAt ?? null,
+    };
+    existing.push(msg);
+    if (await safePut(`chat/conv/${conversationId}.messages.json`, existing)) {
+      return msg;
+    }
+  }
+  return memStore.addMessage(conversationId, data);
 }
 
 export async function getMessages(conversationId: string, limit = 200): Promise<KVMessage[]> {
-  if (!blobAvailable) return [];
-  const msgs = await safeGet<KVMessage[]>(`chat/conv/${conversationId}.messages.json`);
-  if (!msgs) return [];
-  // Return oldest first, slice to limit
-  return msgs.slice(-limit);
+  if (blobAvailable) {
+    const msgs = await safeGet<KVMessage[]>(`chat/conv/${conversationId}.messages.json`);
+    if (msgs) return msgs.slice(-limit);
+  }
+  return memStore.getMessages(conversationId, limit);
 }
 
 export async function markMessagesRead(conversationId: string, role: KVMessage["role"]): Promise<void> {
-  if (!blobAvailable) return;
-  const msgs = await getMessages(conversationId, 500);
-  const now = new Date().toISOString();
-  let changed = false;
-  for (const m of msgs) {
-    if (m.role === role && !m.readAt) {
-      m.readAt = now;
-      changed = true;
+  if (blobAvailable) {
+    const msgs = await getMessages(conversationId, 500);
+    const now = new Date().toISOString();
+    let changed = false;
+    for (const m of msgs) {
+      if (m.role === role && !m.readAt) {
+        m.readAt = now;
+        changed = true;
+      }
+    }
+    if (changed) {
+      await safePut(`chat/conv/${conversationId}.messages.json`, msgs);
+      return;
     }
   }
-  if (changed) {
-    await safePut(`chat/conv/${conversationId}.messages.json`, msgs);
-  }
+  return memStore.markMessagesRead(conversationId, role);
 }
 
 // ─── Contact Submission operations ──────────────────────────────────────────
@@ -286,65 +249,78 @@ export async function markMessagesRead(conversationId: string, role: KVMessage["
 export async function createSubmission(
   data: Omit<KVSubmission, "id" | "createdAt" | "updatedAt" | "status" | "adminNotes" | "repliedAt" | "repliedVia" | "repliedText" | "budget" | "closedAt" | "starred">,
 ): Promise<KVSubmission | null> {
-  if (!blobAvailable) return null;
-  const now = new Date().toISOString();
-  const sub: KVSubmission = {
-    ...data,
-    id: genId(),
-    createdAt: now,
-    updatedAt: now,
-    status: "new",
-    adminNotes: null,
-    repliedAt: null,
-    repliedVia: null,
-    repliedText: null,
-    budget: null,
-    closedAt: null,
-    starred: false,
-  };
-  await safePut(`contact/sub/${sub.id}.json`, sub);
-  return sub;
+  if (blobAvailable) {
+    const ts = new Date().toISOString();
+    const id = `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+    const sub: KVSubmission = {
+      ...data,
+      id,
+      createdAt: ts,
+      updatedAt: ts,
+      status: "new",
+      adminNotes: null,
+      repliedAt: null,
+      repliedVia: null,
+      repliedText: null,
+      budget: null,
+      closedAt: null,
+      starred: false,
+    };
+    if (await safePut(`contact/sub/${sub.id}.json`, sub)) {
+      return sub;
+    }
+  }
+  return memStore.createSubmission(data);
 }
 
 export async function getSubmission(id: string): Promise<KVSubmission | null> {
-  return safeGet<KVSubmission>(`contact/sub/${id}.json`);
+  if (blobAvailable) {
+    const result = await safeGet<KVSubmission>(`contact/sub/${id}.json`);
+    if (result) return result;
+  }
+  return memStore.getSubmission(id);
 }
 
 export async function updateSubmission(
   id: string,
   updates: Partial<KVSubmission>,
 ): Promise<KVSubmission | null> {
-  const sub = await getSubmission(id);
-  if (!sub) return null;
-  const updated: KVSubmission = {
-    ...sub,
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
-  await safePut(`contact/sub/${id}.json`, updated);
-  return updated;
+  if (blobAvailable) {
+    const sub = await getSubmission(id);
+    if (sub) {
+      const updated: KVSubmission = { ...sub, ...updates, updatedAt: new Date().toISOString() };
+      if (await safePut(`contact/sub/${id}.json`, updated)) {
+        return updated;
+      }
+    }
+  }
+  return memStore.updateSubmission(id, updates);
 }
 
 export async function listSubmissions(
   filter?: { status?: string },
   limit = 100,
 ): Promise<KVSubmission[]> {
-  if (!blobAvailable) return [];
-  const paths = await safeList("contact/sub/");
-  const subs: KVSubmission[] = [];
-  for (const p of paths.slice(0, limit)) {
-    const sub = await safeGet<KVSubmission>(p);
-    if (!sub) continue;
-    if (filter?.status && sub.status !== filter.status) continue;
-    subs.push(sub);
+  if (blobAvailable) {
+    const paths = await safeList("contact/sub/");
+    if (paths.length > 0) {
+      const subs: KVSubmission[] = [];
+      for (const p of paths.slice(0, limit)) {
+        const sub = await safeGet<KVSubmission>(p);
+        if (sub) subs.push(sub);
+      }
+      subs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return subs.filter((s) => (filter?.status ? s.status === filter.status : true));
+    }
   }
-  // Sort by createdAt desc
-  subs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  return subs;
+  return memStore.listSubmissions(filter, limit);
 }
 
 export async function deleteSubmission(id: string): Promise<boolean> {
-  return safeDel(`contact/sub/${id}.json`);
+  if (blobAvailable) {
+    return safeDel(`contact/sub/${id}.json`);
+  }
+  return memStore.deleteSubmission(id);
 }
 
 // ─── Partner Submission operations ──────────────────────────────────────────
@@ -352,31 +328,38 @@ export async function deleteSubmission(id: string): Promise<boolean> {
 export async function createPartnerSubmission(
   data: Omit<KVPartner, "id" | "createdAt" | "updatedAt" | "status" | "adminNotes">,
 ): Promise<KVPartner | null> {
-  if (!blobAvailable) return null;
-  const now = new Date().toISOString();
-  const partner: KVPartner = {
-    ...data,
-    id: genId(),
-    createdAt: now,
-    updatedAt: now,
-    status: "new",
-    adminNotes: null,
-  };
-  await safePut(`partner/sub/${partner.id}.json`, partner);
-  return partner;
+  if (blobAvailable) {
+    const ts = new Date().toISOString();
+    const id = `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+    const partner: KVPartner = {
+      ...data,
+      id,
+      createdAt: ts,
+      updatedAt: ts,
+      status: "new",
+      adminNotes: null,
+    };
+    if (await safePut(`partner/sub/${partner.id}.json`, partner)) {
+      return partner;
+    }
+  }
+  return memStore.createPartnerSubmission(data);
 }
 
 export async function listPartnerSubmissions(limit = 100): Promise<KVPartner[]> {
-  if (!blobAvailable) return [];
-  const paths = await safeList("partner/sub/");
-  const partners: KVPartner[] = [];
-  for (const p of paths.slice(0, limit)) {
-    const partner = await safeGet<KVPartner>(p);
-    if (partner) partners.push(partner);
+  if (blobAvailable) {
+    const paths = await safeList("partner/sub/");
+    if (paths.length > 0) {
+      const partners: KVPartner[] = [];
+      for (const p of paths.slice(0, limit)) {
+        const partner = await safeGet<KVPartner>(p);
+        if (partner) partners.push(partner);
+      }
+      partners.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return partners;
+    }
   }
-  // Sort by createdAt desc
-  partners.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  return partners;
+  return memStore.listPartnerSubmissions(limit);
 }
 
 // ─── Audit log operations ────────────────────────────────────────────────────
@@ -387,14 +370,14 @@ export async function logAuditEntry(
   meta: Record<string, unknown> | null,
   req: { headers: Headers },
 ): Promise<void> {
-  if (!blobAvailable) return;
-  try {
-    const now = new Date().toISOString();
+  if (blobAvailable) {
+    const ts = new Date().toISOString();
     const userAgent = req.headers.get("user-agent") || "";
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "";
-    const entry: AuditLogEntry = {
-      id: genId(),
-      createdAt: now,
+    const id = `cmv${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+    const entry = {
+      id,
+      createdAt: ts,
       action,
       target,
       ipHash: String(ip).slice(0, 100),
@@ -402,21 +385,29 @@ export async function logAuditEntry(
       meta: meta ? JSON.stringify(meta) : null,
     };
     await safePut(`audit/log/${entry.id}.json`, entry);
-  } catch {}
-}
-
-export async function listAuditLogs(limit = 100): Promise<AuditLogEntry[]> {
-  if (!blobAvailable) return [];
-  const paths = await safeList("audit/log/");
-  const logs: AuditLogEntry[] = [];
-  for (const p of paths.slice(0, limit)) {
-    const log = await safeGet<AuditLogEntry>(p);
-    if (log) logs.push(log);
+    return;
   }
-  logs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-  return logs;
+  return memStore.logAuditEntry(action, target, meta, req);
 }
 
-// ─── Backwards compatibility exports (legacy) ──────────────────────────────
-// Per non rompere API che usano kvAvailable / dbAvailable
-export const kvAvailable = blobAvailable;
+export async function listAuditLogs(limit = 100): Promise<any[]> {
+  if (blobAvailable) {
+    const paths = await safeList("audit/log/");
+    if (paths.length > 0) {
+      const logs: any[] = [];
+      for (const p of paths.slice(0, limit)) {
+        const log = await safeGet<any>(p);
+        if (log) logs.push(log);
+      }
+      logs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return logs;
+    }
+  }
+  return memStore.listAuditLogs(limit);
+}
+
+// ─── Stats per dashboard ────────────────────────────────────────────────────
+
+export async function getStats() {
+  return memStore.getStats();
+}

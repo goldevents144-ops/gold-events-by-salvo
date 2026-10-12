@@ -42,7 +42,6 @@ export function HumanChatWidget({ onBackToBot }: HumanChatWidgetProps) {
   const [loading, setLoading] = React.useState(false);
   const [sending, setSending] = React.useState(false);
   const [showInfo, setShowInfo] = React.useState(false);
-  const [dbUnavailable, setDbUnavailable] = React.useState(false);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -54,14 +53,9 @@ export function HumanChatWidget({ onBackToBot }: HumanChatWidgetProps) {
     try {
       const res = await fetch("/api/chat/conversations", { cache: "no-store" });
       const data = await res.json();
-      if (data.dbUnavailable) {
-        setDbUnavailable(true);
-        setLoading(false);
-        return;
-      }
       if (data.conversation) {
         setConversation(data.conversation);
-        setMessages(data.conversation.messages ?? []);
+        setMessages(data.conversation.messages ?? data.messages ?? []);
       }
     } catch {
       // Silenzioso — fallback
@@ -166,71 +160,6 @@ export function HumanChatWidget({ onBackToBot }: HumanChatWidgetProps) {
     return (
       <div className="flex h-full items-center justify-center">
         <Loader2 className="size-6 animate-spin text-[#D4AF37]" />
-      </div>
-    );
-  }
-
-  if (dbUnavailable) {
-    return (
-      <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between border-b border-white/8 px-4 py-3">
-          <div className="flex items-center gap-2.5">
-            <span className="inline-flex size-9 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10">
-              <Headphones className="size-4 text-[#D4AF37]" />
-            </span>
-            <div>
-              <p className="font-serif text-sm font-semibold text-white">Salvo Piemonte</p>
-              <p className="text-[10px] text-[#A1A1A1]">Chat diretta</p>
-            </div>
-          </div>
-          {onBackToBot && (
-            <button
-              type="button"
-              onClick={onBackToBot}
-              className="inline-flex size-7 items-center justify-center rounded-full text-[#A1A1A1] transition-colors hover:bg-white/5 hover:text-white"
-              aria-label="Torna all'assistente AI"
-            >
-              <ArrowLeft className="size-4" />
-            </button>
-          )}
-        </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
-          <div className="inline-flex size-16 items-center justify-center rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10">
-            <MessageCircle className="size-7 text-[#D4AF37]" />
-          </div>
-          <div>
-            <h3 className="font-serif text-base font-semibold text-white">
-              Chat in allestimento
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#A1A1A1]">
-              La chat diretta con Salvo è in fase di configurazione.
-              Nel frattempo, contattalo direttamente:
-            </p>
-          </div>
-          <div className="flex flex-col gap-2 w-full max-w-xs">
-            <a
-              href="https://wa.me/393442322176"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#0F0F0F] transition-colors hover:bg-[#E5C75A]"
-            >
-              <MessageCircle className="size-4" />
-              WhatsApp
-            </a>
-            <a
-              href="mailto:goldeventssicilyexperience@outlook.com"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#D4AF37]/60 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#D4AF37] transition-colors hover:bg-[#D4AF37] hover:text-[#0F0F0F]"
-            >
-              Email
-            </a>
-            <a
-              href="tel:+393442322176"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/12 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#A1A1A1] transition-colors hover:border-[#D4AF37]/50 hover:text-white"
-            >
-              +39 344 232 2176
-            </a>
-          </div>
-        </div>
       </div>
     );
   }

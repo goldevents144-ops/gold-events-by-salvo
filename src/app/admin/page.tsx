@@ -405,7 +405,6 @@ function ContattiTab() {
   const [filter, setFilter] = React.useState<string>("all");
   const [search, setSearch] = React.useState("");
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
-  const [dbStatus, setDbStatus] = React.useState<"checking" | "available" | "unavailable">("checking");
 
   const load = React.useCallback(() => {
     setLoading(true);
@@ -413,9 +412,7 @@ function ContattiTab() {
       .then((r) => r.json())
       .then((d) => {
         setItems(d.submissions ?? []);
-        setDbStatus(d.dbUnavailable ? "unavailable" : "available");
       })
-      .catch(() => setDbStatus("unavailable"))
       .finally(() => setLoading(false));
   }, []);
 
@@ -466,14 +463,6 @@ function ContattiTab() {
 
   return (
     <div className="flex flex-col gap-4">
-      {dbStatus === "unavailable" && (
-        <DbUnavailableBanner
-          variant="contatti"
-          title="Salvataggio richieste non attivo"
-          description="Le richieste dei clienti NON vengono salvate qui. Quando un cliente compila il form sul sito e clicca 'Invia WhatsApp', riceve un messaggio pre-compilato che apre WhatsApp con Salvo direttamente. Per gestire tutto da questo pannello, attiva il database Blob Store."
-        />
-      )}
-
       {/* Filtri + ricerca */}
       <div className="flex flex-col gap-3 rounded-2xl border border-white/8 bg-[#1C1C1C]/60 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
@@ -515,9 +504,7 @@ function ContattiTab() {
       {/* Lista richieste */}
       {items.length === 0 ? (
         <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
-          {dbStatus === "unavailable"
-            ? "Le richieste dei clienti non vengono salvate qui (database non attivo). I clienti che compilano il form sul sito vengono direttamente inoltrati a Salvo via WhatsApp/Email."
-            : "Nessuna richiesta ancora. Le nuove richieste del form appariranno qui automaticamente (auto-refresh ogni 30s)."}
+          Nessuna richiesta ancora. Le nuove richieste del form appariranno qui automaticamente (auto-refresh ogni 30s).
         </p>
       ) : filtered.length === 0 ? (
         <p className="rounded-xl border border-white/8 bg-[#1C1C1C]/40 p-8 text-center text-sm text-[#A1A1A1]">
@@ -525,7 +512,158 @@ function ContattiTab() {
         </p>
       ) : (
         <div className="flex flex-col gap-3">
-          {/* Qui va la lista richieste esistente — la mantengo uguale */}
+          {filtered.map((s) => {
+            const isSelected = selectedId === s.id;
+            return (
+              <article
+                key={s.id}
+                className={`rounded-2xl border p-4 transition-colors ${
+                  isSelected
+                    ? "border-[#D4AF37] bg-[#1C1C1C]/80"
+                    : "border-white/8 bg-[#1C1C1C]/60 hover:border-[#D4AF37]/30"
+                } ${s.status === "new" ? "ring-1 ring-[#D4AF37]/40" : ""}`}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(isSelected ? null : s.id);
+                      if (s.status === "new") updateField(s.id, { status: "read" });
+                    }}
+                    className="text-left flex-1"
+                  >
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateField(s.id, { starred: !s.starred });
+                        }}
+                        className={`inline-flex size-6 items-center justify-center rounded-full transition-colors ${s.starred ? "text-[#D4AF37]" : "text-white/30 hover:text-white/60"}`}
+                        aria-label="Preferito"
+                      >
+                        ★
+                      </button>
+                      <p className="font-semibold text-white">{s.fullName}</p>
+                      {s.starred && (
+                        <span className="rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.14em] text-[#D4AF37]">
+                          Preferito
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs text-[#A1A1A1]">
+                      {s.eventType} · {new Date(s.createdAt).toLocaleString("it-IT")}
+                    </p>
+                  </button>
+                  <span
+                    className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] ${
+                      s.status === "new"
+                        ? "border-[#D4AF37]/40 bg-[#D4AF37]/15 text-[#D4AF37]"
+                        : s.status === "contacted"
+                        ? "border-green-500/30 bg-green-500/10 text-green-400"
+                        : s.status === "archived"
+                        ? "border-white/12 bg-white/5 text-[#A1A1A1]"
+                        : "border-white/12 bg-white/5 text-[#A1A1A1]"
+                    }`}
+                  >
+                    {s.status === "new" ? "Nuova" : s.status === "read" ? "Letta" : s.status === "contacted" ? "Contattata" : "Archiviata"}
+                  </span>
+                </div>
+
+                {isSelected && (
+                  <div className="mt-4 space-y-4 border-t border-white/8 pt-4">
+                    <div className="grid gap-3 text-sm sm:grid-cols-2">
+                      <Field label="Data evento" value={s.eventDate} />
+                      <Field label="Location" value={s.location} />
+                      <Field label="Ospiti" value={String(s.guests)} />
+                      <Field label="Tipo evento" value={s.eventType} />
+                      {s.email && <Field label="Email cliente" value={s.email} />}
+                      {s.phone && <Field label="Telefono" value={s.phone} />}
+                      <Field label="Servizi richiesti" value={formatServices(s.services)} />
+                      {s.notes && <Field label="Note cliente" value={s.notes} />}
+                    </div>
+
+                    <ReplyBox
+                      submission={s}
+                      onReplied={(via, text) => {
+                        updateField(s.id, {
+                          repliedVia: via,
+                          repliedText: text,
+                          status: "contacted",
+                        });
+                      }}
+                    />
+
+                    {s.repliedAt && (
+                      <div className="rounded-xl border border-green-500/20 bg-green-500/5 p-3 text-xs">
+                        <p className="font-semibold text-green-400">
+                          ✓ Risposto via {s.repliedVia} il {new Date(s.repliedAt).toLocaleString("it-IT")}
+                        </p>
+                        {s.repliedText && (
+                          <p className="mt-1 whitespace-pre-wrap text-[#A1A1A1]">
+                            {s.repliedText}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
+                    <AdminNotesBox
+                      submission={s}
+                      onSave={(text) => updateField(s.id, { adminNotes: text })}
+                    />
+
+                    <div className="flex items-center gap-3">
+                      <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#A1A1A1]">
+                        Budget cliente
+                      </label>
+                      <input
+                        type="text"
+                        defaultValue={s.budget ?? ""}
+                        onBlur={(e) => updateField(s.id, { budget: e.target.value })}
+                        placeholder="es. 600€"
+                        className="h-9 flex-1 rounded-full border border-white/12 bg-[#0F0F0F] px-4 text-sm text-white placeholder:text-[#6B6B6B] focus:border-[#D4AF37] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "new", label: "Nuova" },
+                        { id: "read", label: "Letta" },
+                        { id: "contacted", label: "Contattata" },
+                        { id: "archived", label: "Archiviata" },
+                      ].map((st) => (
+                        <button
+                          key={st.id}
+                          type="button"
+                          onClick={() => updateField(s.id, { status: st.id })}
+                          className={`rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                            s.status === st.id
+                              ? "bg-[#D4AF37] text-[#0F0F0F]"
+                              : "border border-white/12 text-[#A1A1A1] hover:border-[#D4AF37]/50 hover:text-white"
+                          }`}
+                        >
+                          {st.label}
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          if (confirm("Eliminare definitivamente questa richiesta?")) {
+                            await fetch(`/api/admin/submissions/${s.id}`, { method: "DELETE" });
+                            setSelectedId(null);
+                            load();
+                          }
+                        }}
+                        className="ml-auto rounded-full border border-red-500/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-red-400 transition-colors hover:bg-red-500/10"
+                      >
+                        Elimina
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </article>
+            );
+          })}
         </div>
       )}
     </div>

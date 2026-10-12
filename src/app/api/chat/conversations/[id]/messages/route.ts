@@ -17,13 +17,6 @@ export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  if (!kvAvailable) {
-    return NextResponse.json(
-      { error: "Chat non disponibile" },
-      { status: 503 },
-    );
-  }
-
   try {
     const { id } = await params;
     const body = await req.json().catch(() => ({}));
