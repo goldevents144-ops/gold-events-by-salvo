@@ -14,26 +14,13 @@
 
 import { put, head, get, list, del } from "@vercel/blob";
 
-// Re-export everything from memory-store as fallback
-export {
-  createConversation as _memCreateConversation,
-  getConversation as _memGetConversation,
-  getConversationWithMessages as _memGetConversationWithMessages,
-  updateConversation as _memUpdateConversation,
-  listConversations as _memListConversations,
-  addMessage as _memAddMessage,
-  getMessages as _memGetMessages,
-  markMessagesRead as _memMarkMessagesRead,
-  createSubmission as _memCreateSubmission,
-  getSubmission as _memGetSubmission,
-  updateSubmission as _memUpdateSubmission,
-  listSubmissions as _memListSubmissions,
-  deleteSubmission as _memDeleteSubmission,
-  createPartnerSubmission as _memCreatePartnerSubmission,
-  listPartnerSubmissions as _memListPartnerSubmissions,
-  logAuditEntry as _memLogAuditEntry,
-  listAuditLogs as _memListAuditLogs,
-  getStats as _memGetStats,
+// Re-export types from memory-store (for type-only consumers)
+// memory-store exports its types with the same names, we use type aliases here
+import type {
+  KVConversation as _MemConv,
+  KVMessage as _MemMsg,
+  KVSubmission as _MemSub,
+  KVPartner as _MemPartner,
 } from "./memory-store";
 
 import * as memStore from "./memory-store";
@@ -387,7 +374,7 @@ export async function logAuditEntry(
     await safePut(`audit/log/${entry.id}.json`, entry);
     return;
   }
-  return memStore.logAuditEntry(action, target, meta, req);
+  return memStore.memLogAuditEntry(action, target, meta, req);
 }
 
 export async function listAuditLogs(limit = 100): Promise<any[]> {
@@ -403,7 +390,7 @@ export async function listAuditLogs(limit = 100): Promise<any[]> {
       return logs;
     }
   }
-  return memStore.listAuditLogs(limit);
+  return memStore.memListAuditLogs(limit);
 }
 
 // ─── Stats per dashboard ────────────────────────────────────────────────────

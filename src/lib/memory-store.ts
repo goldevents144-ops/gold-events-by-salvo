@@ -333,7 +333,7 @@ export async function listPartnerSubmissions(limit = 100): Promise<KVPartner[]> 
 
 // ─── Audit log operations ────────────────────────────────────────────────────
 
-export async function logAuditEntry(
+export async function memLogAuditEntry(
   action: string,
   target: string | null,
   meta: Record<string, unknown> | null,
@@ -357,7 +357,7 @@ export async function logAuditEntry(
   }
 }
 
-export async function listAuditLogs(limit = 100): Promise<AuditLogEntry[]> {
+export async function memListAuditLogs(limit = 100): Promise<AuditLogEntry[]> {
   return auditLogs.slice(-limit).reverse();
 }
 
