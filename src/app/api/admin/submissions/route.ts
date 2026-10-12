@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   if (!kvAvailable) {
-    return NextResponse.json({ submissions: [] });
+    return NextResponse.json({ submissions: [], dbUnavailable: true });
   }
   try {
     const status = req.nextUrl.searchParams.get("status") || undefined;
