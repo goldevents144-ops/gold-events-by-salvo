@@ -21,6 +21,7 @@ const LANGS = [
 
 const SECTIONS = [
   { path: "/", priority: 1.0, changeFreq: "weekly" as const },
+  { path: "/eventi", priority: 0.99, changeFreq: "weekly" as const },
   { path: "/gold-eventi", priority: 0.98, changeFreq: "weekly" as const },
   { path: "/salvo-piemonte", priority: 0.98, changeFreq: "weekly" as const },
   { path: "/gold-events", priority: 0.95, changeFreq: "weekly" as const },

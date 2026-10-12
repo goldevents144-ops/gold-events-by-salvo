@@ -1,9 +1,18 @@
-# robots.txt — Gold Events by Salvo
+# robots.txt — Gold Events by Salvo (Salvo Piemonte)
 # https://goldeventsbysalvo.vercel.app/
 
 # === Allow all crawlers on public site ===
 User-agent: *
 Allow: /
+Allow: /eventi
+Allow: /gold-eventi
+Allow: /salvo-piemonte
+Allow: /gold-events
+Allow: /sicily-experience
+Allow: /dove-opero
+Allow: /prezzi
+Allow: /recensioni
+Allow: /faq
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /api/*
@@ -39,5 +48,8 @@ Disallow: /
 User-agent: Applebot-Extended
 Disallow: /
 
-# === Sitemap ===
+# === Sitemaps — submit to all major search engines ===
 Sitemap: https://goldeventsbysalvo.vercel.app/sitemap.xml
+Sitemap: https://goldeventsbysalvo.vercel.app/sitemap.xml?utm_source=google
+Sitemap: https://goldeventsbysalvo.vercel.app/sitemap.xml?utm_source=bing
+Sitemap: https://goldeventsbysalvo.vercel.app/sitemap.xml?utm_source=yandex

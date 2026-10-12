@@ -80,6 +80,7 @@ export function Header() {
         { href: "#bundles", label: "Bundle", type: "anchor" },
         { href: "#extra", label: "Extra", type: "anchor" },
         { href: "#contatti", label: "Contatti", type: "anchor" },
+        { href: "/eventi", label: "Eventi", type: "link" },
         { href: "/sicily-experience", label: "Sicily Experience", type: "link" },
       ];
     } else if (pathname === "/sicily-experience") {
@@ -87,12 +88,19 @@ export function Header() {
         { href: "#sicily-experience", label: "Esperienze", type: "anchor" },
         { href: "#contatti", label: "Contatti", type: "anchor" },
         { href: "#partner", label: "Partner", type: "anchor" },
+        { href: "/eventi", label: "Eventi", type: "link" },
         { href: "/gold-events", label: "Gold Events", type: "link" },
       ];
     } else {
-      // Bivio / home
+      // Bivio / home / altre pagine
       return [
         { href: "/gold-events", label: "Gold Events", type: "link" },
+        { href: "/eventi", label: "Eventi", type: "link" },
+        { href: "/gold-eventi", label: "Gold Eventi", type: "link" },
+        { href: "/salvo-piemonte", label: "Salvo Piemonte", type: "link" },
+        { href: "/prezzi", label: "Prezzi", type: "link" },
+        { href: "/dove-opero", label: "Dove Opero", type: "link" },
+        { href: "/faq", label: "FAQ", type: "link" },
         { href: "/sicily-experience", label: "Sicily Experience", type: "link" },
       ];
     }
