@@ -65,6 +65,42 @@ const SEO_KEYWORDS = [
   "animazione eventi Catania",
   "eventi lusso Sicilia",
   "eventi di lusso Catania",
+  // LONG-TAIL: domande specifiche che la gente cerca realmente
+  "quanto costa animatore matrimonio Catania",
+  "quanto costa matrimonio Catania",
+  "prezzo animazione eventi Sicilia",
+  "preventivo animatore Adrano",
+  "miglior animatore Catania",
+  "miglior wedding planner Sicilia",
+  "wedding planner Catania prezzi",
+  "matrimonio lusso Catania prezzo",
+  "animazione battesimo Catania",
+  "animazione comunione Catania",
+  "animazione cresima Catania",
+  "festa compleanno Catania animatore",
+  "festa 18 compleanno Catania",
+  "festa laurea Catania animazione",
+  "destination wedding Taormina costo",
+  "Air Mirror nozze Catania",
+  "Air Mirror prezzo Sicilia",
+  "specchio magico fotobooth matrimonio",
+  "Video Booth 360 prezzo",
+  "video slow motion matrimonio Sicilia",
+  "audio guest book telefono vintage",
+  "set neon matrimonio Catania",
+  "animatore eventi professionista Catania",
+  "showman professionista Sicilia",
+  "DJ matrimonio professionista Catania",
+  "wedding planner matrimonio lusso",
+  "organizzazione eventi aziendali Sicilia",
+  "team building Catania azienda",
+  "festa aziendale Catania organizzazione",
+  "destination wedding Sicilia 2026",
+  "matrimonio villa Catania 2026",
+  "matrimonio villa Taormina 2026",
+  "ricevimento matrimonio Etna",
+  "matrimonio etna villa",
+  "festa privata villa Catania",
   // Wedding planner
   "wedding planner Catania",
   "wedding planner Sicilia",
@@ -307,6 +343,13 @@ export default function RootLayout({
         <StructuredData />
         {/* Google Search Console verification */}
         <meta name="google-site-verification" content="0xcRnn5VKF3NWe-AnkTPWfcmJk5QVoi3YFefWFMCcbk" />
+        {/* Preconnect + DNS prefetch for ultra-fast font loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        {/* Preconnect to wa.me for WhatsApp CTA instant open */}
+        <link rel="dns-prefetch" href="https://wa.me" />
         {/* Cache-buster: timestamp force-refresh */}
         <meta name="generated-at" content={`${Date.now()}`} />
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />

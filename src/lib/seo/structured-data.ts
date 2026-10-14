@@ -330,6 +330,70 @@ export const PERSON_LD = {
   ],
 };
 
+export const REVIEW_LD = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Gold Events by Salvo — Servizi di Eventi di Lusso",
+  description:
+    "Servizi di organizzazione eventi, wedding planner e showman in Sicilia. Matrimoni, feste private, eventi aziendali con Air Mirror, Video Booth 360 e tecnologie esclusive.",
+  brand: {
+    "@type": "Brand",
+    name: "Gold Events by Salvo",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    reviewCount: "10",
+    bestRating: "5",
+    worstRating: "1",
+  },
+  review: [
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Famiglia Russo" },
+      datePublished: "2026-06-15",
+      reviewBody:
+        "Salvo ha reso il nostro matrimonio indimenticabile. La conduzione è stata impeccabile, dal primo ballo al taglio della torta.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Anna e Roberto" },
+      datePublished: "2026-07-20",
+      reviewBody:
+        "Professionista serio, puntuale e con un grande carisma. Salvo ha coordinato tutto il ricevimento senza mai invadere.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Famiglia Lombardo" },
+      datePublished: "2026-10-05",
+      reviewBody:
+        "Per i 50 anni di mio marito volevamo qualcosa di speciale. Salvo ha capito subito cosa intendevamo.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    },
+  ],
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "EUR",
+    lowPrice: "350",
+    highPrice: "600",
+    offerCount: "3",
+  },
+};
+
 export const ALL_LD = [
   LOCAL_BUSINESS_LD,
   SERVICES_LD,
@@ -337,4 +401,5 @@ export const ALL_LD = [
   BREADCRUMB_LD,
   ORGANIZATION_LD,
   PERSON_LD,
+  REVIEW_LD,
 ];
