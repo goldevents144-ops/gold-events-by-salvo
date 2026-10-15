@@ -49,10 +49,11 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, max-age=86400" },
         ],
       },
-      // Preconnect a Google Fonts per velocizzare caricamento
+      // HTML pages: CDN cache con short TTL per aggiornamenti rapidi
       {
-        source: "/(.*)",
+        source: "/((?!api|admin|_next).*)",
         headers: [
+          { key: "Cache-Control", value: "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },

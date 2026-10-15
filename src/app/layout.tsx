@@ -350,11 +350,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         {/* Preconnect to wa.me for WhatsApp CTA instant open */}
         <link rel="dns-prefetch" href="https://wa.me" />
-        {/* Cache-buster: timestamp force-refresh */}
-        <meta name="generated-at" content={`${Date.now()}`} />
-        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta httpEquiv="Pragma" content="no-cache" />
-        <meta httpEquiv="Expires" content="0" />
+        {/* Build version for cache busting */}
+        <meta name="build-version" content="2026-10-15-v1" />
       </head>
       <body
         className={`${playfair.variable} ${inter.variable} antialiased bg-background text-foreground`}
