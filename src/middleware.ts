@@ -76,8 +76,8 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Cross-Origin-Embedder-Policy": "credentialless",
   "Cross-Origin-Resource-Policy": "same-origin",
 
-  // Cache-control for sensitive pages
-  "Cache-Control": "no-store, no-cache, must-revalidate, private",
+  // Cache-control for public pages (CDN cache for ultra-fast TTFB)
+  "Cache-Control": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
 
   // Remove identifying server header
   "X-Powered-By": "Gold-Events",
@@ -192,11 +192,17 @@ export function middleware(request: NextRequest) {
       });
     }
 
+    // Admin pages: no cache (sensitive data)
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+
     // Rate limiting RIMOSSO dal login admin per garantire accesso affidabile a Salvo
   }
 
   // ── API rate limiting ────────────────────────────────────────────
   if (pathname.startsWith("/api/")) {
+    // API responses: no cache (dynamic data)
+    response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+
     const rl = rateLimit(pathname);
     if (!rl.allowed) {
       return new NextResponse(
