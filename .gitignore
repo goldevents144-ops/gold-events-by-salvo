@@ -52,3 +52,11 @@ prompt
 server.log
 # Skills directory
 /skills/
+# Build artifacts
+.vercel/
+.next/
+*.log
+tool-results/
+agent-ctx/
+upload/
+mini-services/
