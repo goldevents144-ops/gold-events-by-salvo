@@ -50,6 +50,8 @@ export default function HomePage() {
             className="relative min-h-screen"
           >
             <Bivio />
+            {/* SEO Section con keyword dense per Google Autocomplete */}
+            <SeoSection />
           </motion.div>
         )}
       </AnimatePresence>
@@ -463,5 +465,39 @@ function WorldCard({
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[#D4AF37] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
       />
     </motion.div>
+  );
+}
+
+// =====================================
+// Sezione SEO con keyword densità per Google Autocomplete
+// =====================================
+function SeoSection() {
+  return (
+    <section
+      aria-label="Cerca Gold Events Salvo Piemonte"
+      className="relative border-t border-[#D4AF37]/10 bg-[#0F0F0F] py-10"
+    >
+      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]/60">
+          Cerca su Google
+        </p>
+        <h2 className="mt-2 font-serif text-base font-medium text-white/80 sm:text-lg">
+          Salvo Piemonte · Gold Eventi · Eventi Sicilia
+        </h2>
+        <p className="mt-3 text-[11px] leading-relaxed text-white/40 sm:text-xs">
+          Gold Events by Salvo Piemonte — organizzazione eventi di lusso in Sicilia.
+          Salvo Piemonte è showman e wedding planner con sede ad Adrano (Catania).
+          Gold Eventi: matrimoni, feste private, eventi aziendali, battesimi,
+          comunioni, cresime, compleanni, lauree a Catania, Adrano, Taormina, Etna,
+          Acireale, Paternò, Nicolosi, Bronte, Linguaglossa, Giardini Naxos.
+          Air Mirror, Video Booth 360, Audio Guest Book, Set Scenografico Neon.
+          Salvo Piemonte eventi Sicilia. Gold Eventi Salvo. Wedding planner Catania.
+          Animazione eventi Catania. Showman Sicilia. DJ matrimonio Sicilia.
+        </p>
+        <p className="mt-4 text-[10px] uppercase tracking-[0.2em] text-white/20">
+          © 2026 Gold Events by Salvo · Salvo Piemonte · Adrano (CT) · Sicilia
+        </p>
+      </div>
+    </section>
   );
 }

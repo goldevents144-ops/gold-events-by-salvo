@@ -324,9 +324,30 @@ export const PERSON_LD = {
     "Eventi aziendali",
     "Battesimi comunioni cresime",
     "Compleanni e feste private",
+    "Salvo Piemonte eventi",
+    "Gold Eventi Sicilia",
   ],
   sameAs: [
     "https://www.instagram.com/goldeventsicily_experience",
+    "https://goldeventsbysalvo.vercel.app/salvo-piemonte",
+    "https://goldeventsbysalvo.vercel.app/gold-eventi",
+    "https://goldeventsbysalvo.vercel.app/eventi",
+    "https://goldeventsbysalvo.vercel.app/dove-opero",
+    "https://goldeventsbysalvo.vercel.app/prezzi",
+    "https://goldeventsbysalvo.vercel.app/recensioni",
+    "https://goldeventsbysalvo.vercel.app/faq",
+  ],
+  subjectOf: [
+    {
+      "@type": "WebPage",
+      name: "Gold Eventi — Salvo Piemonte",
+      url: "https://goldeventsbysalvo.vercel.app/gold-eventi",
+    },
+    {
+      "@type": "WebPage",
+      name: "Eventi in Sicilia",
+      url: "https://goldeventsbysalvo.vercel.app/eventi",
+    },
   ],
 };
 

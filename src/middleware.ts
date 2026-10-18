@@ -77,6 +77,8 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Cross-Origin-Resource-Policy": "same-origin",
 
   // Cache-control for public pages (CDN cache for ultra-fast TTFB)
+  // s-maxage=86400: CDN cache for 24 hours
+  // stale-while-revalidate=604800: serve stale while fetching new (7 days)
   "Cache-Control": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
 
   // Remove identifying server header
@@ -84,13 +86,18 @@ const SECURITY_HEADERS: Record<string, string> = {
 
   // XSS protection for legacy browsers
   "X-XSS-Protection": "1; mode=block",
+
+  // Cross-Origin isolation headers
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "credentialless",
+  "Cross-Origin-Resource-Policy": "same-origin",
 };
 
 // ----------------------------------------------------------------
 // Rate limiting (in-memory, per-IP hash, sliding window)
-// ----------------------------------------------------------------
 // Note: in-memory works per-edge-instance. For production multi-instance,
 // replace with Upstash Redis or Vercel KV.
+// ----------------------------------------------------------------
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMITS: Record<string, { max: number; count: number; resetAt: number }> = {
   "/api/chat": { max: 15, count: 0, resetAt: 0 }, // chatbot: 15 msg/min

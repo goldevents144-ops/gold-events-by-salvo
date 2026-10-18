@@ -7,9 +7,18 @@ import { Footer } from "@/components/site/footer";
 import { Services } from "@/components/site/services";
 import { Bundles } from "@/components/site/bundles";
 import { Extras } from "@/components/site/extras";
-import { ContactForm } from "@/components/site/contact-form";
-import { ChatbotWidget } from "@/components/site/chatbot-widget";
-import { MediaDisplay } from "@/components/site/media-display";
+import dynamic from "next/dynamic";
+import { LazyChatbotWidget } from "@/components/site/lazy-widgets";
+
+// Lazy load componenti pesanti per migliorare LCP e TTFB
+const ContactForm = dynamic(() => import("@/components/site/contact-form").then(m => m.ContactForm), {
+  ssr: true,
+  loading: () => <div className="min-h-[400px]" />,
+});
+const MediaDisplay = dynamic(() => import("@/components/site/media-display").then(m => m.MediaDisplay), {
+  ssr: true,
+  loading: () => <div className="min-h-[300px]" />,
+});
 
 const BASE_URL = "https://goldeventsbysalvo.vercel.app";
 
@@ -48,7 +57,7 @@ export default function GoldEventsPage() {
         <ContactForm />
       </main>
       <Footer />
-      <ChatbotWidget />
+      <LazyChatbotWidget />
     </div>
   );
 }
